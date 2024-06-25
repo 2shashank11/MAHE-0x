@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Conference</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <form action="/user/form/conference" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="mb-3">
+
+                <label for="conferenceName" class="form-label">conferenceName</label>
+                <input type="text" class="mb-2 form-control" id="conferenceName" name="conferenceName" placeholder=" conferenceName">
+
+                <label for="paperTitle" class="form-label">paperTitle</label>
+                <input type="text" class="mb-2 form-control" id="paperTitle" name="paperTitle"
+                    placeholder=" paperTitle">
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Region</label>
+                    <select class="form-select" id="inputGroupSelect01" name="region">
+                        <option value="National">National</option>
+                        <option value="International">International</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="indexed">Indexed</label>
+                    <select class="form-select" id="indexed" name="indexed">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Month</label>
+                    <select class="form-select" id="inputGroupSelect01" name="month">
+                        <script>
+                            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                
+                            months.forEach(function(month) {
+                                document.write(`<option value="${month}">${month}</option>`);
+                            });
+                        </script>
+                    </select>
+                </div>
+                
+                <label for="year" class="form-label">year</label>
+                <input type="number" class="mb-2 form-control" id="year" name="year" placeholder=" year" name="year">
+                
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+    <%- include('./partials/script') %>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Dashboard</title>
+</head>
+
+<body>
+    <%- include('./partials/navbar') %>
+
+        <div class="row mt-4">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Conference</h5>
+                        <a href="/user/form/conference" class="btn btn-primary">Open</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Fellowship</h5>
+                        <a href="/user/form/fellowship" class="btn btn-primary">Open</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Grant</h5>
+                        <a href="/user/form/grant" class="btn btn-primary">Open</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Journal</h5>
+                        <a href="/user/form/journal" class="btn btn-primary">Open</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Patent</h5>
+                        <a href="/user/form/patent" class="btn btn-primary">Open</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Publication</h5>
+                        <a href="/user/form/publication" class="btn btn-primary">Open</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('./partials/script') %>
+</body>
+
+</html>

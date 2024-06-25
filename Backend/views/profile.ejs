@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Profile</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <form action="/user/edit-profile" method="patch" enctype="application/x-www-form-urlencoded">
+            <div class="mb-3">
+
+                <label for="firstName" class="form-label">Name</label>
+                <input type="text" class="mb-2 form-control" id="firstName" name="firstName" placeholder=" First Name" value=<%= locals.user.name.firstName %> >
+                <input type="text" class="mb-2 form-control" id="middleName" name="middleName" placeholder="Middle Name" value=<%= locals.user.name.middleName %> >
+                <input type="text" class="mb-2 form-control" id="lastName" name="lastName" placeholder=" Last Name" value=<%= locals.user.name.lastName %> >
+
+                <label for="maheID" class="form-label mt-3">MAHEID</label>
+                <input type="text" class="form-control" id="maheID" name="maheID" placeholder="mahe id" value=<%= locals.user.maheId %>>
+
+                <label for="department" class="form-label mt-3">Department</label>
+                <input type="text" class="form-control" id="department" name="department" placeholder="department" value=<%= locals.user.department %>>
+
+                <label for="position" class="form-label mt-3">Position</label>
+                <input type="text" class="form-control" id="position" name="position" placeholder="position" value=<%= locals.user.position %>>
+
+                <label for="phone" class="form-label mt-3">Phone Number</label>
+                <input type="number" class="form-control" id="phone" name="phone" placeholder="phone" value=<%= locals.user.phone %>>
+
+                <label for="email" class="form-label mt-3">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="email" value=<%= locals.user.email %>>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                    placeholder="Confirm Password">
+            </div>
+            <div class="mb-3">
+                <% if (locals.error) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= locals.error %>
+                    </div>
+                    <% } %>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+
+    </div>
+    <%- include('./partials/script') %>
+</body>
+
+</html>

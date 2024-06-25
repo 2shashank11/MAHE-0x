@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Journal</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <form action="/user/form/publication" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="mb-3">
+
+                <label for="bookName" class="form-label">bookName</label>
+                <input type="text" class="mb-2 form-control" id="bookName" name="bookName" placeholder=" bookName">
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">type</label>
+                    <select class="form-select" id="type" name="type">
+                        <option value="Book">Book</option>
+                        <option value="Chapter">Chapter</option>
+                    </select>
+                </div>
+
+                <label for="isbn" class="form-label">isbn</label>
+                <input type="text" class="mb-2 form-control" id="isbn" name="isbn" placeholder=" isbn">
+
+                <label for="publishYear" class="form-label">publishYear</label>
+                <input type="number" class="mb-2 form-control" id="publishYear" name="publishYear" placeholder=" publishYear">
+               
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Month</label>
+                    <select class="form-select" id="inputGroupSelect01" name="month">
+                        <script>
+                            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                
+                            months.forEach(function(month) {
+                                document.write(`<option value="${month}">${month}</option>`);
+                            });
+                        </script>
+                    </select>
+                </div>
+                
+                <label for="year" class="form-label">year</label>
+                <input type="number" class="mb-2 form-control" id="year" name="year" placeholder=" year">
+                
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+    <%- include('./partials/script') %>
+</body>
+
+</html>

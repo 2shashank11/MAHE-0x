@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Journal</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <form action="/user/form/journal" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="mb-3">
+
+                <label for="title" class="form-label">title</label>
+                <input type="text" class="mb-2 form-control" id="title" name="title" placeholder=" title">
+
+                <label for="journalName" class="form-label">journalName</label>
+                <input type="text" class="mb-2 form-control" id="journalName" name="journalName" placeholder=" journalName">
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">quartile</label>
+                    <select class="form-select" id="quartile" name="quartile">
+                        <option value="Q1">Q1</option>
+                        <option value="Q2">Q2</option>
+                        <option value="Q3">Q3</option>
+                        <option value="Q4">Q4</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">wos</label>
+                    <select class="form-select" id="wos" name="wos">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">authorship</label>
+                    <select class="form-select" id="authorship" name="authorship">
+                        <option value="Author">Author</option>
+                        <option value="Co-Author">Co-Author</option>
+                    </select>
+                </div>
+               
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Month</label>
+                    <select class="form-select" id="inputGroupSelect01" name="month">
+                        <script>
+                            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                
+                            months.forEach(function(month) {
+                                document.write(`<option value="${month}">${month}</option>`);
+                            });
+                        </script>
+                    </select>
+                </div>
+                
+                <label for="year" class="form-label">year</label>
+                <input type="number" class="mb-2 form-control" id="year" name="year" placeholder=" year">
+                
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+    <%- include('./partials/script') %>
+</body>
+
+</html>
