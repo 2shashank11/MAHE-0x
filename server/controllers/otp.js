@@ -22,6 +22,7 @@ const sendOTP = async (req, res) => {
         res.status(200).cookie('email', email).render('forgotPassword', { success: "OTP sent successfully" })
     } catch (error) {
         console.log(error)
+        //needs fix
         return res.status(400).josn({ success: false, msg: "error" })
     }
 }

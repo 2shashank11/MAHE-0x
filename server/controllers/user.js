@@ -62,6 +62,7 @@ async function handlePasswordReset(req, res) {
 }
 
 async function getAllUserAchievements(req, res) {
+    if(!req.user) return res.render('home')
     const userId = req.user._id
 
     const conference = await Conference.find({ userId }).populate('userId', 'name email maheId')
@@ -83,6 +84,7 @@ async function getAllUserAchievements(req, res) {
 }
 
 async function handleUserForm(req, res, Model){
+    
     const formData = req.body
     const userId = req.user._id
     const month = { month: formData.month, year: formData.year }
