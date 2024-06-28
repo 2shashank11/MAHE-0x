@@ -4,7 +4,7 @@ working on:
 <hr>
 
 ### Ankit
-working on: 
+working on : 
 <ul>
 <li> dashboard (done) </li>
 <li> nav </li>
@@ -18,7 +18,7 @@ working on:
 <hr>
 
 ### Deekshitha
-working on: 
+working on : 
  forms
 <ul>
 <li> fellowships </li>
