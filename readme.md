@@ -4,9 +4,9 @@ working on:
 <hr>
 
 ### Ankit
-working on: 
+working on : 
 <ul>
-<li> dashboard (done) </li>
+<li> dashboard</li>
 <li> nav </li>
 <li> my profile </li>
 </ul>
@@ -18,6 +18,15 @@ working on:
 <hr>
 
 ### Deekshitha
-working on: 
+working on : 
+ forms
+<ul>
+<li> fellowships </li>
+<li> journals </li>
+<li> publications </li>
+<li> patents </li>
+<li> grants </li>
+<li> conferences </li>
+</ul>
 
 <hr>
