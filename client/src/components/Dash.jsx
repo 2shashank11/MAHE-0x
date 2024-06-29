@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from "@nextui-org/react";
 import { useNavigate } from 'react-router-dom';
 
-function Dashboard() {
+function Dash() {
   const navigate = useNavigate();
 
   const handleConference = () => {
@@ -49,4 +49,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default Dash
