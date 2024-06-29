@@ -1,5 +1,9 @@
 ### Shashank
 working on: 
+<ul>
+<li>Frontend: user-achievements, all-achievements, admin table view</li>
+<li>Backend: new routes and authorization</li>
+</ul>
 
 <hr>
 
