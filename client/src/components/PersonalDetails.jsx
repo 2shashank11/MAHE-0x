@@ -33,7 +33,7 @@ function PersonalDetails() {
             </div>
 
 
-            <div className="grid grid-cols-2 grid-rows-2 col-start-2 col-end-3 row-start-2 row-end-3">
+            <div className="grid grid-cols-2 grid-rows-2 col-start-2 col-end-3 row-start-2 row-end-3 gap-4">
                 <h2>Email</h2>
                 <Input type="email" label="Email" className="row-start-2 row-end-3 col-start-1" />
                 <h2>Phone number</h2>
