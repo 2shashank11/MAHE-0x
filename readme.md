@@ -6,7 +6,7 @@ working on:
 ### Ankit
 working on : 
 <ul>
-<li> dashboard (done) </li>
+<li> dashboard</li>
 <li> nav </li>
 <li> my profile </li>
 </ul>
