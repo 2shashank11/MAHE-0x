@@ -1,30 +1,23 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Avatar } from "@nextui-org/react";
-import { useNavigate } from "react-router-dom";
+
 
 function Nav() {
 
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-    const navigate = useNavigate();
-    const handleHomeClick = () => {
-        navigate('../pages/Home');
-    }
-
-    const handleDashboardClick = () => {
-        navigate('../pages/Dashboard');
-    }
 
     const menuItems = [
-        <Link to="../pages/Home.jsx">Home</Link>,
-        "Dashboard",
-        "Profile",
-        "Log Out",
+        <Link to="/">Home</Link>,
+        <Link to="/user/dashboard">Dashboard</Link>,
+        <Link to="/user/achievemnts">My Achievements</Link>,
+        <Link to="/user/profile">Profile</Link>,
+        <Link to="/" className=" font-semibold text-red-500">Log out</Link>
     ];
 
 
     return (
-        <Navbar onMenuOpenChange={setIsMenuOpen}>
+        <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="full" >
             <NavbarContent justify="start">
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -37,19 +30,25 @@ function Nav() {
 
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 <NavbarItem>
-                    <Link onClick={handleHomeClick}>
-                        Home
-                    </Link>
+                    <Link to="/">Home</Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link onClick={handleDashboardClick}>
-                        Dashboard
+                    <Link to="/user/dashboard">Dashboard</Link>
+                </NavbarItem>
+                <NavbarItem>
+                    <Link to="/user/achievements">
+                        My Achievements
                     </Link>
                 </NavbarItem>
             </NavbarContent>
             <NavbarContent justify="end">
+                <NavbarItem>
+                    <Link to="/" className=" font-semibold text-red-500">Logout</Link>
+                </NavbarItem>
                 <NavbarItem className="hidden lg:flex">
-                    <Avatar /* src=" " */ />
+                    <Link to="/user/profile">
+                        <Avatar isFocusable /* src=" " */ />
+                    </Link>
                 </NavbarItem>
             </NavbarContent>
             <NavbarMenu>

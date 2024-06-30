@@ -21,6 +21,8 @@ import Grant from './pages/forms/Grant';
 import Journal from './pages/forms/Journal';
 import Patent from './pages/forms/Patent';
 import Publication from './pages/forms/Publication';
+import UserAchievements from './pages/UserAchievements';
+import AllAchievements from './pages/AllAchievements';
 
 const router = createBrowserRouter([
   {
@@ -109,6 +111,18 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/user/achievements",
+    element: (<>
+      <UserAchievements />
+    </>),
+  },
+  {
+    path: "/all-achievements",
+    element: (<>
+      <AllAchievements />
+    </>),
+  },
+  {
     path: "/about",
     element: <div>About</div>,
   },
@@ -118,7 +132,10 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <NextUIProvider>
-    <RouterProvider router={router} />
+          {/* <main className="dark text-foreground bg-background"> */}
+           <RouterProvider router={router} />
+          {/* </main> */}
+    
   </NextUIProvider>
 
 );

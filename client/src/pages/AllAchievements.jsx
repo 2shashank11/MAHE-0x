@@ -3,7 +3,7 @@ import Filters from "../components/Filters";
 import Nav from "../components/Nav";
 import AllAchievementsTable from "../components/AchievementsTable";
 
-export default function UserAchievements() {
+export default function AllAchievements() {
   const [selectedCategory, setSelectedCategory] = useState("default");
 
 
