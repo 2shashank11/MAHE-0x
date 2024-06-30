@@ -132,7 +132,10 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <NextUIProvider>
-    <RouterProvider router={router} />
+          {/* <main className="dark text-foreground bg-background"> */}
+           <RouterProvider router={router} />
+          {/* </main> */}
+    
   </NextUIProvider>
 
 );
