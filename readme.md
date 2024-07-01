@@ -26,6 +26,7 @@ working on:
  <li>Home page</li>
  <li>navbar styling</li>
  <li>theming</li>
+ <li>About Page</li>
 </ul>
 
 <hr>
