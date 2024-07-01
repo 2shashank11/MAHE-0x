@@ -20,6 +20,13 @@ working on :
 
 ### Gaurav
 working on: 
+<ul>
+ <li>signup</li>
+ <li>forgot pass</li>
+ <li>Home page</li>
+ <li>navbar styling</li>
+ <li>theming</li>
+</ul>
 
 <hr>
 
