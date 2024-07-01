@@ -13,11 +13,21 @@ working on :
 <li> dashboard</li>
 <li> nav </li>
 <li> my profile </li>
+<li> home page </li>
+<li> sign in and sign up </li>
 </ul>
 <hr>
 
 ### Gaurav
 working on: 
+<ul>
+ <li>signup</li>
+ <li>forgot pass</li>
+ <li>Home page</li>
+ <li>navbar styling</li>
+ <li>theming</li>
+ <li>About Page</li>
+</ul>
 
 <hr>
 
