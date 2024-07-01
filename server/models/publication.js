@@ -3,7 +3,7 @@ const MonthYear = require('./month');
 
 const publicationSchema = mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user'},
-    month: { type: MonthYear},
+    period: { type: MonthYear},
     
     bookName: { type: String, },
     type: { type: String, enum: ['Book', 'Chapter'],}, 
