@@ -17,7 +17,7 @@ function Nav() {
 
 
     return (
-        <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="full" >
+        <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="full" isBordered >
             <NavbarContent justify="start">
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
