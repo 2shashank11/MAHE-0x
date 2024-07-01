@@ -3,7 +3,7 @@ const MonthYear = require('./month');
 
 const patentSchema = mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user'},
-    month: { type: MonthYear},
+    period: { type: MonthYear},
     
     filed: { type: String, enum: ['Yes', 'No'], }, 
     published: { type: String, enum: ['Yes', 'No'], }, 

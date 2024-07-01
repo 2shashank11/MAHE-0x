@@ -11,7 +11,7 @@ async function handleUserLogin(req, res) {
 
     try {
         const token = await User.matchPasswordAndGenerateToken(email, password);
-        res.cookie("token", token).redirect('/user/dashboard');
+        return res.cookie("token", token).redirect('/user/dashboard');
     }
     catch (error) {
         res.status(404).render('login', { error })
@@ -61,7 +61,7 @@ async function handlePasswordReset(req, res) {
     return res.clearCookie('email').status(200).redirect('/')
 }
 
-async function getAllUserAchievements(req, res) {
+async function getUserAchievements(req, res) {
     if(!req.user) return res.render('home')
     const userId = req.user._id
 
@@ -87,11 +87,11 @@ async function handleUserForm(req, res, Model){
     
     const formData = req.body
     const userId = req.user._id
-    const month = { month: formData.month, year: formData.year }
+    const period = { month: formData.month, year: formData.year }
     delete formData.month
     delete formData.year
     formData.userId = userId
-    formData.month = month
+    formData.period = period
     await Model.create(formData)
     return res.redirect(201, '/user/dashboard')
 }
@@ -125,7 +125,7 @@ module.exports = {
     handleUserLogin,
     handleUserSignup,
     handlePasswordReset,
-    getAllUserAchievements,
+    getUserAchievements,
     handleUserConferenceForm,
     handleUserFellowshipForm,
     handleUserGrantForm,

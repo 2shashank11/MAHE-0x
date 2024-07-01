@@ -1,9 +1,6 @@
 const express = require('express');
 const { 
-    handleUserLogin,
-    handleUserSignup,
-    handlePasswordReset,
-    getAllUserAchievements,
+    getUserAchievements,
     handleUserConferenceForm,
     handleUserFellowshipForm,
     handleUserGrantForm,
@@ -11,26 +8,9 @@ const {
     handleUserPatentForm,
     handleUserPublicationForm
 } = require('../controllers/user');
-const {sendOTP, verifyOTP} = require('../controllers/otp');
-const { checkForAuthenticationCookie } = require('../middlewares/authentication');
+
 
 const router = express.Router()
-
-router.get('/login', (req, res) => {
-    res.render('login')
-})
-
-router.get('/signup', (req, res) => {
-    res.render('signup')
-})
-
-router.get('/logout', (req, res) => {
-    return res.clearCookie('token').redirect('/')
-})
-
-router.get('/forgot-password', (req, res) => {
-    res.render('forgotPassword')
-})
 
 
 router.get('/dashboard', (req, res) => {
@@ -41,7 +21,7 @@ router.get('/profile', (req, res) => {
     res.render('profile', {user: req.user})
 })
 
-router.get('/achievements', getAllUserAchievements)
+router.get('/my-achievements', getUserAchievements)
 
 router.get('/form/conference', (req, res) => {
     res.render('conferenceForm')
@@ -67,11 +47,7 @@ router.get('/form/publication', (req, res) => {
     res.render('publicationForm')
 })
 
-router.post('/login', handleUserLogin)
-router.post('/signup', handleUserSignup)
-router.post('/forgot-password/send-otp', sendOTP)
-router.post('/forgot-password/verify-otp', verifyOTP)
-router.post('/reset-password', handlePasswordReset)
+
 router.post('/form/conference', handleUserConferenceForm)
 router.post('/form/fellowship', handleUserFellowshipForm)
 router.post('/form/grant', handleUserGrantForm)
