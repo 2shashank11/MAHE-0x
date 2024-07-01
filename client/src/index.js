@@ -21,6 +21,8 @@ import Grant from './pages/forms/Grant';
 import Journal from './pages/forms/Journal';
 import Patent from './pages/forms/Patent';
 import Publication from './pages/forms/Publication';
+import UserAchievements from './pages/UserAchievements';
+import AllAchievements from './pages/AllAchievements';
 
 const router = createBrowserRouter([
   {
@@ -107,6 +109,18 @@ const router = createBrowserRouter([
       <Publication />
     </>
     ),
+  },
+  {
+    path: "/user/achievements",
+    element: (<>
+      <UserAchievements />
+    </>),
+  },
+  {
+    path: "/all-achievements",
+    element: (<>
+      <AllAchievements />
+    </>),
   },
   {
     path: "/about",

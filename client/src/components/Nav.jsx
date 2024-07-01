@@ -24,7 +24,7 @@ function Nav() {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-                    <p className="font-bold">MAHE0x</p>
+                    <p className="font-bold">MAHE0X</p>
                 </NavbarBrand>
             </NavbarContent>
 
