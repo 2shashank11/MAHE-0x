@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Avatar } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Avatar, Button } from "@nextui-org/react";
 
 
 function Nav() {
@@ -43,9 +43,12 @@ function Nav() {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem>
-                    <Link to="/" className=" font-semibold text-red-500">Logout</Link>
+                    <Button className="max-sm:hidden" color="danger">
+                      <Link to="/" className="font-semibold">Logout</Link>  
+                    </Button>
+                    
                 </NavbarItem>
-                <NavbarItem className="hidden lg:flex">
+                <NavbarItem className="lg:flex">
                     <Link to="/user/profile">
                         <Avatar isFocusable /* src=" " */ />
                     </Link>
