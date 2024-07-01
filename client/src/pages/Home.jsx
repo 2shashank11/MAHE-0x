@@ -1,8 +1,12 @@
 import React from 'react'
+import "../components/SigninModal";
+import SigninModal from '../components/SigninModal';
 
 function Home() {
   return (
-    <div>Home</div>
+    <>
+      <SigninModal />
+    </>
   )
 }
 
