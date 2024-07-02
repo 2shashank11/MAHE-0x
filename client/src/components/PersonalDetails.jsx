@@ -8,6 +8,7 @@ function PersonalDetails() {
       <div className="m-3 items-center ml-10 mr-10">
         <h1 className="text-3xl font-bold mb-10">Personal Details</h1>
 
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
           <div className="flex flex-col items-center"> {/* Profile photo and button */}
@@ -19,6 +20,7 @@ function PersonalDetails() {
               <input type="file" className="hidden" />
             </label>
           </div>
+
 
           <div className="grid gap-8"> {/* Personal details form */}
 
@@ -60,10 +62,10 @@ function PersonalDetails() {
             <div className="flex flex-col md:flex-row gap-4 justify-between items-center mt-10">
               <ProfileChangePasswordModal/>
               <Button className="w-full md:w-auto md:ml-auto" color="primary">Save and Proceed</Button>
-            </div>
+
+           </div>
 
           </div>
-
         </div>
 
       </div>

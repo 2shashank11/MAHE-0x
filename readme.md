@@ -18,6 +18,14 @@ working on :
 
 ### Gaurav
 working on: 
+<ul>
+ <li><s>signup</s></li>
+ <li>forgot pass</li>
+ <li><s>Home page</s></li>
+ <li>navbar styling</li>
+ <li>theming</li>
+ <li>About Page</li>
+</ul>
 
 <hr>
 

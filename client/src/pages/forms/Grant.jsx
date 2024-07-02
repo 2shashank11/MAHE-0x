@@ -1,71 +1,78 @@
-import { Card, Image, Button, Input, Textarea } from "@nextui-org/react";
-import React from "react";
-import { Select, SelectItem } from "@nextui-org/react";
-import { choice } from "./data";
+import { Button, Input, Select, SelectItem, Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import React, { useState } from "react";
+import { choice, months } from "./data";
 
-function Grant() {
+const years = [];
+for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
+  years.push({ value: year.toString(), label: year.toString() });
+}
+
+function GrantForm() {
+
+  const [formData, setFormData] = useState({});
+
+  const handleUserInput = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.region === "Indian") formData.country = "India"
+    console.log(formData);
+  }
+
   return (
-    <div className="grid grid-cols-5 gap-6 m-4">
-      <h1 className="text-3xl font-bold col-span-5">Grants Details</h1>
+    <form onSubmit={handleFormSubmit}>
+      <div className="flex flex-col gap-4 p-4">
+        <h1 className="text-3xl font-bold mb-4">Grant Details</h1>
 
-      <Card
-        isFooterBlurred
-        radius="lg"
-        className="border-none col-span-2 flex flex-col max-w-xs"
-      >
-        <Image
-          alt="Profile Picture"
-          className="object-cover"
-          height={200}
-          src="https://nextui.org/images/hero-card.jpeg"
-          width={200}
-        />
-        <Button color="primary" className="mt-4">Upload Image</Button>
-      </Card>
+        <Input label="Grant Name" name="grantName" placeholder="grantName" onChange={handleUserInput}/>
 
-      <div className="col-span-3 flex flex-col gap-4">
-        <h2>Grant Name</h2>
-        <Input label="Enter title" className="w-60" />
+        <Select label="Submitted" name="submitted" placeholder="Yes / No" onChange={handleUserInput}>
+          {choice.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
 
-        <div className="flex flex-wrap gap-4 mt-5">
-          <div className="flex flex-col w-44">
-            <h2>Submitted</h2>
-            <Select
-              items={choice}
-              label="submitted"
-              className="w-full"
-            >
-              {(choice) => <SelectItem>{choice.label}</SelectItem>}
-            </Select>
-          </div>
-          
-          <div className="flex flex-col w-44">
-            <h2>Granted</h2>
-            <Select
-              items={choice}
-              label="granted"
-              className="w-full"
-            >
-              {(choice) => <SelectItem>{choice.label}</SelectItem>}
-            </Select>
-          </div>
-          <div className="flex flex-col w-44">
-            <h2>Amount</h2>
-            <Input  label="enter amount"/>
-          </div>
-        </div>
+        <Select label="Granted" name="granted" placeholder="Yes / No" onChange={handleUserInput}>
+          {choice.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
 
-        <div className="mt-5">
-          <h2>Describe your Grant process (30-50 words)</h2>
-          <Textarea label="Description" className="w-60 h-40" />
+        <Input label="Amount" name="amount" placeholder="amount" onChange={handleUserInput}/>
+
+        <Select label="Month" name="month" placeholder="Month" onChange={handleUserInput}>
+          {months.map(month => (
+            <SelectItem key={month.value} value={month.value}>
+              {month.label}
+            </SelectItem>
+          ))}
+        </Select>
+
+        <Autocomplete
+        name="year"
+          label="Year"
+          placeholder="Year"
+          defaultItems={years}
+          onSelect={handleUserInput}
+        >
+          {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+        </Autocomplete>
+
+        <div className="flex justify-start mt-4">
+          <Button color="primary" size="sm" type="submit">Submit</Button>
         </div>
       </div>
-
-      <div className="col-span-5 flex justify-center mt-5">
-        <Button color="primary">Save and Proceed</Button>
-      </div>
-    </div>
+    </form>
   );
 }
 
-export default Grant;
+export default GrantForm;

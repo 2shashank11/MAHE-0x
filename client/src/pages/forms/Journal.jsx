@@ -1,77 +1,86 @@
-import { Card, Image, Button, Input, Textarea } from "@nextui-org/react";
-import React from "react";
-import { Select, SelectItem } from "@nextui-org/react";
-import { author, choice } from "./data";
+import { Button, Input, Select, SelectItem, Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import React, { useState } from "react";
+import { author, choice, months, quartiles } from "./data";
 
-function Journal() {
+const years = [];
+for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
+  years.push({ value: year.toString(), label: year.toString() });
+}
+
+function JournalForm() {
+
+  const [formData, setFormData] = useState({});
+
+  const handleUserInput = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.region === "Indian") formData.country = "India"
+    console.log(formData);
+  }
+
   return (
-    <div className="grid grid-cols-5 gap-6 m-4">
-      <h1 className="text-3xl font-bold col-span-5">Journal Details</h1>
+    <form onSubmit={handleFormSubmit}>
 
-      <Card
-        isFooterBlurred
-        radius="lg"
-        className="border-none col-span-2 flex flex-col max-w-xs"
-      >
-        <Image
-          alt="Profile Picture"
-          className="object-cover"
-          height={200}
-          src="https://nextui.org/images/hero-card.jpeg"
-          width={200}
-        />
-        <Button color="primary" className="mt-4">Upload Image</Button>
-      </Card>
+      <div className="flex flex-col gap-6 p-4">
+        <h1 className="text-3xl font-bold mb-4">Journal Details</h1>
 
-      <div className="col-span-3 flex flex-col gap-4">
-        <h2>Title of Journal</h2>
-        <Input label="Enter title" className="w-60" />
-        <div className="flex flex-wrap gap-4 mt-5">
-          <div className="flex flex-col w-44">
-            <h2>Journal Name</h2>
-            <Input className="col-start-2 col" label="Enter Journal Name" />
-            </div>
-            <div className="flex flex-col w-44">
-            <h2>Quartile</h2>
-            <Input className="col-start-2 col" label="select quartile" />
-          </div>
+        <Input label="Title" name="title" placeholder="Title" className="w-full" onChange={handleUserInput}/>
+        <Input label="Journal Name" name="journalName" placeholder="Journal Name" className="w-full" onChange={handleUserInput}/>
 
-          </div>
+        <Select label="Quartile" name="quartile" placeholder="Select Quartile" className="w-full" onChange={handleUserInput}>
+          {quartiles.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
 
-        <div className="flex flex-wrap gap-4 mt-5">
-          <div className="flex flex-col w-44">
-            <h2>WOS</h2>
-            <Select
-              items={choice}
-              label="Y/N"
-              className="w-full"
-            >
-              {(choice) => <SelectItem>{choice.label}</SelectItem>}
-            </Select>
-          </div>
-          <div className="flex flex-col w-44">
-            <h2>Author / Co-Author</h2>
-            <Select
-              items={author}
-              
-              className="w-full"
-            >
-              {(author) => <SelectItem>{author.label}</SelectItem>}
-            </Select>
-          </div>
-        </div>
+        <Select label="WOS" name="wos" laceholder="Yes / No" className="w-full" onChange={handleUserInput}>
+          {choice.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
 
-        <div className="mt-5">
-          <h2>Describe your Journal (30-50 words)</h2>
-          <Textarea label="Description" className="w-60 h-40" />
+        <Select label="Authorship" name="authorship" placeholder="Author / Co-Author" className="w-full" onChange={handleUserInput}>
+          {author.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
+
+        <Select label="Month" name="month" placeholder="Month" className="w-full" onChange={handleUserInput}>
+          {months.map(month => (
+            <SelectItem key={month.value} value={month.value}>
+              {month.label}
+            </SelectItem>
+          ))}
+        </Select>
+
+        <Autocomplete
+        name="year"
+          label="Year"
+          placeholder="Year"
+          defaultItems={years}
+          onSelect={handleUserInput}
+        >
+          {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+        </Autocomplete>
+
+        <div className="flex justify-start mt-4">
+          <Button color="primary" size="sm" type="submit">Submit</Button>
         </div>
       </div>
-
-      <div className="col-span-5 flex justify-center mt-5">
-        <Button color="primary">Save and Proceed</Button>
-      </div>
-    </div>
+    </form>
   );
 }
 
-export default Journal;
+export default JournalForm;
