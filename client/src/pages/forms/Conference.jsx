@@ -1,56 +1,77 @@
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
-import React from "react";
+import { Button, Input, Select, SelectItem, Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import React, { useState } from "react";
 import { regionOptions, indexedOptions, months } from "./data";
 
-const years = Array.from({ length: 30 }, (v, k) => k + 2000).map(year => ({
-  label: year.toString(),
-  value: year.toString(),
-}));
+const years = [];
+for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
+  years.push({ value: year.toString(), label: year.toString() });
+}
 
 function Conference() {
+
+  const [formData, setFormData] = useState({});
+
+  const handleUserInput = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.region === "Indian") formData.country = "India"
+    console.log(formData);
+  }
+
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-3xl font-bold mb-4">Conference Details</h1>
-      
-      <Input label="conferenceName" placeholder="conferenceName" />
-      <Input label="paperTitle" placeholder="paperTitle" />
+    <form onSubmit={handleFormSubmit}>
 
-      <Select label="Region" placeholder="National / International">
-        {regionOptions.map(option => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
-      </Select>
+      <div className="flex flex-col gap-4 p-4">
+        <h1 className="text-3xl font-bold mb-4">Conference Details</h1>
 
-      <Select label="Indexed" placeholder="Yes / No">
-        {indexedOptions.map(option => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
-      </Select>
+        <Input label="Conference Name" name="conferenceName" placeholder="Conference Name" onChange={handleUserInput}/>
+        <Input label="Paper Title" name="paperTitle" placeholder="Paper Title" onChange={handleUserInput} />
 
-      <Select label="Month" placeholder="Month">
-        {months.map(month => (
-          <SelectItem key={month.value} value={month.value}>
-            {month.label}
-          </SelectItem>
-        ))}
-      </Select>
+        <Select label="Region" name="region" placeholder="National / International" onChange={handleUserInput}>
+          {regionOptions.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
 
-      <Select label="year" placeholder="year">
-        {years.map(year => (
-          <SelectItem key={year.value} value={year.value}>
-            {year.label}
-          </SelectItem>
-        ))}
-      </Select>
+        <Select label="Indexed" name="indexed" placeholder="Yes / No" onChange={handleUserInput}>
+          {indexedOptions.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
 
-      <div className="flex justify-start mt-4">
-        <Button color="primary" size="sm">Submit</Button>
+        <Select label="Month" name="month" placeholder="Month" onChange={handleUserInput}>
+          {months.map(month => (
+            <SelectItem key={month.value} value={month.value}>
+              {month.label}
+            </SelectItem>
+          ))}
+        </Select>
+
+        <Autocomplete
+        name="year"
+          label="Year"
+          placeholder="Year"
+          defaultItems={years}
+          onSelect={handleUserInput}
+        >
+          {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+        </Autocomplete>
+
+        <div className="flex justify-start mt-4">
+          <Button color="primary" size="sm" type="submit">Submit</Button>
+        </div>
       </div>
-    </div>
+    </form>
   );
 }
 
