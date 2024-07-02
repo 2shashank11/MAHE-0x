@@ -12,7 +12,9 @@ function Nav() {
         <Link to="/user/dashboard">Dashboard</Link>,
         <Link to="/user/achievemnts">My Achievements</Link>,
         <Link to="/user/profile">Profile</Link>,
-        <Link to="/" className=" font-semibold text-red-500">Log out</Link>
+        <Button color="danger">
+            <Link to="/" className="font-semibold">Logout</Link>
+        </Button>
     ];
 
 
@@ -44,9 +46,9 @@ function Nav() {
             <NavbarContent justify="end">
                 <NavbarItem>
                     <Button className="max-sm:hidden" color="danger">
-                      <Link to="/" className="font-semibold">Logout</Link>  
+                        <Link to="/" className="font-semibold">Logout</Link>
                     </Button>
-                    
+
                 </NavbarItem>
                 <NavbarItem className="lg:flex">
                     <Link to="/user/profile">
