@@ -13,8 +13,8 @@ working on :
 <li> dashboard</li>
 <li> nav </li>
 <li> my profile </li>
-<li> home page </li>
-<li> sign in and sign up </li>
+/*<li> home page </li>
+<li> sign in and sign up </li>*/
 </ul>
 <hr>
 
