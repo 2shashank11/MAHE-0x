@@ -1,10 +1,11 @@
 import React from "react";
-import { HomeButtons, Homegrid, Titlebox } from "../components/homepage";
+import { HomeButtons, Homegrid } from "../components/Homepage";
+import Nav from "../components/Nav";
 
 function Home() {
   return (
     <div>
-      <Titlebox />
+      <Nav />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <Homegrid />
         <HomeButtons />
@@ -13,4 +14,4 @@ function Home() {
   );
 }
 
-export { Home };
+export default Home;

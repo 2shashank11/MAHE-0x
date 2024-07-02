@@ -3,19 +3,10 @@ import { Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
-  CardBody,
   CardFooter,
   Image,
   Button,
 } from "@nextui-org/react";
-
-export function Titlebox() {
-  return (
-    <div id="titlebar" className="px-24 pt-20">
-      <h1 className="font-semibold text-7xl">prjkt-MAHE0x</h1>
-    </div>
-  );
-}
 
 export function Homegrid() {
   return (
@@ -142,25 +133,27 @@ export function HomeButtons() {
   return (
     <div className="flex-auto pt-20 px-24 space-y-8">
       <div>
-        <Button
-          className="alldetails_button"
-          color="primary"
-          variant="solid"
-          size="lg"
-        >
-          All Details
-        </Button>
+        <Link to="/all-achievements">
+          <Button
+            className="alldetails_button"
+            color="primary"
+            variant="solid"
+            size="lg"
+          >
+            All Details
+          </Button>
+        </Link>
       </div>
       <div className="flex ">
         <div>
-          <Link to="/login">
+          <Link to="/signin">
             <Button
               className="login_button"
               color="primary"
               variant="solid"
               size="lg"
             >
-              Login
+              Sign In
             </Button>
           </Link>
         </div>
