@@ -10,7 +10,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import Profile from './pages/Profile';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-import ForgotPassword from './pages/ForgotPassword';
+import { Forgot, CheckMail, NewPass, Passreset } from './pages/ForgotPassword';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Conference from './pages/forms/Conference';
@@ -45,13 +45,42 @@ const router = createBrowserRouter([
     </>
     ),
   },
-  {
+ {
     path: "/forgot-password",
     element: (<>
-      <ForgotPassword />
+      <Forgot />
+      <CheckMail />
+      <NewPass />
+      <Passreset />
     </>
     ),
+    
   },
+  // {
+  //   path: "/forgotpass/checkmail",
+  //   element: (<>
+  //     <CheckMail />
+  //   </>
+  //   ),
+    
+  // },
+  // {
+  //   path: "//forgotpass/checkmail/newpass",
+  //   element: (<>
+  //     <NewPass />
+  //   </>
+  //   ),
+    
+  // },
+  // {
+  //   path: "/forgotpass/checkmai/newpass/reset",
+  //   element: (<>
+  //     <Passreset />
+  //   </>
+  //   ),
+    
+  // },
+
   {
     path: "/user/profile",
     element: (<>

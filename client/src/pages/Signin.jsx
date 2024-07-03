@@ -51,9 +51,9 @@ export default function Signin() {
   };
 
   return (
-    <div className="px-24 pt-20">
+    <div className="px-24 pt-20 min-h-screen flex flex-col">
       <h1 className="font-sans font-semibold text-7xl">Sign In</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10">
+      <div className="flex flex-col md:flex-row gap-8 pt-10">
         <Card className="py-4" isBlurred shadow="sm">
           <CardBody className="overflow-hidden py-2">
             <Image
@@ -64,10 +64,11 @@ export default function Signin() {
           </CardBody>
         </Card>
 
-        <div className="grid gap-8">
-          <form onSubmit={handleUserSignin}>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              <div className="flex flex-col md:items-start">
+        <div className="flex flex-1 justify-center items-center">
+          <form onSubmit={handleUserSignin} className="w-1/2">
+
+            <div className="flex flex-col gap-8 p-4 w-full">
+              <div className="flex flex-col items-start">
                 <h2 className="text-xl font-bold mb-4">Email</h2>
                 <Input
                   required
@@ -76,15 +77,15 @@ export default function Signin() {
                   type="email"
                   label="Email"
                   placeholder="prof@manipal.edu"
-                  className="max-w-xs"
+                  className="w-full"
                 />
               </div>
-              <div className="flex flex-col md:items-start">
+              <div className="flex flex-col items-start">
                 <h2 className="text-xl font-bold mb-4">Password</h2>
                 <PasswordButtons handlePasswordInput={(e) => handleInputChange(e)} />
               </div>
-              <Button type="submit" variant="solid" color="success">
-                Signin
+              <Button type="submit" variant="solid" color="success" className="mt-4 w-1/4">
+                Sign In
               </Button>
             </div>
           </form>
