@@ -21,7 +21,7 @@ working on :
 working on: 
 <ul>
  <li><s>signup</s></li>
- <li><s>forgot pass<s></li>
+ <li><s>forgot pass</s>s></li>
  <li><s>Home page</s></li>
  <li>navbar styling</li>
  <li>theming</li>
