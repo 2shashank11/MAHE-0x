@@ -21,12 +21,13 @@ import Patent from './pages/forms/Patent';
 import Publication from './pages/forms/Publication';
 import UserAchievements from './pages/UserAchievements';
 import AllAchievements from './pages/AllAchievements';
+import { AuthProvider } from './contexts/AuthContext';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (<>
-      <Home/>
+      <Home />
     </>
     ),
   },
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: (<>
-      <Signup/>
+      <Signup />
     </>
     ),
   },
@@ -94,7 +95,7 @@ const router = createBrowserRouter([
     </>
     ),
   },
- 
+
   {
     path: "/user/form/conference",
     element: (<>
@@ -123,7 +124,7 @@ const router = createBrowserRouter([
     </>
     ),
   },
- {
+  {
     path: "/user/form/patent",
     element: (<>
       <Patent />
@@ -159,15 +160,12 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <NextUIProvider>
-          {/* <main className="dark text-foreground bg-background"> */}
-           <RouterProvider router={router} />
-          {/* </main> */}
-    
+    <AuthProvider>
+      {/* <main className="dark text-foreground bg-background"> */}
+      <RouterProvider router={router} />
+      {/* </main> */}
+    </AuthProvider>
   </NextUIProvider>
 
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

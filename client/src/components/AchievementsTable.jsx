@@ -1,81 +1,99 @@
 import React, { useState, useEffect } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/react";
-
-// const colors = ["default", "primary", "secondary", "success", "warning", "danger"];
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button, Tooltip } from "@nextui-org/react";
+import { EditIcon } from "./assets/EditIcon";
+import { DeleteIcon } from "./assets/DeleteIcon";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import DeleteRowModal from "./DeleteRowModal";
 
 export default function AchievementsTable(props) {
-    //   const [selectedColor, setSelectedColor] = useState("default");
-    const selectedColor = "warning";
-
+    const selectedColor = "success";
     const [currentHead, setCurrentHead] = useState(["No Category Selected"]);
-    const [tableData, setTableData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [deleteRow, setDeleteRow] = useState(false);
 
-    const conferenceHead = ["Profile", "Name", "MAHE-ID", "Conference Name", "Paper Title", "Region", "Indexed", "Month-Year"]
-    const fellowshipHead = ["Profile", "Name", "MAHE-ID", "Fellowhip Name", "Submitted", "Granted", "Month-Year"]
-    const grantHead = ["Profile", "Name", "MAHE-ID", "Grant Name", "Submitted", "Granted", "Amount", "Month-Year"]
-    const journalHead = ["Profile", "Name", "MAHE-ID", "Title", "Journal Name", "Quartile", "WOS", "Authorship", "Month-Year"]
-    const patentHead = ["Profile", "Name", "MAHE-ID", "Filed", "Published", "Granted", "Region", "Country", "Month-Year"]
-    const publicationHead = ["Profile", "Name", "MAHE-ID", "Book Name", "Type", "ISBN", "Publish Year", "Month-Year"]
+    const conferenceHead = ["name", "maheId", "conferenceName", "paperTitle", "region", "indexed", "month_year"];
+    const fellowshipHead = ["name", "maheId", "fellowshipName", "submitted", "granted", "month_year"];
+    const grantHead = ["name", "maheId", "grantName", "submitted", "granted", "amount", "month_year"];
+    const journalHead = ["name", "maheId", "title", "journalName", "quartile", "wos", "authorship", "month_year"];
+    const patentHead = ["name", "maheId", "filed", "published", "granted", "region", "country", "month_year"];
+    const publicationHead = ["name", "maheId", "bookName", "Type", "isbn", "publishYear", "month_year"];
 
-    const dummyData = {
-        conference: [
-            { Profile: "Profile 1", Name: "John Doe", "MAHE-ID": "123", "Conference Name": "Conf A", "Paper Title": "Title A", Region: "Region A", Indexed: "Yes", "Month-Year": "Jan-2023" },
-            { Profile: "Profile 2", Name: "Jane Smith", "MAHE-ID": "124", "Conference Name": "Conf B", "Paper Title": "Title B", Region: "Region B", Indexed: "No", "Month-Year": "Feb-2023" }
-        ],
-        fellowship: [
-            { Profile: "Profile 1", Name: "John Doe", "MAHE-ID": "123", "Fellowship Name": "Fellowship A", Submitted: "Yes", Granted: "No", "Month-Year": "Mar-2023" },
-            { Profile: "Profile 2", Name: "Jane Smith", "MAHE-ID": "124", "Fellowship Name": "Fellowship B", Submitted: "No", Granted: "Yes", "Month-Year": "Apr-2023" }
-        ],
-        grant: [
-            { Profile: "Profile 1", Name: "John Doe", "MAHE-ID": "123", "Grant Name": "Grant A", Submitted: "Yes", Granted: "No", Amount: "$1000", "Month-Year": "May-2023" },
-            { Profile: "Profile 2", Name: "Jane Smith", "MAHE-ID": "124", "Grant Name": "Grant B", Submitted: "No", Granted: "Yes", Amount: "$2000", "Month-Year": "Jun-2023" }
-        ],
-        journal: [
-            { Profile: "Profile 1", Name: "John Doe", "MAHE-ID": "123", Title: "Title A", "Journal Name": "Journal A", Quartile: "Q1", WOS: "Yes", Authorship: "First", "Month-Year": "Jul-2023" },
-            { Profile: "Profile 2", Name: "Jane Smith", "MAHE-ID": "124", Title: "Title B", "Journal Name": "Journal B", Quartile: "Q2", WOS: "No", Authorship: "Second", "Month-Year": "Aug-2023" }
-        ],
-        patent: [
-            { Profile: "Profile 1", Name: "John Doe", "MAHE-ID": "123", Filed: "Yes", Published: "No", Granted: "Yes", Region: "Region A", Country: "Country A", "Month-Year": "Sep-2023" },
-            { Profile: "Profile 2", Name: "Jane Smith", "MAHE-ID": "124", Filed: "No", Published: "Yes", Granted: "No", Region: "Region B", Country: "Country B", "Month-Year": "Oct-2023" }
-        ],
-        publication: [
-            { Profile: "Profile 1", Name: "John Doe", "MAHE-ID": "123", "Book Name": "Book A", Type: "Type A", ISBN: "123-456", "Publish Year": "2023", "Month-Year": "Nov-2023" },
-            { Profile: "Profile 2", Name: "Jane Smith", "MAHE-ID": "124", "Book Name": "Book B", Type: "Type B", ISBN: "789-012", "Publish Year": "2024", "Month-Year": "Dec-2023" }
-        ]
+    const getCategoryHead = (category) => {
+        switch (category) {
+            case "Conference":
+                return conferenceHead;
+            case "Fellowship":
+                return fellowshipHead;
+            case "Grant":
+                return grantHead;
+            case "Journal":
+                return journalHead;
+            case "Patent":
+                return patentHead;
+            case "Publication":
+                return publicationHead;
+            default:
+                return ["No Category Selected"];
+        }
+    };
+
+    const filterData = (data, filter) => {
+        return data.filter((i) => {
+            const [month, year] = i.month_year.split("-");
+            const date = new Date(`${month} 1, ${year}`);
+
+            if (filter.fromMonth && filter.fromYear && filter.toMonth && filter.toYear) {
+                const fromDate = new Date(`${filter.fromMonth} 1, ${filter.fromYear}`);
+                const toDate = new Date(`${filter.toMonth} 1, ${filter.toYear}`);
+                return date >= fromDate && date <= toDate;
+            }
+
+            if (filter.fromMonth && filter.fromYear && (!filter.toMonth || !filter.toYear)) {
+                const fromDate = new Date(`${filter.fromMonth} 1, ${filter.fromYear}`);
+                return date >= fromDate;
+            }
+
+            if ((!filter.fromMonth || !filter.fromYear) && filter.toMonth && filter.toYear) {
+                const toDate = new Date(`${filter.toMonth} 1, ${filter.toYear}`);
+                return date <= toDate;
+            }
+
+            return true;
+        });
     };
 
     useEffect(() => {
-        switch (props.selectedCategory) {
-            case "Conference":
-                setCurrentHead(conferenceHead);
-                setTableData(dummyData.conference);
-                break;
-            case "Fellowship":
-                setCurrentHead(fellowshipHead);
-                setTableData(dummyData.fellowship);
-                break;
-            case "Grant":
-                setCurrentHead(grantHead);
-                setTableData(dummyData.grant);
-                break;
-            case "Journal":
-                setCurrentHead(journalHead);
-                setTableData(dummyData.journal);
-                break;
-            case "Patent":
-                setCurrentHead(patentHead);
-                setTableData(dummyData.patent);
-                break;
-            case "Publication":
-                setCurrentHead(publicationHead);
-                setTableData(dummyData.publication);
-                break;
-            default:
-                setCurrentHead(["No Category Selected"]);
-                setTableData([]);
-                break;
+        const categoryHead = getCategoryHead(props.selectedCategory);
+        setCurrentHead(categoryHead);
+
+        const mainData = props.mainData || [];
+        const filteredResults = filterData(mainData, props.filter);
+
+        setFilteredData(filteredResults);
+    }, [props.selectedCategory, props.mainData, props.filter]);
+
+    const navigate = useNavigate();
+
+    const handleRedirectToEdit = (row, selectedCategory) => {
+        console.log("Edit Row", row, selectedCategory);
+        selectedCategory = selectedCategory.toLowerCase();
+        navigate(`/user/form/${selectedCategory}`, { state: { data: row } });
+    };
+
+    const handleDeleteRow = async (id) => {
+        try {
+            const response = await axios.delete(`/api/user/form/${props.selectedCategory.toLowerCase()}/${id}`);
+            console.log(response);
+            console.log(filteredData)
+            setFilteredData((filteredData) => filteredData.filter(i => i._id !== id));
+            
+        } catch (error) {
+            console.error("Error deleting row:", error);
         }
-    }, [props.selectedCategory])
+    };
+
+    // useState(() => {console.log(filteredData)}, [filteredData])
 
     return (
         <div className="flex flex-col gap-3 p-5">
@@ -88,13 +106,28 @@ export default function AchievementsTable(props) {
                     {currentHead.map((head) => (
                         <TableColumn key={head}>{head}</TableColumn>
                     ))}
+                    <TableColumn key="actions">Actions</TableColumn>
                 </TableHeader>
                 <TableBody>
-                    {tableData.map((row, rowIndex) => (
+                    {filteredData.map((row, rowIndex) => (
                         <TableRow key={rowIndex}>
                             {currentHead.map((column) => (
-                                <TableCell key={column}>{row[column]}</TableCell>
+                                <TableCell key={column}>{row[column] !== undefined ? row[column] : 'N/A'}</TableCell>
                             ))}
+                            <TableCell className="flex gap-2 justify-center max-w-fit">
+                                {props.tableControls ? (
+                                    <>
+                                        <Tooltip color="warning" content="Edit Row" className="capitalize">
+                                            <Button variant="flat" color="warning" className="capitalize" onClick={() => handleRedirectToEdit(row, props.selectedCategory)}>
+                                                <EditIcon />
+                                            </Button>
+                                        </Tooltip>
+                                        <Tooltip color="danger" content="Delete Row" className="capitalize">
+                                            <DeleteRowModal handleDeleteRow={handleDeleteRow} id={row._id} />
+                                        </Tooltip>
+                                    </>
+                                ) : null}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
