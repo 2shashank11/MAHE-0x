@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import { NextUIProvider } from '@nextui-org/react';
 import Profile from './pages/Profile';
-import Login from './pages/Login';
+import Signin from './pages/signin';
 import Signup from './pages/signup';
 import { Forgot, CheckMail, NewPass, Passreset } from './pages/ForgotPassword';
 import Home from './pages/Home';
