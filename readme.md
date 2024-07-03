@@ -14,6 +14,7 @@ working on :
  <li> nav </li>
  <li> my profile </li>
  <li> All users for admin</li>
+ <li> Home styling</li>
 </ul>
 <hr>
 
