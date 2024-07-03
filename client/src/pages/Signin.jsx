@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Card, CardBody, Image, Button, Input } from "@nextui-org/react";
 import PasswordButtons from "../components/PasswordButtons";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
-export default function Signup() {
+export default function Signin() {
+  
+  const Navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn')) {
+      Navigate('/user/dashboard')
+    }
+  }, [])
+
+  const { setIsLoggedIn } = useContext(AuthContext);
+
   const [formData, setFormData] = useState({});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(e.target)
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -16,8 +29,25 @@ export default function Signup() {
 
   const handleUserSignin = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Proceed with form submission logic
+    // console.log(formData);
+
+    try {
+      const response = await axios.post('/api/signin', { formData }, { withCredentials: true })
+      console.log(response)
+      localStorage.setItem("isLoggedIn", true)
+      setIsLoggedIn(true)
+      Navigate('/user/dashboard')
+
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          console.log(error.response.data)
+        }
+        else {
+          console.log("Something went wrong")
+        }
+      }
+    }
   };
 
   return (

@@ -1,22 +1,37 @@
-import React from "react";
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Avatar, Button } from "@nextui-org/react";
+import axios from "axios";
+import { AuthContext } from "../contexts/AuthContext";
 
 
 function Nav() {
+    const Navigate = useNavigate();
+    const { authUser, isLoggedIn, setIsLoggedIn } = useContext(AuthContext)
+
+    useEffect(() => {
+        console.log("user: ", authUser)
+        console.log("loggedin: ", isLoggedIn)
+    }, [isLoggedIn, authUser])
 
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+    const handleUserLogout = async (e) => {
+        e.preventDefault()
+        const response = axios.post('/api/logout', { withCredentials: true })
+        console.log(response)
+        setIsLoggedIn(false)
+        localStorage.removeItem('isLoggedIn')
+        Navigate('/')
+    }
 
     const menuItems = [
         <Link to="/">Home</Link>,
         <Link to="/user/dashboard">Dashboard</Link>,
-        <Link to="/user/achievemnts">My Achievements</Link>,
+        <Link to="/user/achievements">My Achievements</Link>,
         <Link to="/user/profile">Profile</Link>,
-        <Button color="danger">
-            <Link to="/" className="font-semibold">Logout</Link>
-        </Button>
+        <Button color="danger" onClick={handleUserLogout}>Logout</Button>
     ];
-
 
     return (
         <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="full" isBordered >
@@ -34,28 +49,34 @@ function Nav() {
                 <NavbarItem>
                     <Link to="/">Home</Link>
                 </NavbarItem>
-                <NavbarItem>
-                    <Link to="/user/dashboard">Dashboard</Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link to="/user/achievements">
-                        My Achievements
-                    </Link>
-                </NavbarItem>
+                {(isLoggedIn) ?
+                    <>
+                        <NavbarItem>
+                            <Link to="/user/dashboard">Dashboard</Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Link to="/user/achievements">
+                                My Achievements
+                            </Link>
+                        </NavbarItem>
+                    </>
+                    : null}
             </NavbarContent>
-            <NavbarContent justify="end">
-                <NavbarItem>
-                    <Button className="max-sm:hidden" color="danger">
-                        <Link to="/" className="font-semibold">Logout</Link>
-                    </Button>
 
-                </NavbarItem>
-                <NavbarItem className="lg:flex">
-                    <Link to="/user/profile">
-                        <Avatar isFocusable /* src=" " */ />
-                    </Link>
-                </NavbarItem>
-            </NavbarContent>
+            {(isLoggedIn) ?
+                <>
+                    <NavbarContent justify="end">
+                        <NavbarItem>
+                            <Button className="max-sm:hidden" color="danger" onClick={handleUserLogout}>Logout</Button>
+                        </NavbarItem>
+                        <NavbarItem className="lg:flex">
+                            <Link to="/user/profile">
+                                <Avatar isFocusable /* src=" " */ />
+                            </Link>
+                        </NavbarItem>
+                    </NavbarContent>
+                </>
+                : null}
             <NavbarMenu>
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>

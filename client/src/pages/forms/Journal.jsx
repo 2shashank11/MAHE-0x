@@ -1,6 +1,9 @@
 import { Button, Input, Select, SelectItem, Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { author, choice, months, quartiles } from "./data";
+import axios from "axios";
+import { AuthContext } from '../../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const years = [];
 for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
@@ -8,6 +11,13 @@ for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
 }
 
 function JournalForm() {
+
+  const Navigate = useNavigate()
+  useEffect(() => {
+    if (!localStorage.getItem('isLoggedIn')) {
+      Navigate('/signin')
+    }
+  }, [])
 
   const [formData, setFormData] = useState({});
 
@@ -22,6 +32,16 @@ function JournalForm() {
     e.preventDefault();
     if (formData.region === "Indian") formData.country = "India"
     console.log(formData);
+    //toast
+    try {
+      const response = await axios.post('/api/user/form/journal', { formData }, { withCredentials: true });
+      console.log(response)
+    } catch (error) {
+      if(error.response){
+        console.log("something went wrong")
+        //toast
+      }
+    }
   }
 
   return (
