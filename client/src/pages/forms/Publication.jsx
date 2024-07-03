@@ -26,9 +26,10 @@ function Publication() {
   }
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <div className="flex justify-end items-center min-h-screen p-4">
+      <form onSubmit={handleFormSubmit} className="w-1/2">
       <div className="flex flex-col gap-4 p-4">
-        <h1 className="text-3xl font-bold mb-4">Publication Details</h1>
+        <h1 className="font-sans font-semibold text-6xl">Publication Details</h1>
 
         <Input label="Book Name" name="bookName" placeholder="Enter book name" onChange={handleUserInput}/>
 
@@ -67,11 +68,12 @@ function Publication() {
           {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
         </Autocomplete>
 
-        <div className="flex justify-start mt-4">
-          <Button color="primary" size="sm" type="submit">Submit</Button>
-        </div>
+        <div className="flex justify-start mt-4 w-full">
+            <Button className="w-1/4" color="primary" size="md" type="submit">Submit</Button>
+          </div>
       </div>
     </form>
+    </div>
   );
 }
 

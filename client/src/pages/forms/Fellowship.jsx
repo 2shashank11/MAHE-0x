@@ -2,6 +2,7 @@ import { Button, Input, Select, SelectItem, Autocomplete, AutocompleteItem } fro
 import React, { useState } from "react";
 import { choice, months } from "./data";
 
+
 const years = [];
 for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
   years.push({ value: year.toString(), label: year.toString() });
@@ -25,10 +26,13 @@ function FellowshipForm() {
   }
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    
+    
+    <div className="flex justify-end items-center min-h-screen p-4">
+      <form onSubmit={handleFormSubmit} className="w-1/2">
 
       <div className="flex flex-col gap-6 p-4">
-        <h1 className="text-3xl font-bold mb-4">Fellowship Details</h1>
+        <h1 className="font-sans font-semibold text-6xl">Fellowship Details</h1>
 
         <Input label="Fellowship Name" name="fellowshipName" placeholder="Fellowship Name" className="w-full" onChange={handleUserInput} />
 
@@ -66,11 +70,13 @@ function FellowshipForm() {
           {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
         </Autocomplete>
 
-        <div className="flex justify-start mt-4">
-          <Button color="primary" size="sm" type="submit">Submit</Button>
-        </div>
+        <div className="flex justify-start mt-4 w-full">
+            <Button className="w-1/4" color="primary" size="md" type="submit">Submit</Button>
+          </div>
       </div>
     </form>
+    </div>
+    
   );
 }
 
