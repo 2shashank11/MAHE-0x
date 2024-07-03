@@ -6,7 +6,7 @@ const publicationSchema = mongoose.Schema({
     period: { type: MonthYear},
     
     bookName: { type: String, },
-    type: { type: String, enum: ['Book', 'Chapter'],}, 
+    type: { type: String, enum: ['Book', 'Book-Chapter'],}, 
     isbn: { type: String, },
     publishYear: { type: Number, },
 }, {timestamps: true} )

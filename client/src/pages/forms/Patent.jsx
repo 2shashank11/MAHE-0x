@@ -1,76 +1,114 @@
-import { Card, Image, Button, Input, Textarea } from "@nextui-org/react";
-import React from "react";
-import { Select, SelectItem } from "@nextui-org/react";
-import { choice } from "./data";
+import {
+  Button,
+  Input,
+  Select,
+  SelectItem,
+  Autocomplete,
+  AutocompleteItem
+} from "@nextui-org/react";
+import React, { useState } from "react";
+import { choice, months } from "./data";
 
-function Patent() {
+const years = [];
+for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
+  years.push({ value: year.toString(), label: year.toString() });
+}
+
+function PatentForm() {
+
+  const [formData, setFormData] = useState({});
+
+  const handleUserInput = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.region === "Indian") formData.country = "India"
+    console.log(formData);
+  }
+
+  const [selectedRegion, setSelectedRegion] = useState("");
+
+  const handleRegionChange = (e) => {
+    handleUserInput(e);
+    setSelectedRegion(e.target.value);
+    console.log(e.target.value);
+  };
+
   return (
-    <div className="grid grid-cols-5 gap-6 m-4">
-      <h1 className="text-3xl font-bold col-span-5">Patent Details</h1>
+    <form onSubmit={handleFormSubmit}>
+      <div className="flex flex-col gap-4 p-4">
+        <h1 className="text-3xl font-bold mb-4">Patent Details</h1>
 
-      <Card
-        isFooterBlurred
-        radius="lg"
-        className="border-none col-span-2 flex flex-col max-w-xs"
-      >
-        <Image
-          alt="Profile Picture"
-          className="object-cover"
-          height={200}
-          src="https://nextui.org/images/hero-card.jpeg"
-          width={200}
-        />
-        <Button color="primary" className="mt-4">Upload Image</Button>
-      </Card>
+        <Select label="Filed" name="filed" placeholder="Yes / No" onChange={handleUserInput}>
+          {choice.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
 
-      <div className="col-span-3 flex flex-col gap-4">
-        <h2>Patent Name</h2>
-        <Input label="Enter title" className="w-60" />
+        <Select label="Published" name="published" placeholder="Yes / No" onChange={handleUserInput}>
+          {choice.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
 
-        <div className="flex flex-wrap gap-4 mt-5">
-          <div className="flex flex-col w-44">
-            <h2>Filed</h2>
-            <Select
-              items={choice}
-              label="filed"
-              className="w-full"
-            >
-              {(choice) => <SelectItem>{choice.label}</SelectItem>}
-            </Select>
-          </div>
-          <div className="flex flex-col w-44">
-            <h2>published</h2>
-            <Select
-              items={choice}
-              label="published"
-              className="w-full"
-            >
-              {(choice) => <SelectItem>{choice.label}</SelectItem>}
-            </Select>
-          </div>
-          <div className="flex flex-col w-44">
-            <h2>Granted</h2>
-            <Select
-              items={choice}
-              label="granted"
-              className="w-full"
-            >
-              {(choice) => <SelectItem>{choice.label}</SelectItem>}
-            </Select>
-          </div>
-        </div>
+        <Select label="Granted" name="granted" placeholder="Yes / No" onChange={handleUserInput}>
+          {choice.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
 
-        <div className="mt-5">
-          <h2>Describe your Patent details (30-50 words)</h2>
-          <Textarea label="Description" className="w-60 h-40" />
+        <Select
+          name="region"
+          label="Region"
+          placeholder="Indian / Other Country"
+          onChange={handleRegionChange}
+        >
+          <SelectItem key="Indian" value="Indian">
+            Indian
+          </SelectItem>
+          <SelectItem key="Other Country" value="Other Country">
+            Other Country
+          </SelectItem>
+        </Select>
+
+        {/* Show Country field only if selected region is "Other Country" */}
+        {selectedRegion === "Other Country" && (
+          <Input label="Country" name="country" placeholder="Country" onChange={handleUserInput}/>
+        )}
+
+        <Select label="Month" name="month" placeholder="Month" onChange={handleUserInput}>
+          {months.map((month) => (
+            <SelectItem key={month.value} value={month.value}>
+              {month.label}
+            </SelectItem>
+          ))}
+        </Select>
+
+        <Autocomplete label="Year" name="year" placeholder="Year" defaultItems={years} onSelect={handleUserInput}>
+          {(item) => (
+            <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>
+          )}
+        </Autocomplete>
+
+        <div className="flex justify-start mt-4">
+          <Button color="primary" size="sm" type="submit">
+            Submit
+          </Button>
         </div>
       </div>
-
-      <div className="col-span-5 flex justify-center mt-5">
-        <Button color="primary">Save and Proceed</Button>
-      </div>
-    </div>
+    </form>
   );
 }
 
-export default Patent;
+export default PatentForm;

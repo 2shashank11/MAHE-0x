@@ -10,20 +10,19 @@ working on:
 ### Ankit
 working on : 
 <ul>
-<li> dashboard</li>
-<li> nav </li>
-<li> my profile </li>
-<li> home page </li>
-<li> sign in and sign up </li>
+ <li> dashboard</li>
+ <li> nav </li>
+ <li> my profile </li>
+ <li> All users for admin</li>
 </ul>
 <hr>
 
 ### Gaurav
 working on: 
 <ul>
- <li>signup</li>
+ <li><s>signup</s></li>
  <li>forgot pass</li>
- <li>Home page</li>
+ <li><s>Home page</s></li>
  <li>navbar styling</li>
  <li>theming</li>
  <li>About Page</li>

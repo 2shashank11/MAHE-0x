@@ -5,13 +5,11 @@ import reportWebVitals from './reportWebVitals';
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
 } from "react-router-dom";
 import { NextUIProvider } from '@nextui-org/react';
 import Profile from './pages/Profile';
-import Signin from './pages/signin';
-import Signup from './pages/signup';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
 import { Forgot, CheckMail, NewPass, Passreset } from './pages/ForgotPassword';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
@@ -33,9 +31,9 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/login",
+    path: "/signin",
     element: (<>
-      <Login/>
+      <Signin />
     </>
     ),
   },
