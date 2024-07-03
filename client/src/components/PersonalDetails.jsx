@@ -5,12 +5,10 @@ import ProfileChangePasswordModal from "./ProfileChangePasswordModal";
 function PersonalDetails() {
   return (
     <div className="flex justify-center">
-      <div className="m-3 items-center ml-10 mr-10">
+      <div className="m-3 items-center ml-6 mr-6">
         <h1 className="text-3xl font-bold mb-10">Personal Details</h1>
 
-
-
-        <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center items-center">
         <div className="flex flex-col justify-center items-center border-2 rounded-2xl max-w-96 p-10"> {/* Profile photo and button */}
         <Image src="https://nextui.org/images/hero-card.jpeg" alt="Profile Picture" radius="full" className="min-h-40 min-w-40" />
             <label className="mt-4">
@@ -21,7 +19,7 @@ function PersonalDetails() {
             </label>
           </div>
 
-          <form>
+          <form className="grid gap-8">
             <div className="grid gap-8"> {/* Personal details form */}
 
               <div className="flex flex-col md:items-start">
