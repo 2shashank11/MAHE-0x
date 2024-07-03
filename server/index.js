@@ -27,7 +27,6 @@ connectToMongoose(process.env.MONGODB_URL)
     .then(() => { console.log("MongoDB Connected!") })
     .catch((err) => { console.log("MongoDB Connection Error: ", err) });
 
-app.use(cors());
 
 app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'));
@@ -37,14 +36,14 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(checkForAuthenticationCookie('token'))
 app.use(express.static(path.resolve('./public')))
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 
-app.get('/', (req, res) => {
-    return res.render('home', { user: req.user });
-})
-
-app.use('/', guestRoute)
-app.use('/user', restrictToRole(['USER', 'ADMIN']), userRoute)
-app.use('/admin', restrictToRole(['ADMIN',]), adminRoute)
+app.use('/api', guestRoute)
+app.use('/api/user', restrictToRole(['USER', 'ADMIN']), userRoute)
+app.use('/api/admin', restrictToRole(['ADMIN',]), adminRoute)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

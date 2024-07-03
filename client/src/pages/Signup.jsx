@@ -7,7 +7,12 @@ import {
   Input,
 } from "@nextui-org/react";
 import PasswordButtons from "../components/PasswordButtons";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 export default function Signup() {
+
+  const Navigate = useNavigate()
 
   const [formData, setFormData] = useState({});
   const [password, setPassword] = useState("");
@@ -36,8 +41,25 @@ export default function Signup() {
       alert("Passwords do not match")
       return;
     }
-    else{
+    else {
       formData.password = password;
+      formData.confirmPassword = confirmPassword;
+    }
+    try {
+      const response = await axios.post('/api/signup', { formData }, { withCredentials: true })
+      console.log(response)
+      //toast
+      Navigate('/');
+
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          console.log(error.response.data)
+        }
+        else {
+          console.log("Something went wrong")
+        }
+      }
     }
     console.log(formData)
   }
@@ -98,7 +120,7 @@ export default function Signup() {
               </div>
               <div className="flex flex-col md:items-start">
                 <h2 className="text-xl font-bold mb-4">Phone number</h2>
-                <Input label="Phone number" name="phone" onChange={handleInputChange}/>
+                <Input label="Phone number" name="phone" onChange={handleInputChange} />
               </div>
               <div className="flex flex-col md:items-start">
                 <h2 className="text-xl font-bold mb-4">Create a Password</h2>
