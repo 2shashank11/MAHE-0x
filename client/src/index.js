@@ -13,6 +13,7 @@ import Signup from './pages/Signup';
 import { Forgot, CheckMail, NewPass, Passreset } from './pages/ForgotPassword';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+import AllUsers from './pages/AllUsers';
 import Conference from './pages/forms/Conference';
 import Fellowship from './pages/forms/Fellowship';
 import Grant from './pages/forms/Grant';
@@ -142,6 +143,12 @@ const router = createBrowserRouter([
     path: "/user/achievements",
     element: (<>
       <UserAchievements />
+    </>),
+  },
+  {
+    path: "/admin/all-users",
+    element: (<>
+      <AllUsers />
     </>),
   },
   {

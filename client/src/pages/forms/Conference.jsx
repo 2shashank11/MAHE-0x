@@ -4,6 +4,7 @@ import { regionOptions, indexedOptions, months } from "./data";
 import axios from "axios";
 import { AuthContext } from '../../contexts/AuthContext'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Nav from "../../components/Nav";
 
 const years = [];
 for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
@@ -37,7 +38,7 @@ function Conference() {
       console.log(response)
       //toast
     } catch (error) {
-      if(error.response){
+      if (error.response) {
         console.log("something went wrong")
         //toast
       }
@@ -45,66 +46,69 @@ function Conference() {
   }
 
   useEffect(() => {
-    if(Location.state?.data){
+    if (Location.state?.data) {
       setFormData(Location.state.data)
       console.log(Location.state.data)
     }
   }, [])
-  
+
 
   return (
-    
-    <div className="flex justify-end items-center min-h-screen p-4">
-      
-      <form onSubmit={handleFormSubmit} className="w-1/2">
-      <h1 className="font-sans font-semibold text-6xl">Conference Details</h1>
-      <div className="flex flex-col gap-4 p-4">
-      
+    <>
+      <Nav />
 
-        <Input label="Conference Name" name="conferenceName" placeholder="Conference Name" onChange={handleUserInput} />
-        <Input label="Paper Title" name="paperTitle" placeholder="Paper Title" onChange={handleUserInput} />
+      <div className="flex justify-end items-center min-h-screen p-4">
 
-        <Select label="Region" name="region" placeholder="National / International" onChange={handleUserInput}>
-          {regionOptions.map(option => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </Select>
+        <form onSubmit={handleFormSubmit} className="w-1/2">
+          <h1 className="font-sans font-semibold text-6xl">Conference Details</h1>
+          <div className="flex flex-col gap-4 p-4">
 
-        <Select label="Indexed" name="indexed" placeholder="Yes / No" onChange={handleUserInput}>
-          {indexedOptions.map(option => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </Select>
 
-        <Select label="Month" name="month" placeholder="Month" onChange={handleUserInput}>
-          {months.map(month => (
-            <SelectItem key={month.value} value={month.value}>
-              {month.label}
-            </SelectItem>
-          ))}
-        </Select>
+            <Input label="Conference Name" name="conferenceName" placeholder="Conference Name" onChange={handleUserInput} />
+            <Input label="Paper Title" name="paperTitle" placeholder="Paper Title" onChange={handleUserInput} />
 
-        <Autocomplete
-          name="year"
-          label="Year"
-          placeholder="Year"
-          defaultItems={years}
-          onSelect={handleUserInput}
-        >
-          {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-        </Autocomplete>
+            <Select label="Region" name="region" placeholder="National / International" onChange={handleUserInput}>
+              {regionOptions.map(option => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </Select>
 
-        
-        <div className="flex justify-start mt-4 w-full">
-            <Button className="w-1/4" color="primary" size="md" type="submit">Submit</Button>
+            <Select label="Indexed" name="indexed" placeholder="Yes / No" onChange={handleUserInput}>
+              {indexedOptions.map(option => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </Select>
+
+            <Select label="Month" name="month" placeholder="Month" onChange={handleUserInput}>
+              {months.map(month => (
+                <SelectItem key={month.value} value={month.value}>
+                  {month.label}
+                </SelectItem>
+              ))}
+            </Select>
+
+            <Autocomplete
+              name="year"
+              label="Year"
+              placeholder="Year"
+              defaultItems={years}
+              onSelect={handleUserInput}
+            >
+              {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
+            </Autocomplete>
+
+
+            <div className="flex justify-start mt-4 w-full">
+              <Button className="w-1/4" color="primary" size="md" type="submit">Submit</Button>
+            </div>
           </div>
+        </form>
       </div>
-    </form>
-    </div>
+    </>
   );
 }
 
