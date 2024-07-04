@@ -69,6 +69,24 @@ userSchema.static('updatePassword', async function (email, password) {
     return { msg: "Password updated successfully", user }
 })
 
+userSchema.static('editPassword', async function(userId, originalPassword, newPassword){
+    const user = await this.findOne({_id: userId})
+    if(!user) throw new Error('User not found')
+    
+    const salt = user.salt
+    const hashedPassword = user.password
+    const providedPassword = createHmac('sha256', salt).update(originalPassword).digest('hex')
+
+    if (providedPassword !== hashedPassword) throw new Error('Wrong Password!');
+
+    else{
+        user.password = newPassword
+        await user.save()
+        return { msg: "Password updated successfully", user }
+    }
+
+})
+
 const User = mongoose.model('user', userSchema)
 
 module.exports = User
