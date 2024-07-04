@@ -13,7 +13,6 @@ for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
 
 function Conference() {
 
-  const Location = useLocation()
   const Navigate = useNavigate()
   useEffect(() => {
     if (!localStorage.getItem('isLoggedIn')) {
@@ -22,6 +21,12 @@ function Conference() {
   }, [])
 
   const [formData, setFormData] = useState({});
+
+  const location = useLocation()
+  useEffect(() => {
+    setFormData(location?.state?.data)
+    console.log(location?.state?.data)
+  }, [])
 
   const handleUserInput = (e) => {
     setFormData({
@@ -45,12 +50,6 @@ function Conference() {
     }
   }
 
-  useEffect(() => {
-    if (Location.state?.data) {
-      setFormData(Location.state.data)
-      console.log(Location.state.data)
-    }
-  }, [])
 
 
   return (
