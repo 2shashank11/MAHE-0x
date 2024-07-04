@@ -9,6 +9,7 @@ const {
     handleUserPublicationForm,
     handleFormDataDelete,
     handleProfileUpdate,
+    handlePasswordUpdate,
 } = require('../controllers/user');
 
 
@@ -59,5 +60,7 @@ router.post('/form/publication', handleUserPublicationForm)
 router.delete('/form/:category/:id', handleFormDataDelete)
 
 router.patch('/update-profile/:id', handleProfileUpdate)
+
+router.patch('/update-password/:id', handlePasswordUpdate)
 
 module.exports = router

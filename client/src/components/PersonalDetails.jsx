@@ -59,7 +59,7 @@ function PersonalDetails({ authUser, formData ,handleInputChange, handleSaveProf
               </div>
 
               <div className="flex flex-col md:flex-row gap-4 justify-between items-center mt-10">
-                <ProfileChangePasswordModal />
+                <ProfileChangePasswordModal authUser={authUser}/>
                 <Button className="w-full md:w-auto md:ml-auto" type="submit" color="primary">Save</Button>
 
               </div>
