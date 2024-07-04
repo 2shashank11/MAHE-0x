@@ -119,18 +119,8 @@ export default function AchievementsTable(props) {
                                 <TableCell key={column}>{row[column] !== undefined ? row[column] : 'N/A'}</TableCell>
                             ))}
                             <TableCell className="flex gap-2 justify-center max-w-fit">
-                                {authUser?.role === "ADMIN" ? (
+                                {((authUser.role==='ADMIN' && !props.controls) || props.controls) ? (
                                     <>
-                                        {/* <Tooltip content="Edit user">
-                                            <span className="text-lg p-2 border-2 text-default-400 cursor-pointer active:opacity-50">
-                                                <EditIcon onClick={() => handleRedirectToEdit(row, props.selectedCategory)} />
-                                            </span>
-                                        </Tooltip>
-                                        <Tooltip color="danger" content="Delete user">
-                                            <span className="text-lg p-2 border-2 text-danger cursor-pointer active:opacity-50">
-                                                <DeleteRowModal handleDeleteRow={handleDeleteRow} id={row._id} />
-                                            </span>
-                                        </Tooltip> */}
 
                                         <Tooltip color="warning" content="Edit Row" className="capitalize">
                                             <Button variant="flat" color="warning" className="capitalize" onClick={() => handleRedirectToEdit(row, props.selectedCategory)}>
