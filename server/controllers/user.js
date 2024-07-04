@@ -105,6 +105,18 @@ async function handleFormDataDelete(req, res){
     }
 }
 
+async function handleProfileUpdate(req, res){
+    const userId = req.params.id
+    const formData = req.body
+    try {
+        const token = await User.updateProfile(userId, formData)
+        return res.status(200).cookie("token", token, { httpOnly: false, secure: false, sameSite: 'Strict', }).json({message: 'Profile Update Successful'});
+    
+    } catch (error) {
+        return res.json({message: "Something went wrong", error: error})
+    }
+}
+
 
 module.exports = {
     getUserAchievements,
@@ -115,4 +127,5 @@ module.exports = {
     handleUserPatentForm,
     handleUserPublicationForm,
     handleFormDataDelete,
+    handleProfileUpdate,
 }

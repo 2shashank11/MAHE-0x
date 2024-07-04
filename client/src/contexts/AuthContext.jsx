@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }) => {
             if (token) {
                 try {
                     const user = jwtDecode(token);
+                    console.log(user)
                     if (user) {
                         setIsLoggedIn(true);
                         setAuthUser(user);

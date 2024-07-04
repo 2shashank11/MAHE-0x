@@ -71,7 +71,7 @@ function Nav() {
                         </NavbarItem>
                         <NavbarItem className="lg:flex">
                             <Link to="/user/profile">
-                                <Avatar isFocusable /* src=" " */ />
+                                <Avatar isFocusable src='/images/defaultProfileImage.png' isBordered color="success"/>
                             </Link>
                         </NavbarItem>
                     </NavbarContent>

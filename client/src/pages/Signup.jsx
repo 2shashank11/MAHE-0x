@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardBody,
@@ -13,6 +13,13 @@ import { useNavigate } from "react-router-dom";
 export default function Signup() {
 
   const Navigate = useNavigate()
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn')) {
+      Navigate('/user/dashboard')
+    }
+  }, [])
+
 
   const [formData, setFormData] = useState({});
   const [password, setPassword] = useState("");

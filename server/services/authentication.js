@@ -8,6 +8,7 @@ function createTokenForUser(user){
         name: user.name,
         department: user.department,
         position: user.position,
+        maheId: user.maheId,
         phone: user.phone,
         email: user.email,
         profileImageURL: user.profileImageURL,
