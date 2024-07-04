@@ -12,7 +12,7 @@ const fullNameSchema = mongoose.Schema({
 const userSchema = mongoose.Schema({
     name: { type: fullNameSchema, required: true, },
     department: { type: String, },
-    position: { type: String, },
+    position: { type: String, }, //designation
     maheId: { type: String, },
     phone: { type: Number, },
 
