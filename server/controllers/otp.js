@@ -9,7 +9,7 @@ const sendOTP = async (req, res) => {
 
         const userExists = await User.findOne({ email })
         if (!userExists) {
-            return res.status(404).render('forgotPassword', { error: "User not found" })
+            return res.status(404).json({ error: "User not found" })
         }
         let otp = otpGenerator.generate(6, { digits: true, upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false, })
         let result = await OTP.findOne({ otp: otp })
@@ -19,7 +19,7 @@ const sendOTP = async (req, res) => {
         }
         const optPayload = { email, otp }
         const otpBody = await OTP.create(optPayload)
-        res.status(200).cookie('email', email).render('forgotPassword', { success: "OTP sent successfully" })
+        res.status(200).json({ success: "OTP sent successfully" })
     } catch (error) {
         console.log(error)
         //needs fix
@@ -28,20 +28,20 @@ const sendOTP = async (req, res) => {
 }
 
 const verifyOTP = async (req, res) => {
-    const email = req.cookies.email
+    const email = req.body.email
     const otp = req.body.otp
     const userOTP = await OTP.find({ email })
     const latestOTP = userOTP[userOTP.length - 1]
     console.log(latestOTP)
 
     if(!latestOTP){
-        return res.status(404).render('forgotPassword', { expired: "OTP has been expired" })
+        return res.status(404).json({ expired: "OTP has been expired" })
     }
 
     if (latestOTP?.otp === otp) {
-        return res.status(200).render('resetPassword', { success: "OTP verified successfully, you can now reset your password!" })
+        return res.status(200).json({ success: "OTP verified successfully, you can now reset your password!" })
     }
-    return res.status(404).render('forgotPassword', { notVerified: "OTP not verified" })
+    return res.status(404).json({ notVerified: "OTP not verified" })
 }
 
 module.exports = {

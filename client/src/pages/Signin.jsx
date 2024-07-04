@@ -2,11 +2,12 @@ import React, { useState, useContext, useEffect } from "react";
 import { Card, CardBody, Image, Button, Input } from "@nextui-org/react";
 import PasswordButtons from "../components/PasswordButtons";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
+
 export default function Signin() {
-  
+
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -87,6 +88,8 @@ export default function Signin() {
               <Button type="submit" variant="solid" color="success" className="mt-4 w-1/4">
                 Sign In
               </Button>
+              <Link to="/forgot-password" className="text-blue-500">Forgot Password...?</Link>
+              <Link to="/signup" className="text-blue-500">Don't have an account? Sign Up</Link>
             </div>
           </form>
         </div>
