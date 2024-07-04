@@ -15,6 +15,7 @@ working on :
  <li> my profile </li>
  <li> All users for admin</li>
  <li> Home styling</li>
+ <li> User Modal for admin </li>
 </ul>
 <hr>
 
