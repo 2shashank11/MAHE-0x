@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { author, choice, months, quartiles } from "./data";
 import axios from "axios";
 import { AuthContext } from '../../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Nav from "../../components/Nav";
 
 const years = [];
@@ -21,6 +21,12 @@ function JournalForm() {
   }, [])
 
   const [formData, setFormData] = useState({});
+
+  const location = useLocation()
+  useEffect(() => {
+    setFormData(location?.state?.data)
+    console.log(location?.state?.data)
+  }, [])
 
   const handleUserInput = (e) => {
     setFormData({

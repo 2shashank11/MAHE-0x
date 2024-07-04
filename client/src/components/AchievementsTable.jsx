@@ -81,7 +81,7 @@ export default function AchievementsTable(props) {
     const handleRedirectToEdit = (row, selectedCategory) => {
         console.log("Edit Row", row, selectedCategory);
         selectedCategory = selectedCategory.toLowerCase();
-        Navigate(`/user/form/${selectedCategory}`, { state: { data: row } });
+        Navigate(`/user/form/${selectedCategory}`, { state: { data: row, category: selectedCategory } });
     };
 
     const handleDeleteRow = async (id) => {
@@ -119,7 +119,7 @@ export default function AchievementsTable(props) {
                                 <TableCell key={column}>{row[column] !== undefined ? row[column] : 'N/A'}</TableCell>
                             ))}
                             <TableCell className="flex gap-2 justify-center max-w-fit">
-                                {((authUser.role==='ADMIN' && !props.controls) || props.controls) ? (
+                                {((authUser?.role==='ADMIN' && !props.controls) || props.controls) ? (
                                     <>
 
                                         <Tooltip color="warning" content="Edit Row" className="capitalize">

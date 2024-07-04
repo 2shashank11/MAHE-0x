@@ -10,7 +10,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { choice, months } from "./data";
 import axios from "axios";
 import { AuthContext } from '../../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Nav from "../../components/Nav";
 const years = [];
 for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
@@ -27,6 +27,12 @@ function PatentForm() {
   }, [])
 
   const [formData, setFormData] = useState({});
+
+  const location = useLocation()
+  useEffect(() => {
+    setFormData(location?.state?.data)
+    console.log(location?.state?.data)
+  }, [])
 
   const handleUserInput = (e) => {
     setFormData({

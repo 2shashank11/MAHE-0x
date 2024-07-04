@@ -13,7 +13,6 @@ for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
 
 function Conference() {
 
-  const Location = useLocation()
   const Navigate = useNavigate()
   useEffect(() => {
     if (!localStorage.getItem('isLoggedIn')) {
@@ -22,6 +21,12 @@ function Conference() {
   }, [])
 
   const [formData, setFormData] = useState({});
+
+  const location = useLocation()
+  useEffect(() => {
+    setFormData(location?.state?.data)
+    console.log(location?.state?.data)
+  }, [])
 
   const handleUserInput = (e) => {
     setFormData({
@@ -45,12 +50,6 @@ function Conference() {
     }
   }
 
-  useEffect(() => {
-    if (Location.state?.data) {
-      setFormData(Location.state.data)
-      console.log(Location.state.data)
-    }
-  }, [])
 
 
   return (
@@ -64,10 +63,10 @@ function Conference() {
           <div className="flex flex-col gap-4 p-4">
 
 
-            <Input label="Conference Name" name="conferenceName" placeholder="Conference Name" onChange={handleUserInput} />
-            <Input label="Paper Title" name="paperTitle" placeholder="Paper Title" onChange={handleUserInput} />
+            <Input label="Conference Name" name="conferenceName" placeholder="Conference Name" value={formData?.conferenceName} onChange={handleUserInput} />
+            <Input label="Paper Title" name="paperTitle" placeholder="Paper Title" value={formData?.paperTitle} onChange={handleUserInput} />
 
-            <Select label="Region" name="region" placeholder="National / International" onChange={handleUserInput}>
+            <Select label="Region" name="region" placeholder="National / International" defaultSelectedKeys={[formData?.region]} onChange={handleUserInput}>
               {regionOptions.map(option => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
@@ -75,7 +74,7 @@ function Conference() {
               ))}
             </Select>
 
-            <Select label="Indexed" name="indexed" placeholder="Yes / No" onChange={handleUserInput}>
+            <Select label="Indexed" name="indexed" placeholder="Yes / No" defaultSelectedKeys={[formData?.indexed]} onChange={handleUserInput}>
               {indexedOptions.map(option => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
@@ -83,7 +82,7 @@ function Conference() {
               ))}
             </Select>
 
-            <Select label="Month" name="month" placeholder="Month" onChange={handleUserInput}>
+            <Select label="Month" name="month" placeholder="Month" defaultSelectedKeys={[formData?.period?.month]} onChange={handleUserInput}>
               {months.map(month => (
                 <SelectItem key={month.value} value={month.value}>
                   {month.label}
@@ -96,6 +95,7 @@ function Conference() {
               label="Year"
               placeholder="Year"
               defaultItems={years}
+              defaultSelectedKeys={formData?.period?.year.toString()}
               onSelect={handleUserInput}
             >
               {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}

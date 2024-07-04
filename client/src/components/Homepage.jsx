@@ -207,7 +207,7 @@
 // }
 
 
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
@@ -218,6 +218,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import details from "../images/details.svg";
+import { AuthContext } from "../contexts/AuthContext";
 
 
 export function HomeDescription() {
@@ -359,9 +360,10 @@ export function Homegrid() {
 }
 
 export function HomeButtons() {
-  const navigate = useNavigate();
+  const { isLoggedIn } = useContext(AuthContext);
+  const Navigate = useNavigate();
   const handleAllDetails = () => {
-    navigate('/all-achievements')
+    Navigate('/all-achievements')
   }
   return (
     <div className="container mx-auto px-4 md:px-8 lg:px-24 py-10">
@@ -389,32 +391,33 @@ export function HomeButtons() {
         </CardFooter>
       </Card>
 
-      <div className="flex justify-around mt-8">
-
-        <Button
-          className="text-xl font-bold"
-          name="loginButton"
-          color="primary"
-          variant="flat"
-          size="lg"
-        >
-          <Link to="/signin">
-            Sign in
-          </Link>
-        </Button>
-        <Button
-          className="text-xl font-bold"
-          name="signupButton"
-          color="primary"
-          variant="solid"
-          size="lg"
-        >
-          <Link to='/signup'>
-            Sign up
-          </Link>
-        </Button>
-
-      </div>
+      {!isLoggedIn ?
+        <>
+          <div className="flex justify-around mt-8">
+            <Button
+              className="text-xl font-bold"
+              name="loginButton"
+              color="primary"
+              variant="flat"
+              size="lg"
+            >
+              <Link to="/signin">
+                Sign in
+              </Link>
+            </Button>
+            <Button
+              className="text-xl font-bold"
+              name="signupButton"
+              color="primary"
+              variant="solid"
+              size="lg"
+            >
+              <Link to='/signup'>
+                Sign up
+              </Link>
+            </Button>
+          </div>
+        </> : null}
 
     </div>
   );
