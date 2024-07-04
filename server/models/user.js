@@ -53,15 +53,20 @@ userSchema.static('matchPasswordAndGenerateToken', async function (email, passwo
     return token;
 })
 
+userSchema.static('updateProfile', async function (userId, formData) {
+    const user = await this.findOneAndUpdate({ _id: userId }, formData, { new: true })
+    if (!user) throw new Error('User not found')
+    const token = createTokenForUser(user)
+    return token;
+})
+
 userSchema.static('updatePassword', async function (email, password) {
     const user = await this.findOne({ email })
-
     if (!user) throw new Error('User not found')
-
+        
     user.password = password
     await user.save()
-    
-    return {msg: "Password updated successfully", user}
+    return { msg: "Password updated successfully", user }
 })
 
 const User = mongoose.model('user', userSchema)

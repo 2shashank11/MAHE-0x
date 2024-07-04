@@ -8,6 +8,7 @@ const {
     handleUserPatentForm,
     handleUserPublicationForm,
     handleFormDataDelete,
+    handleProfileUpdate,
 } = require('../controllers/user');
 
 
@@ -56,5 +57,7 @@ router.post('/form/patent', handleUserPatentForm)
 router.post('/form/publication', handleUserPublicationForm)
 
 router.delete('/form/:category/:id', handleFormDataDelete)
+
+router.patch('/update-profile/:id', handleProfileUpdate)
 
 module.exports = router
