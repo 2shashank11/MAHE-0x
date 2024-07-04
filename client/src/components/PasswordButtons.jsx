@@ -2,7 +2,6 @@ import React from "react";
 import { Input } from "@nextui-org/react";
 import { EyeFilledIcon } from "../icons/EyeFilledIcons";
 import { EyeSlashFilledIcon } from "../icons/EyeSlashFilledIcon";
-import { LockIcon } from "../icons/LockIcon";
 
 export default function PasswordInput(props) {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -30,7 +29,6 @@ export default function PasswordInput(props) {
               <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
             )}
           </button>
-          <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
         </div>
       }
       type={isVisible ? "text" : "password"}

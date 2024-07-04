@@ -30,6 +30,7 @@ function Nav() {
         <Link to="/user/dashboard">Dashboard</Link>,
         <Link to="/user/achievements">My Achievements</Link>,
         <Link to="/user/profile">Profile</Link>,
+        <Link to="/all-achievements">All Details</Link>,
         <Button color="danger" onClick={handleUserLogout}>Logout</Button>
     ];
 
@@ -82,6 +83,7 @@ function Nav() {
                     <NavbarContent justify="end">
                         <NavbarItem>
                             <Button className="max-sm:hidden" color="danger" onClick={handleUserLogout}>Logout</Button>
+                            
                         </NavbarItem>
                         <NavbarItem className="lg:flex">
                             <Link to="/user/profile">
@@ -90,7 +92,7 @@ function Nav() {
                         </NavbarItem>
                     </NavbarContent>
                 </>
-                : null}
+                : <Link className="md:hidden text-blue-600" color="primary" to="/signin">Sign In</Link>}
             {isLoggedIn ?
                 <>
                     <NavbarMenu>
