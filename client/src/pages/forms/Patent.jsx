@@ -68,12 +68,21 @@ function PatentForm() {
   return (
     <>
       <Nav />
-      <div className="flex justify-end items-center min-h-screen p-4">
-        <form onSubmit={handleFormSubmit} className="w-1/2">
-          <div className="flex flex-col gap-4 p-4">
-            <h1 className="font-sans font-semibold text-6xl">Patent Details</h1>
-
-            <Select label="Filed" name="filed" placeholder="Yes / No" onChange={handleUserInput}>
+      <div className="flex flex-col items-center min-h-screen p-4 bg-gray-100">
+        <div className="w-full p-8">
+          <h1 className="font-sans font-semibold text-4xl">Patent Details</h1>
+          <form onSubmit={handleFormSubmit} className="space-y-6">
+          <div className="flex justify-end mt-4">
+              <Button className="w-1/6" color="primary" size="md" type="submit">Save</Button>
+            </div>
+            <Select
+              label="Filed"
+              name="filed"
+              placeholder="Yes / No"
+              fullWidth
+              onChange={handleUserInput}
+              className="mb-4"
+            >
               {choice.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
@@ -81,7 +90,14 @@ function PatentForm() {
               ))}
             </Select>
 
-            <Select label="Published" name="published" placeholder="Yes / No" onChange={handleUserInput}>
+            <Select
+              label="Published"
+              name="published"
+              placeholder="Yes / No"
+              fullWidth
+              onChange={handleUserInput}
+              className="mb-4"
+            >
               {choice.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
@@ -89,7 +105,14 @@ function PatentForm() {
               ))}
             </Select>
 
-            <Select label="Granted" name="granted" placeholder="Yes / No" onChange={handleUserInput}>
+            <Select
+              label="Granted"
+              name="granted"
+              placeholder="Yes / No"
+              fullWidth
+              onChange={handleUserInput}
+              className="mb-4"
+            >
               {choice.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
@@ -101,7 +124,9 @@ function PatentForm() {
               name="region"
               label="Region"
               placeholder="Indian / Other Country"
+              fullWidth
               onChange={handleRegionChange}
+              className="mb-4"
             >
               <SelectItem key="Indian" value="Indian">
                 Indian
@@ -111,12 +136,25 @@ function PatentForm() {
               </SelectItem>
             </Select>
 
-            {/* Show Country field only if selected region is "Other Country" */}
             {selectedRegion === "Other Country" && (
-              <Input label="Country" name="country" placeholder="Country" onChange={handleUserInput} />
+              <Input
+                label="Country"
+                name="country"
+                placeholder="Country"
+                fullWidth
+                onChange={handleUserInput}
+                className="mb-4"
+              />
             )}
 
-            <Select label="Month" name="month" placeholder="Month" onChange={handleUserInput}>
+            <Select
+              label="Month"
+              name="month"
+              placeholder="Month"
+              fullWidth
+              onChange={handleUserInput}
+              className="mb-4"
+            >
               {months.map((month) => (
                 <SelectItem key={month.value} value={month.value}>
                   {month.label}
@@ -124,20 +162,26 @@ function PatentForm() {
               ))}
             </Select>
 
-            <Autocomplete label="Year" name="year" placeholder="Year" defaultItems={years} onSelect={handleUserInput}>
+            <Autocomplete
+              label="Year"
+              name="year"
+              placeholder="Year"
+              defaultItems={years}
+              fullWidth
+              onSelect={handleUserInput}
+              className="mb-4"
+            >
               {(item) => (
                 <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>
               )}
             </Autocomplete>
 
-            <div className="flex justify-start mt-4 w-full">
-              <Button className="w-1/4" color="primary" size="md" type="submit">Submit</Button>
-            </div>
-          </div>
-        </form>
+            
+          </form>
+        </div>
       </div>
     </>
   );
 }
 
-export default PatentForm;
+export default PatentForm

@@ -53,65 +53,110 @@ function JournalForm() {
 
   return (
     <>
-      <Nav />
-      <div className="flex justify-end items-center min-h-screen p-4">
-        <form onSubmit={handleFormSubmit} className="w-1/2">
-
-          <div className="flex flex-col gap-6 p-4">
-            <h1 className="font-sans font-semibold text-6xl">Journal Details</h1>
-
-            <Input label="Title" name="title" placeholder="Title" className="w-full" onChange={handleUserInput} />
-            <Input label="Journal Name" name="journalName" placeholder="Journal Name" className="w-full" onChange={handleUserInput} />
-
-            <Select label="Quartile" name="quartile" placeholder="Select Quartile" className="w-full" onChange={handleUserInput}>
-              {quartiles.map(option => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </Select>
-
-            <Select label="WOS" name="wos" laceholder="Yes / No" className="w-full" onChange={handleUserInput}>
-              {choice.map(option => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </Select>
-
-            <Select label="Authorship" name="authorship" placeholder="Author / Co-Author" className="w-full" onChange={handleUserInput}>
-              {author.map(option => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </Select>
-
-            <Select label="Month" name="month" placeholder="Month" className="w-full" onChange={handleUserInput}>
-              {months.map(month => (
-                <SelectItem key={month.value} value={month.value}>
-                  {month.label}
-                </SelectItem>
-              ))}
-            </Select>
-
-            <Autocomplete
-              name="year"
-              label="Year"
-              placeholder="Year"
-              defaultItems={years}
-              onSelect={handleUserInput}
-            >
-              {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-            </Autocomplete>
-
-            <div className="flex justify-start mt-4 w-full">
-              <Button className="w-1/4" color="primary" size="md" type="submit">Submit</Button>
-            </div>
+    <Nav />
+    <div className="flex flex-col items-center min-h-screen p-4 bg-gray-100">
+      <div className="w-full p-8">
+        <h1 className="font-sans font-semibold text-4xl">Journal Details</h1>
+        <form onSubmit={handleFormSubmit} className="space-y-6">
+        <div className="flex justify-end mt-4 w-full">
+            <Button className="w-1/6" color="primary" size="md" type="submit">Save</Button>
           </div>
+          <Input
+            label="Title"
+            name="title"
+            placeholder="Title"
+            fullWidth
+            onChange={handleUserInput}
+            className="mb-4"
+          />
+          <Input
+            label="Journal Name"
+            name="journalName"
+            placeholder="Journal Name"
+            fullWidth
+            onChange={handleUserInput}
+            className="mb-4"
+          />
+
+          <Select
+            label="Quartile"
+            name="quartile"
+            placeholder="Select Quartile"
+            fullWidth
+            onChange={handleUserInput}
+            className="mb-4"
+          >
+            {quartiles.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </Select>
+
+          <Select
+            label="WOS"
+            name="wos"
+            placeholder="Yes / No"
+            fullWidth
+            onChange={handleUserInput}
+            className="mb-4"
+          >
+            {choice.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </Select>
+
+          <Select
+            label="Authorship"
+            name="authorship"
+            placeholder="Author / Co-Author"
+            fullWidth
+            onChange={handleUserInput}
+            className="mb-4"
+          >
+            {author.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </Select>
+
+          <Select
+            label="Month"
+            name="month"
+            placeholder="Month"
+            fullWidth
+            onChange={handleUserInput}
+            className="mb-4"
+          >
+            {months.map((month) => (
+              <SelectItem key={month.value} value={month.value}>
+                {month.label}
+              </SelectItem>
+            ))}
+          </Select>
+
+          <Autocomplete
+            name="year"
+            label="Year"
+            placeholder="Year"
+            defaultItems={years}
+            fullWidth
+            onSelect={handleUserInput}
+            className="mb-4"
+          >
+            {(item) => (
+              <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>
+            )}
+          </Autocomplete>
+
+          
         </form>
       </div>
-    </>
+    </div>
+  </>
   );
 }
 
