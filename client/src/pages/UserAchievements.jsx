@@ -114,7 +114,7 @@ export default function UserAchievements() {
     <>
       <Nav />
       <Filters handleCategoryChange={handleCategoryChange} handleFilterInput={handleFilterInput} setFilter={setFilter} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
-      <AllAchievementsTable selectedCategory={selectedCategory} mainData={mainData} filter={filter} tableControls={true} />
+      <AllAchievementsTable selectedCategory={selectedCategory} mainData={mainData} filter={filter} />
     </>
   );
 }

@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button, Tooltip } from "@nextui-org/react";
 import { EditIcon } from "./assets/EditIcon";
 import { DeleteIcon } from "./assets/DeleteIcon";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DeleteRowModal from "./DeleteRowModal";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function AchievementsTable(props) {
+    const { authUser } = useContext(AuthContext);
+
     const selectedColor = "success";
     const [currentHead, setCurrentHead] = useState(["No Category Selected"]);
     const [filteredData, setFilteredData] = useState([]);
@@ -73,12 +76,12 @@ export default function AchievementsTable(props) {
         setFilteredData(filteredResults);
     }, [props.selectedCategory, props.mainData, props.filter]);
 
-    const navigate = useNavigate();
+    const Navigate = useNavigate();
 
     const handleRedirectToEdit = (row, selectedCategory) => {
         console.log("Edit Row", row, selectedCategory);
         selectedCategory = selectedCategory.toLowerCase();
-        navigate(`/user/form/${selectedCategory}`, { state: { data: row } });
+        Navigate(`/user/form/${selectedCategory}`, { state: { data: row } });
     };
 
     const handleDeleteRow = async (id) => {
@@ -87,7 +90,7 @@ export default function AchievementsTable(props) {
             console.log(response);
             console.log(filteredData)
             setFilteredData((filteredData) => filteredData.filter(i => i._id !== id));
-            
+
         } catch (error) {
             console.error("Error deleting row:", error);
         }
@@ -106,6 +109,7 @@ export default function AchievementsTable(props) {
                     {currentHead.map((head) => (
                         <TableColumn key={head}>{head}</TableColumn>
                     ))}
+                    {/* {(props.tableControls && authUser?.role === "ADMIN") ? <TableColumn key="actions">Actions</TableColumn> : null} */}
                     <TableColumn key="actions">Actions</TableColumn>
                 </TableHeader>
                 <TableBody>
@@ -115,8 +119,19 @@ export default function AchievementsTable(props) {
                                 <TableCell key={column}>{row[column] !== undefined ? row[column] : 'N/A'}</TableCell>
                             ))}
                             <TableCell className="flex gap-2 justify-center max-w-fit">
-                                {props.tableControls ? (
+                                {authUser?.role === "ADMIN" ? (
                                     <>
+                                        {/* <Tooltip content="Edit user">
+                                            <span className="text-lg p-2 border-2 text-default-400 cursor-pointer active:opacity-50">
+                                                <EditIcon onClick={() => handleRedirectToEdit(row, props.selectedCategory)} />
+                                            </span>
+                                        </Tooltip>
+                                        <Tooltip color="danger" content="Delete user">
+                                            <span className="text-lg p-2 border-2 text-danger cursor-pointer active:opacity-50">
+                                                <DeleteRowModal handleDeleteRow={handleDeleteRow} id={row._id} />
+                                            </span>
+                                        </Tooltip> */}
+
                                         <Tooltip color="warning" content="Edit Row" className="capitalize">
                                             <Button variant="flat" color="warning" className="capitalize" onClick={() => handleRedirectToEdit(row, props.selectedCategory)}>
                                                 <EditIcon />

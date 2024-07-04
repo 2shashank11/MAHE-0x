@@ -41,7 +41,9 @@ function Nav() {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-                    <p className="font-bold">MAHE0X</p>
+                    <p className="text-xl font-bold">MAHE0X</p>
+                    {authUser?.role === "ADMIN" ? <p className="text-base">&nbsp; ADMIN</p>
+                         : null}
                 </NavbarBrand>
             </NavbarContent>
 
@@ -54,11 +56,23 @@ function Nav() {
                         <NavbarItem>
                             <Link to="/user/dashboard">Dashboard</Link>
                         </NavbarItem>
-                        <NavbarItem>
+                        
+                        {authUser?.role !== "ADMIN" ? <NavbarItem>
                             <Link to="/user/achievements">
                                 My Achievements
                             </Link>
                         </NavbarItem>
+                         : null}
+                        
+
+                        {authUser?.role === "ADMIN"
+                            ?
+                            <NavbarItem>
+                                <Link to="/admin/all-users">
+                                    All Users
+                                </Link>
+                            </NavbarItem>
+                            : null}
                     </>
                     : null}
             </NavbarContent>
@@ -71,28 +85,44 @@ function Nav() {
                         </NavbarItem>
                         <NavbarItem className="lg:flex">
                             <Link to="/user/profile">
-                                <Avatar isFocusable src='/images/defaultProfileImage.png' isBordered color="success"/>
+                                <Avatar isFocusable src='/images/defaultProfileImage.png' isBordered color="success" />
                             </Link>
                         </NavbarItem>
                     </NavbarContent>
                 </>
                 : null}
-            <NavbarMenu>
-                {menuItems.map((item, index) => (
-                    <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link
-                            color={
-                                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-                            }
-                            className="w-full"
-                            href="#"
-                            size="lg"
-                        >
-                            {item}
-                        </Link>
-                    </NavbarMenuItem>
-                ))}
-            </NavbarMenu>
+            {isLoggedIn ?
+                <>
+                    <NavbarMenu>
+                        {authUser?.role === "ADMIN"
+                            ?
+                            <NavbarItem>
+                                <Link to="/admin/all-users">All Users </Link>
+                            </NavbarItem>
+                            : null}
+                        {menuItems.map((item, index) => (
+                            <NavbarMenuItem key={`${item}-${index}`}>
+                                <Link
+                                    color={
+                                        index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
+                                    }
+                                    className="w-full"
+                                    href="#"
+                                    size="lg"
+                                >
+                                    {item}
+                                </Link>
+                            </NavbarMenuItem>
+                        ))}
+                    </NavbarMenu>
+                </>
+                :
+                <>
+                    <NavbarMenu>
+                        <NavbarMenuItem><Link to="/">Home</Link></NavbarMenuItem>
+                    </NavbarMenu>
+                </>
+            }
         </Navbar>
     );
 }

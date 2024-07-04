@@ -20,7 +20,7 @@ async function getAllAchievements(req, res) {
 }
 
 async function getAllUsers(req,res){
-    const users = await User.find({})
+    const users = await User.find({}).select('_id name maheId department position email phone role profileImageURL')
     return res.json({users});
 }
 
