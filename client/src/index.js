@@ -24,6 +24,7 @@ import UserAchievements from './pages/UserAchievements';
 import AllAchievements from './pages/AllAchievements';
 import { AuthProvider } from './contexts/AuthContext';
 import ErrorPage from './pages/ErrorPage';
+import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter([
   {
@@ -47,12 +48,12 @@ const router = createBrowserRouter([
     </>
     ),
   },
- {
+  {
     path: "/forgot-password",
     element: (
       <ForgotPassword />
     ),
-    
+
   },
   // {
   //   path: "/forgotpass/checkmail",
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
   //     <CheckMail />
   //   </>
   //   ),
-    
+
   // },
   // {
   //   path: "//forgotpass/checkmail/newpass",
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
   //     <NewPass />
   //   </>
   //   ),
-    
+
   // },
   // {
   //   path: "/forgotpass/checkmai/newpass/reset",
@@ -76,7 +77,7 @@ const router = createBrowserRouter([
   //     <Passreset />
   //   </>
   //   ),
-    
+
   // },
 
   {
@@ -160,7 +161,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: (<><ErrorPage/></>),
+    element: (<><ErrorPage /></>),
   },
 ]);
 
@@ -169,6 +170,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <NextUIProvider>
     <AuthProvider>
+      <div><Toaster /></div>
       {/* <main className="dark text-foreground bg-background"> */}
       <RouterProvider router={router} />
       {/* </main> */}

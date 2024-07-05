@@ -4,6 +4,7 @@ import Nav from "../components/Nav";
 import AllAchievementsTable from "../components/AchievementsTable";
 import { Spinner } from "@nextui-org/react";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 
 export default function AllAchievements() {
@@ -84,7 +85,13 @@ export default function AllAchievements() {
   }, [selectedCategory])
 
   useEffect(() => {
-    getAllAchievements()
+    const getData = getAllAchievements()
+    toast.promise(getData, {
+      loading: 'Loading...',
+      success: 'Success',
+      error: 'Could not fetch data'
+    })
+
   }, [])
 
   const [filter, setFilter] = useState({
@@ -104,11 +111,11 @@ export default function AllAchievements() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if(achievements) {
+    if (achievements) {
       setLoading(false);
     }
   }, [achievements])
-  
+
   if (loading) {
     return <>
       <div className="flex justify-center items-center h-screen">
@@ -116,7 +123,7 @@ export default function AllAchievements() {
       </div>
     </>
   }
-  
+
 
   return (
     <>

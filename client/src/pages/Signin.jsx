@@ -4,6 +4,7 @@ import PasswordButtons from "../components/PasswordButtons";
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import toast from "react-hot-toast";
 
 
 export default function Signin() {
@@ -36,6 +37,16 @@ export default function Signin() {
       const response = await axios.post('/api/signin', { formData }, { withCredentials: true })
       console.log(response)
       localStorage.setItem("isLoggedIn", true)
+      toast.success('Loggedin successfully!',
+        {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+          duration: 2000,
+        }
+      );
       setIsLoggedIn(true)
       Navigate('/user/dashboard')
 
