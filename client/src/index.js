@@ -23,6 +23,7 @@ import Publication from './pages/forms/Publication';
 import UserAchievements from './pages/UserAchievements';
 import AllAchievements from './pages/AllAchievements';
 import { AuthProvider } from './contexts/AuthContext';
+import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
   {
@@ -156,6 +157,10 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <div>About</div>,
+  },
+  {
+    path: "*",
+    element: (<><ErrorPage/></>),
   },
 ]);
 
