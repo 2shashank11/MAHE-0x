@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Filters from "../components/Filters";
 import Nav from "../components/Nav";
 import AllAchievementsTable from "../components/AchievementsTable";
+import { Spinner } from "@nextui-org/react";
 import axios from "axios";
 
 
@@ -99,6 +100,23 @@ export default function AllAchievements() {
       [e.target.name]: e.target.value
     })
   }
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if(achievements) {
+      setLoading(false);
+    }
+  }, [achievements])
+  
+  if (loading) {
+    return <>
+      <div className="flex justify-center items-center h-screen">
+        <Spinner size="lg" />
+      </div>
+    </>
+  }
+  
 
   return (
     <>

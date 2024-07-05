@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Tooltip } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Tooltip, Spinner } from "@nextui-org/react";
 import EditUserModal from "../components/EditUserModal";
 import DeleteRowModal from "../components/DeleteRowModal";
 import Nav from "../components/Nav";
@@ -101,6 +101,22 @@ export default function AllUsers() {
                 return cellValue;
         }
     };
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (authUser) {
+            setLoading(false);
+        }
+    }, [authUser]);
+
+    if (loading) {
+        return <>
+            <div className="flex justify-center items-center h-screen">
+                <Spinner size="lg" />
+            </div>
+        </>
+    }
 
     return (
         <>
