@@ -20,7 +20,7 @@ function PersonalDetails({ authUser, formData, handleInputChange, handleSaveProf
             </label>
           </div>
 
-          <form className="grid gap-8" onSubmit={(e) => { e.preventDefault(); setEditable(false) ; handleSaveProfile(e)}}>
+          <form className="grid gap-8" onSubmit={(e) => { e.preventDefault(); setEditable(false); handleSaveProfile(e) }}>
             <div className="grid gap-8"> {/* Personal details form */}
 
               <div className="flex flex-col md:items-start">
@@ -47,7 +47,7 @@ function PersonalDetails({ authUser, formData, handleInputChange, handleSaveProf
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                 <div className="flex flex-col md:items-start">
                   <h2 className="text-xl font-bold mb-4">MAHE ID</h2>
-                  <Input isDisabled={editable}label="Enter MAHE ID" name="maheId" value={formData?.maheId} onChange={handleInputChange} />
+                  <Input isDisabled={editable} label="Enter MAHE ID" name="maheId" value={formData?.maheId} onChange={handleInputChange} />
                 </div>
                 <div className="flex flex-col md:items-start">
                   <h2 className="text-xl font-bold mb-4">Department</h2>
@@ -61,8 +61,11 @@ function PersonalDetails({ authUser, formData, handleInputChange, handleSaveProf
 
               <div className="flex flex-col md:flex-row gap-4 justify-between items-center mt-10">
                 <ProfileChangePasswordModal authUser={authUser} />
-                {editable ? <Button className="w-full md:w-auto md:ml-auto" color="warning" onPress={()=>setEditable(false)}>Edit</Button>
-                  : <Button className="w-full md:w-auto md:ml-auto" type="submit" color="primary" onPress={()=>setEditable(true)}>Save</Button>
+                {editable ? <Button className="w-full md:w-auto md:ml-auto" color="warning" onPress={() => setEditable(false)}>Edit</Button>
+                  : <>
+                    <Button className="w-full md:w-auto md:ml-auto" color="default" onPress={() => setEditable(true)}>Cancel</Button>
+                    <Button className="w-full md:w-auto md:ml-auto" type="submit" color="primary" onPress={() => setEditable(true)}>Save</Button>
+                  </>
                 }
 
               </div>
