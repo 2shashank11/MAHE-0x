@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, Button, Input } from "@nextui-org/react";
 import ProfileChangePasswordModal from "./ProfileChangePasswordModal";
 
-function PersonalDetails({ authUser, formData ,handleInputChange, handleSaveProfile }) {
+function PersonalDetails({ authUser, formData, handleInputChange, handleSaveProfile }) {
+  const [editable, setEditable] = useState(true);
   return (
     <div className="flex justify-center">
       <div className="m-3 items-center ml-6 mr-6">
@@ -19,15 +20,15 @@ function PersonalDetails({ authUser, formData ,handleInputChange, handleSaveProf
             </label>
           </div>
 
-          <form className="grid gap-8" onSubmit={handleSaveProfile}>
+          <form className="grid gap-8" onSubmit={(e) => { e.preventDefault(); setEditable(false) ; handleSaveProfile(e)}}>
             <div className="grid gap-8"> {/* Personal details form */}
 
               <div className="flex flex-col md:items-start">
                 <h2 className="text-xl font-bold mb-4">Name</h2>
                 <div className="flex flex-col gap-4 md:flex-row">
-                  <Input isDisabled name="firstName" label="First name" value={formData?.name.firstName} onChange={handleInputChange} />
-                  <Input isDisabled name="middleName" label="Middle name" value={formData?.name.middleName} onChange={handleInputChange} />
-                  <Input isDisabled name="lastName" label="Last name" value={formData?.name.lastName} onChange={handleInputChange} />
+                  <Input isDisabled={editable} name="firstName" label="First name" value={formData?.name.firstName} onChange={handleInputChange} />
+                  <Input isDisabled={editable} name="middleName" label="Middle name" value={formData?.name.middleName} onChange={handleInputChange} />
+                  <Input isDisabled={editable} name="lastName" label="Last name" value={formData?.name.lastName} onChange={handleInputChange} />
                 </div>
 
               </div>
@@ -35,32 +36,34 @@ function PersonalDetails({ authUser, formData ,handleInputChange, handleSaveProf
               <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 <div className="flex flex-col md:items-start">
                   <h2 className="text-xl font-bold mb-4">Email</h2>
-                  <Input type="email" name="email" label="Email" value={formData?.email} onChange={handleInputChange} />
+                  <Input isDisabled={editable} type="email" name="email" label="Email" value={formData?.email} onChange={handleInputChange} />
                 </div>
                 <div className="flex flex-col md:items-start">
                   <h2 className="text-xl font-bold mb-4">Phone number</h2>
-                  <Input label="Phone number" name="phone" value={formData?.phone} onChange={handleInputChange} />
+                  <Input isDisabled={editable} label="Phone number" name="phone" value={formData?.phone} onChange={handleInputChange} />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                 <div className="flex flex-col md:items-start">
                   <h2 className="text-xl font-bold mb-4">MAHE ID</h2>
-                  <Input label="Enter MAHE ID" name="maheId" value={formData?.maheId} onChange={handleInputChange} />
+                  <Input isDisabled={editable}label="Enter MAHE ID" name="maheId" value={formData?.maheId} onChange={handleInputChange} />
                 </div>
                 <div className="flex flex-col md:items-start">
                   <h2 className="text-xl font-bold mb-4">Department</h2>
-                  <Input label="Enter Department" name="department" value={formData?.department} onChange={handleInputChange} />
+                  <Input isDisabled={editable} label="Enter Department" name="department" value={formData?.department} onChange={handleInputChange} />
                 </div>
                 <div className="flex flex-col md:items-start">
                   <h2 className="text-xl font-bold mb-4">Position</h2>
-                  <Input label="Enter Position" name="position" value={formData?.position} onChange={handleInputChange} />
+                  <Input isDisabled={editable} label="Enter Position" name="position" value={formData?.position} onChange={handleInputChange} />
                 </div>
               </div>
 
               <div className="flex flex-col md:flex-row gap-4 justify-between items-center mt-10">
-                <ProfileChangePasswordModal authUser={authUser}/>
-                <Button className="w-full md:w-auto md:ml-auto" type="submit" color="primary">Save</Button>
+                <ProfileChangePasswordModal authUser={authUser} />
+                {editable ? <Button className="w-full md:w-auto md:ml-auto" color="warning" onPress={()=>setEditable(false)}>Edit</Button>
+                  : <Button className="w-full md:w-auto md:ml-auto" type="submit" color="primary" onPress={()=>setEditable(true)}>Save</Button>
+                }
 
               </div>
             </div>
