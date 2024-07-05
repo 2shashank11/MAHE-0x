@@ -15,7 +15,8 @@ export default function DeleteRowModal(props) {
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
-                placement="top-center"
+                placement="center"
+                backdrop="blur"
             >
                 <ModalContent>
                     {(onClose) => (

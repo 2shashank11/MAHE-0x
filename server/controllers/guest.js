@@ -28,11 +28,13 @@ async function handleUserSignup(req, res) {
 
         const userExists= await User.findOne({ email: req.body.formData.email })
         if(userExists){
-            console.log("User esists")
+            console.log("User exists")
             throw new Error('User already exists')
         }
 
         const user = req.body.formData
+        if(!user.middleName) user.middleName = ""
+        if(!user.lastName) user.lastName = ""
         user.name = { firstName: user.firstName, middleName: user.middleName, lastName: user.lastName }
         
         delete user.firstName

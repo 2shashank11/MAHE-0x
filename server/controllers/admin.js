@@ -24,7 +24,31 @@ async function getAllUsers(req,res){
     return res.json({users});
 }
 
+async function handleEditUser(req, res){
+    const userId = req.params.id;
+    if(!userId) return res.status(404).json({error: 'User not found'});
+
+    const userData = req.body.editedUserData
+    userData.name={firstName: userData.firstName, middleName: userData.middleName, lastName: userData.lastName}
+    delete userData.firstName;
+    delete userData.middleName;
+    delete userData.lastName;
+
+    const user = await User.findByIdAndUpdate(userId, userData, {new: true});
+    return res.json({user});
+}
+
+async function handleDeleteUser(req, res){
+    const userId = req.params.id;
+    console.log(userId)
+    if(!userId) return res.status(404).json({error: 'User not found'});
+    const response = await User.findByIdAndDelete(userId);
+    return res.json({message: 'User deleted successfully', user: response});
+}
+
 module.exports = {
     getAllAchievements,
     getAllUsers,
+    handleEditUser,
+    handleDeleteUser,   
 }
