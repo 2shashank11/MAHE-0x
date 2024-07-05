@@ -13,7 +13,7 @@ for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
 }
 
 function FellowshipForm() {
-
+  const Location = useLocation()
   const Navigate = useNavigate()
   useEffect(() => {
     if (!localStorage.getItem('isLoggedIn')) {
@@ -22,12 +22,6 @@ function FellowshipForm() {
   }, [])
 
   const [formData, setFormData] = useState({});
-
-  const location = useLocation()
-  useEffect(() => {
-    setFormData(location?.state?.data)
-    console.log(location?.state?.data)
-  }, [])
 
   const handleUserInput = (e) => {
     setFormData({
@@ -51,6 +45,12 @@ function FellowshipForm() {
       }
     }
   }
+  useEffect(() => {
+    if (Location.state?.data) {
+      setFormData(Location.state.data)
+      console.log(Location.state.data)
+    }
+  }, [])
 
   return (
     <>
@@ -69,6 +69,7 @@ function FellowshipForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.fellowshipName || ""}
           />
 
           <Select
@@ -78,6 +79,7 @@ function FellowshipForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.submitted || ""}
           >
             {choice.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -93,6 +95,7 @@ function FellowshipForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.granted || ""}
           >
             {choice.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -108,6 +111,7 @@ function FellowshipForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.month || ""}
           >
             {months.map((month) => (
               <SelectItem key={month.value} value={month.value}>

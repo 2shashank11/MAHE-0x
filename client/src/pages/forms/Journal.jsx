@@ -12,7 +12,7 @@ for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
 }
 
 function JournalForm() {
-
+  const Location = useLocation()
   const Navigate = useNavigate()
   useEffect(() => {
     if (!localStorage.getItem('isLoggedIn')) {
@@ -22,11 +22,6 @@ function JournalForm() {
 
   const [formData, setFormData] = useState({});
 
-  const location = useLocation()
-  useEffect(() => {
-    setFormData(location?.state?.data)
-    console.log(location?.state?.data)
-  }, [])
 
   const handleUserInput = (e) => {
     setFormData({
@@ -50,6 +45,12 @@ function JournalForm() {
       }
     }
   }
+  useEffect(() => {
+    if (Location.state?.data) {
+      setFormData(Location.state.data)
+      console.log(Location.state.data)
+    }
+  }, [])
 
   return (
     <>
@@ -68,6 +69,7 @@ function JournalForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.title || ""}
           />
           <Input
             label="Journal Name"
@@ -76,6 +78,7 @@ function JournalForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.journalName || ""}
           />
 
           <Select
@@ -85,6 +88,7 @@ function JournalForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.quartile|| ""}
           >
             {quartiles.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -100,6 +104,7 @@ function JournalForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.wos || ""}
           >
             {choice.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -115,6 +120,7 @@ function JournalForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.authorship || ""}
           >
             {author.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -130,6 +136,7 @@ function JournalForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.month || ""}
           >
             {months.map((month) => (
               <SelectItem key={month.value} value={month.value}>

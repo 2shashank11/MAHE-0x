@@ -12,8 +12,9 @@ for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
 }
 
 function GrantForm() {
-
+  const Location=useLocation()
   const Navigate = useNavigate()
+
   useEffect(() => {
     if (!localStorage.getItem('isLoggedIn')) {
       Navigate('/signin')
@@ -21,12 +22,6 @@ function GrantForm() {
   }, [])
 
   const [formData, setFormData] = useState({});
-
-  const location = useLocation()
-  useEffect(() => {
-    setFormData(location?.state?.data)
-    console.log(location?.state?.data)
-  }, [])
 
   const handleUserInput = (e) => {
     setFormData({
@@ -50,6 +45,12 @@ function GrantForm() {
       }
     }
   }
+  useEffect(() => {
+    if (Location.state?.data) {
+      setFormData(Location.state.data)
+      console.log(Location.state.data)
+    }
+  }, [])
 
   return (
     <>
@@ -69,6 +70,7 @@ function GrantForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.grantName || ""}
           />
 
           <Select
@@ -78,6 +80,7 @@ function GrantForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.submitted || ""}
           >
             {choice.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -93,6 +96,7 @@ function GrantForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.granted || ""}
           >
             {choice.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -108,6 +112,7 @@ function GrantForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.amount || ""}
           />
 
           <Select
@@ -117,6 +122,7 @@ function GrantForm() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.month || ""}
           >
             {months.map((month) => (
               <SelectItem key={month.value} value={month.value}>

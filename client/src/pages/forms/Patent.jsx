@@ -18,7 +18,7 @@ for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
 }
 
 function PatentForm() {
-
+  const Location=useLocation()
   const Navigate = useNavigate()
   useEffect(() => {
     if (!localStorage.getItem('isLoggedIn')) {
@@ -28,11 +28,6 @@ function PatentForm() {
 
   const [formData, setFormData] = useState({});
 
-  const location = useLocation()
-  useEffect(() => {
-    setFormData(location?.state?.data)
-    console.log(location?.state?.data)
-  }, [])
 
   const handleUserInput = (e) => {
     setFormData({
@@ -56,6 +51,12 @@ function PatentForm() {
       }
     }
   }
+  useEffect(() => {
+    if (Location.state?.data) {
+      setFormData(Location.state.data)
+      console.log(Location.state.data)
+    }
+  }, [])
 
   const [selectedRegion, setSelectedRegion] = useState("");
 
@@ -82,6 +83,7 @@ function PatentForm() {
               fullWidth
               onChange={handleUserInput}
               className="mb-4"
+              value={formData.filed || ""}
             >
               {choice.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
@@ -97,6 +99,7 @@ function PatentForm() {
               fullWidth
               onChange={handleUserInput}
               className="mb-4"
+              value={formData.published || ""}
             >
               {choice.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
@@ -112,6 +115,7 @@ function PatentForm() {
               fullWidth
               onChange={handleUserInput}
               className="mb-4"
+              value={formData.granted || ""}
             >
               {choice.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
@@ -127,6 +131,7 @@ function PatentForm() {
               fullWidth
               onChange={handleRegionChange}
               className="mb-4"
+              value={formData.region || ""}
             >
               <SelectItem key="Indian" value="Indian">
                 Indian
@@ -144,6 +149,7 @@ function PatentForm() {
                 fullWidth
                 onChange={handleUserInput}
                 className="mb-4"
+                value={formData.country || ""}
               />
             )}
 
@@ -154,6 +160,7 @@ function PatentForm() {
               fullWidth
               onChange={handleUserInput}
               className="mb-4"
+              value={formData.month || ""}
             >
               {months.map((month) => (
                 <SelectItem key={month.value} value={month.value}>

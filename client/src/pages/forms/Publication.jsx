@@ -12,7 +12,7 @@ for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
 }
 
 function Publication() {
-
+  const Location =useLocation()
   const Navigate = useNavigate()
   useEffect(() => {
     if (!localStorage.getItem('isLoggedIn')) {
@@ -22,11 +22,7 @@ function Publication() {
 
   const [formData, setFormData] = useState({});
 
-  const location = useLocation()
-  useEffect(() => {
-    setFormData(location?.state?.data)
-    console.log(location?.state?.data)
-  }, [])
+ 
 
   const handleUserInput = (e) => {
     setFormData({
@@ -50,6 +46,12 @@ function Publication() {
       }
     }
   }
+  useEffect(() => {
+    if (Location.state?.data) {
+      setFormData(Location.state.data)
+      console.log(Location.state.data)
+    }
+  }, [])
 
   return (
     <>
@@ -69,6 +71,7 @@ function Publication() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.bookName || ""}
           />
           <Input
             label="ISBN"
@@ -77,6 +80,7 @@ function Publication() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.isbn || ""}
           />
           <Select
             name="type"
@@ -85,6 +89,7 @@ function Publication() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.type || ""}
           >
             {bookTypes.map(type => (
               <SelectItem key={type.value} value={type.value}>
@@ -94,11 +99,12 @@ function Publication() {
           </Select>
           <Select
             label="Publication Year"
-            name="publication year"
+            name="publicationYear"
             placeholder="Select Year"
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.publicationYear || ""}
           >
             {years.map(year => (
               <SelectItem key={year.value} value={year.value}>
@@ -113,6 +119,7 @@ function Publication() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
+            value={formData.month || ""}
           >
             {months.map(month => (
               <SelectItem key={month.value} value={month.value}>
