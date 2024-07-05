@@ -26,7 +26,7 @@ export default function AllAchievements() {
   function filterData(data) {
     {
       data.forEach(i => {
-        i.name = i?.userId?.name?.firstName + " " + i.userId.name.lastName
+        i.name = i?.userId?.name?.firstName + " " + i.userId?.name.lastName
         i.maheId = i?.userId?.maheId
         i.month_year = i?.period.month + "-" + i?.period.year
       })
