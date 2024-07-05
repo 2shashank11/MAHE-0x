@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Tooltip } from "@nextui-org/react";
-import { EditIcon } from "../components/assets/EditIcon";
-import { DeleteIcon } from "../components/assets/DeleteIcon";
+import EditUserModal from "../components/EditUserModal";
+import DeleteRowModal from "../components/DeleteRowModal";
 import Nav from "../components/Nav";
 import axios from "axios";
+import { AuthContext } from "../contexts/AuthContext";
 
 const columns = [
     { name: "NAME", uid: "name" },
@@ -16,15 +17,52 @@ const columns = [
 ];
 
 export default function AllUsers() {
+    const { authUser } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
+    const editedUserDataRef = useRef({});
 
     useEffect(() => {
         const fetchUsers = async () => {
             const response = await axios.get('/api/admin/all-users');
-            setUsers(response.data.users);
+            const result = response.data.users
+            setUsers(result.filter(user => user._id !== authUser?._id));
+            console.log(response.data.users);
         };
         fetchUsers();
     }, []);
+
+    function handleChangeForEditing(e) {
+        console.log("name: ", e.target.name, "value: ", e.target.value);
+        editedUserDataRef.current = {
+            ...editedUserDataRef.current,
+            [e.target.name]: e.target.value
+        };
+    }
+
+    async function handleEditUser(id) {
+        const editedUserData = editedUserDataRef.current;
+        console.log(editedUserData);
+        if (!Object.keys(editedUserData).length) return;
+        try {
+            const response = await axios.patch(`/api/admin/edit-user/${id}`, { editedUserData });
+            console.log(response);
+            setUsers(users.map(user => user._id === id ? { ...user, ...response.data.user } : user));
+        } catch (error) {
+            console.log(error); // toast
+        }
+    }
+
+    const handleDeleteRow = async (id) => {
+        console.log(id)
+        console.log("deleting:", id);
+        try {
+            const response = await axios.delete(`/api/admin/delete-user/${id}`);
+            console.log(response);
+            setUsers(users.filter(user => user._id !== id));
+        } catch (error) {
+            console.log(error); // toast
+        }
+    }
 
     const renderCell = (user, columnKey) => {
         const cellValue = user[columnKey];
@@ -35,7 +73,7 @@ export default function AllUsers() {
                     <User
                         avatarProps={{ radius: "lg", src: user.profileImageURL }}
                         description={user.email}
-                        name={`${user.name.firstName} ${user.name.middleName} ${user.name.lastName}`}
+                        name={`${user.name.firstName} ${user.name.middleName || ''} ${user.name.lastName}`}
                     />
                 );
             case "email":
@@ -48,15 +86,14 @@ export default function AllUsers() {
             case "actions":
                 return (
                     <div className="flex items-center justify-center gap-2">
-                        <Tooltip content="Edit user">
-                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <EditIcon />
-                            </span>
-                        </Tooltip>
-                        <Tooltip color="danger" content="Delete user">
-                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                                <DeleteIcon />
-                            </span>
+                        <EditUserModal
+                            user={user}
+                            editedUserDataRef={editedUserDataRef}
+                            handleEditUser={handleEditUser}
+                            handleChangeForEditing={handleChangeForEditing}
+                        />
+                        <Tooltip color="danger" content="Delete Row" className="capitalize">
+                            <DeleteRowModal handleDeleteRow={handleDeleteRow} id={user._id} />
                         </Tooltip>
                     </div>
                 );

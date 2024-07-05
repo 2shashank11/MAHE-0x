@@ -69,7 +69,7 @@ function Conference() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
-            value={formData.conferenceName || ""}
+            value={formData?.conferenceName || ""}
           />
           <Input
             label="Paper Title"
@@ -78,7 +78,7 @@ function Conference() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
-            value={formData.paperTitle || ""}
+            value={formData?.paperTitle || ""}
           />
           <Select
             label="Region"
@@ -87,7 +87,7 @@ function Conference() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
-            value={formData.region || ""}
+            value={formData?.region || ""}
           >
             {regionOptions.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -102,7 +102,7 @@ function Conference() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
-            value={formData.indexed || ""}
+            value={formData?.indexed || ""}
           >
             {indexedOptions.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -117,7 +117,7 @@ function Conference() {
             fullWidth
             onChange={handleUserInput}
             className="mb-4"
-            value={formData.month || ""}
+            value={formData?.month || ""}
           >
             {months.map((month) => (
               <SelectItem key={month.value} value={month.value}>

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getAllAchievements, getAllUsers } = require('../controllers/admin');
+const { getAllAchievements, getAllUsers, handleEditUser, handleDeleteUser } = require('../controllers/admin');
 
 const router = express.Router()
 
@@ -19,5 +19,9 @@ const router = express.Router()
 router.get('/all-achievements', getAllAchievements);
 
 router.get('/all-users', getAllUsers);
+
+router.patch('/edit-user/:id', handleEditUser);
+
+router.delete('/delete-user/:id', handleDeleteUser)
 
 module.exports = router;
