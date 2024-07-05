@@ -7,6 +7,7 @@ const {
     handleUserJournalForm,
     handleUserPatentForm,
     handleUserPublicationForm,
+    handleEditUserForm,
     handleFormDataDelete,
     handleProfileUpdate,
     handlePasswordUpdate,
@@ -59,8 +60,8 @@ router.post('/form/publication', handleUserPublicationForm)
 
 router.delete('/form/:category/:id', handleFormDataDelete)
 
+router.patch('/form/:category/:id', handleEditUserForm)
 router.patch('/update-profile/:id', handleProfileUpdate)
-
 router.patch('/update-password/:id', handlePasswordUpdate)
 
 module.exports = router

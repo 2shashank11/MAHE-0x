@@ -122,11 +122,11 @@ export default function AchievementsTable(props) {
                                 {((authUser?.role==='ADMIN' && !props.controls) || props.controls) ? (
                                     <>
 
-                                        <Tooltip color="warning" content="Edit Row" className="capitalize">
+                                        {/* <Tooltip color="warning" content="Edit Row" className="capitalize">
                                             <Button variant="flat" color="warning" className="capitalize" onClick={() => handleRedirectToEdit(row, props.selectedCategory)}>
                                                 <EditIcon />
                                             </Button>
-                                        </Tooltip>
+                                        </Tooltip> */}
                                         <Tooltip color="danger" content="Delete Row" className="capitalize">
                                             <DeleteRowModal handleDeleteRow={handleDeleteRow} id={row._id} />
                                         </Tooltip>

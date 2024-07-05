@@ -5,6 +5,7 @@ import AllAchievementsTable from "../components/AchievementsTable";
 import { AuthContext } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import axios from "axios";
+import { Spinner } from "@nextui-org/react";
 
 
 export default function UserAchievements() {
@@ -88,13 +89,21 @@ export default function UserAchievements() {
   }
 
   useEffect(() => {
-    handleTableValues(selectedCategory)
-  }, [selectedCategory])
-
-
-  useEffect(() => {
     getAllAchievements()
   }, [])
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if(achievements) {
+      setLoading(false);
+    }
+  }, [achievements])
+
+  useEffect(() => {
+    handleTableValues(selectedCategory)
+  }, [selectedCategory])
+  
 
   const [filter, setFilter] = useState({
     fromMonth: "",
@@ -108,6 +117,14 @@ export default function UserAchievements() {
       ...filter,
       [e.target.name]: e.target.value
     })
+  }
+
+  if (loading) {
+    return( <>
+      <div className="flex justify-center items-center h-screen">
+        <Spinner size="lg" />
+      </div>
+    </>)
   }
 
   return (

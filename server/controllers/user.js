@@ -104,6 +104,10 @@ async function handleFormDataDelete(req, res){
     }
 }
 
+function handleEditUserForm(req, res){
+    console.log(req)
+}
+
 async function handleProfileUpdate(req, res){
     const userId = req.params.id
     const formData = req.body
@@ -145,6 +149,7 @@ module.exports = {
     handleUserPatentForm,
     handleUserPublicationForm,
     handleFormDataDelete,
+    handleEditUserForm,
     handleProfileUpdate,
     handlePasswordUpdate,
 }
