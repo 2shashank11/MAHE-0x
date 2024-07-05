@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Avatar, Button } from "@nextui-org/react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
+//import MITLogo from "../images/mit_logo.png"
 
 
 function Nav() {
@@ -42,7 +43,8 @@ function Nav() {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-                    <p className="text-xl font-bold">MAHE0X</p>
+                    {/* <img src={MITLogo} alt="mit logo" className="w-10 h-10 mr-1" /> */}
+                    <p className="text-xl font-bold mr-2">Research Spotlight</p>
                     {authUser?.role === "ADMIN" ? <p className="text-base">&nbsp; ADMIN</p>
                          : null}
                 </NavbarBrand>
