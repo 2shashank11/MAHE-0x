@@ -7,7 +7,7 @@ working on:
 
 <hr>
 
-### Ankit
+### Ankith
 working on : 
 <ul>
  <li> dashboard</li>
@@ -15,6 +15,8 @@ working on :
  <li> my profile </li>
  <li> All users for admin</li>
  <li> Home styling</li>
+ <li> User Modal for admin </li>
+ <li> Error Page 404 </li>
 </ul>
 <hr>
 

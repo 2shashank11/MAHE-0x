@@ -30,7 +30,6 @@ async function getUserAchievements(req, res) {
 }
 
 async function handleUserForm(req, res, Model){
-    
     const formData = req.body.formData
     const userId = req.user._id
     const period = { month: formData.month, year: formData.year }
@@ -105,6 +104,41 @@ async function handleFormDataDelete(req, res){
     }
 }
 
+function handleEditUserForm(req, res){
+    console.log(req)
+}
+
+async function handleProfileUpdate(req, res){
+    const userId = req.params.id
+    const formData = req.body
+    try {
+        const token = await User.updateProfile(userId, formData)
+        return res.status(200).cookie("token", token, { httpOnly: false, secure: false, sameSite: 'Strict', }).json({message: 'Profile Update Successful'});
+    
+    } catch (error) {
+        return res.json({message: "Something went wrong", error: error})
+    }
+}
+
+async function handlePasswordUpdate(req, res) {
+    const userId = req.params.id
+
+    const originalPassword = req.body.originalPassword
+    const newPassword = req.body.newPassword
+    const confirmPassword = req.body.confirmPassword
+
+    if(newPassword !== confirmPassword){
+        return res.status(404).json({ error: "Passwords do not match" })
+    }
+
+    try {
+        const result = await User.editPassword(userId, originalPassword, newPassword)
+        return res.status(200).json({ message: "Password updated successfully" })
+    } catch (error) {
+        return res.status(404).json({message: "Wrong Password", error: error})
+    }
+}
+
 
 module.exports = {
     getUserAchievements,
@@ -115,4 +149,7 @@ module.exports = {
     handleUserPatentForm,
     handleUserPublicationForm,
     handleFormDataDelete,
+    handleEditUserForm,
+    handleProfileUpdate,
+    handlePasswordUpdate,
 }

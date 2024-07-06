@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardBody,
@@ -8,11 +8,18 @@ import {
 } from "@nextui-org/react";
 import PasswordButtons from "../components/PasswordButtons";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Signup() {
 
   const Navigate = useNavigate()
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn')) {
+      Navigate('/user/dashboard')
+    }
+  }, [])
+
 
   const [formData, setFormData] = useState({});
   const [password, setPassword] = useState("");
@@ -53,12 +60,10 @@ export default function Signup() {
 
     } catch (error) {
       if (error.response) {
-        if (error.response.status === 404) {
-          console.log(error.response.data)
-        }
-        else {
-          console.log("Something went wrong")
-        }
+        console.log(error.response.data)
+      }
+      else {
+        console.log("Something went wrong")
       }
     }
     console.log(formData)
@@ -133,6 +138,7 @@ export default function Signup() {
               <Button variant="solid" color="success" type="submit">
                 Submit
               </Button>
+              <Link to="/login" className="text-blue-500">Already have an account? Sign In</Link>
             </div>
           </div>
         </form>

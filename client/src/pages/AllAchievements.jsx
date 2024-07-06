@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Filters from "../components/Filters";
 import Nav from "../components/Nav";
 import AllAchievementsTable from "../components/AchievementsTable";
+import { Spinner } from "@nextui-org/react";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 
 export default function AllAchievements() {
@@ -26,7 +28,7 @@ export default function AllAchievements() {
   function filterData(data) {
     {
       data.forEach(i => {
-        i.name = i?.userId?.name?.firstName + " " + i.userId.name.lastName
+        i.name = i?.userId?.name?.firstName + " " + i.userId?.name.lastName
         i.maheId = i?.userId?.maheId
         i.month_year = i?.period.month + "-" + i?.period.year
       })
@@ -83,7 +85,13 @@ export default function AllAchievements() {
   }, [selectedCategory])
 
   useEffect(() => {
-    getAllAchievements()
+    const getData = getAllAchievements()
+    toast.promise(getData, {
+      loading: 'Loading...',
+      success: 'Success',
+      error: 'Could not fetch data'
+    })
+
   }, [])
 
   const [filter, setFilter] = useState({
@@ -99,6 +107,23 @@ export default function AllAchievements() {
       [e.target.name]: e.target.value
     })
   }
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (achievements) {
+      setLoading(false);
+    }
+  }, [achievements])
+
+  if (loading) {
+    return <>
+      <div className="flex justify-center items-center h-screen">
+        <Spinner size="lg" />
+      </div>
+    </>
+  }
+
 
   return (
     <>

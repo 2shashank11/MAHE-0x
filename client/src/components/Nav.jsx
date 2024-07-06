@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Avatar, Button } from "@nextui-org/react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
+//import MITLogo from "../images/mit_logo.png"
 
 
 function Nav() {
@@ -30,6 +31,7 @@ function Nav() {
         <Link to="/user/dashboard">Dashboard</Link>,
         <Link to="/user/achievements">My Achievements</Link>,
         <Link to="/user/profile">Profile</Link>,
+        <Link to="/all-achievements">All Details</Link>,
         <Button color="danger" onClick={handleUserLogout}>Logout</Button>
     ];
 
@@ -41,7 +43,10 @@ function Nav() {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-                    <p className="font-bold">MAHE0X</p>
+                    {/* <img src={MITLogo} alt="mit logo" className="w-10 h-10 mr-1" /> */}
+                    <p className="text-xl font-bold mr-2">Research Spotlight</p>
+                    {authUser?.role === "ADMIN" ? <p className="text-base">&nbsp; ADMIN</p>
+                         : null}
                 </NavbarBrand>
             </NavbarContent>
 
@@ -54,11 +59,23 @@ function Nav() {
                         <NavbarItem>
                             <Link to="/user/dashboard">Dashboard</Link>
                         </NavbarItem>
-                        <NavbarItem>
+                        
+                        {authUser?.role !== "ADMIN" ? <NavbarItem>
                             <Link to="/user/achievements">
                                 My Achievements
                             </Link>
                         </NavbarItem>
+                         : null}
+                        
+
+                        {authUser?.role === "ADMIN"
+                            ?
+                            <NavbarItem>
+                                <Link to="/admin/all-users">
+                                    All Users
+                                </Link>
+                            </NavbarItem>
+                            : null}
                     </>
                     : null}
             </NavbarContent>
@@ -68,31 +85,48 @@ function Nav() {
                     <NavbarContent justify="end">
                         <NavbarItem>
                             <Button className="max-sm:hidden" color="danger" onClick={handleUserLogout}>Logout</Button>
+                            
                         </NavbarItem>
                         <NavbarItem className="lg:flex">
                             <Link to="/user/profile">
-                                <Avatar isFocusable /* src=" " */ />
+                                <Avatar isFocusable src={authUser?.profileImageURL} isBordered color="success" />
                             </Link>
                         </NavbarItem>
                     </NavbarContent>
                 </>
-                : null}
-            <NavbarMenu>
-                {menuItems.map((item, index) => (
-                    <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link
-                            color={
-                                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-                            }
-                            className="w-full"
-                            href="#"
-                            size="lg"
-                        >
-                            {item}
-                        </Link>
-                    </NavbarMenuItem>
-                ))}
-            </NavbarMenu>
+                : <Link className="md:hidden text-blue-600" color="primary" to="/signin">Sign In</Link>}
+            {isLoggedIn ?
+                <>
+                    <NavbarMenu>
+                        {authUser?.role === "ADMIN"
+                            ?
+                            <NavbarItem>
+                                <Link to="/admin/all-users">All Users </Link>
+                            </NavbarItem>
+                            : null}
+                        {menuItems.map((item, index) => (
+                            <NavbarMenuItem key={`${item}-${index}`}>
+                                <Link
+                                    color={
+                                        index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
+                                    }
+                                    className="w-full"
+                                    href="#"
+                                    size="lg"
+                                >
+                                    {item}
+                                </Link>
+                            </NavbarMenuItem>
+                        ))}
+                    </NavbarMenu>
+                </>
+                :
+                <>
+                    <NavbarMenu>
+                        <NavbarMenuItem><Link to="/">Home</Link></NavbarMenuItem>
+                    </NavbarMenu>
+                </>
+            }
         </Navbar>
     );
 }

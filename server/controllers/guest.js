@@ -28,10 +28,13 @@ async function handleUserSignup(req, res) {
 
         const userExists= await User.findOne({ email: req.body.formData.email })
         if(userExists){
+            console.log("User exists")
             throw new Error('User already exists')
         }
 
         const user = req.body.formData
+        if(!user.middleName) user.middleName = ""
+        if(!user.lastName) user.lastName = ""
         user.name = { firstName: user.firstName, middleName: user.middleName, lastName: user.lastName }
         
         delete user.firstName
@@ -43,24 +46,24 @@ async function handleUserSignup(req, res) {
         await User.create(user)
         res.status(201).json({ msg: 'User Created Successfully' })
     } catch (error) {
-        res.status(400).render('signup', { error })
+        res.status(400).json(error.message)
     }
 }
 
 async function handlePasswordReset(req, res) {
-    const email = req.cookies.email
-    const password = req.body.password
+    const email = req.body.email
+    const newPassword = req.body.newPassword
     const confirmPassword = req.body.confirmPassword
-    if(password !== confirmPassword){
-        return res.status(404).render('resetPassword', { error: "Passwords do not match" })
+    if(newPassword !== confirmPassword){
+        return res.status(404).json({ error: "Passwords do not match" })
     }
     try {
-        const msg = await User.updatePassword(email, password)
-        console.log(msg)
+        const msg = await User.updatePassword(email, newPassword)
+        console.log("password updated: ", msg)
     } catch (error) {
-        return res.status(404).render('resetPassword', { error: error })
+        return res.status(404).json({ error: error })
     }
-    return res.clearCookie('email').status(200).redirect('/')
+    return res.status(200).json({ message: "Password Reset Successful" })
 }
 
 async function getAllAchievements(req, res) {

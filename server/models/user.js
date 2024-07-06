@@ -12,7 +12,7 @@ const fullNameSchema = mongoose.Schema({
 const userSchema = mongoose.Schema({
     name: { type: fullNameSchema, required: true, },
     department: { type: String, },
-    position: { type: String, },
+    position: { type: String, }, //designation
     maheId: { type: String, },
     phone: { type: Number, },
 
@@ -53,15 +53,38 @@ userSchema.static('matchPasswordAndGenerateToken', async function (email, passwo
     return token;
 })
 
+userSchema.static('updateProfile', async function (userId, formData) {
+    const user = await this.findOneAndUpdate({ _id: userId }, formData, { new: true })
+    if (!user) throw new Error('User not found')
+    const token = createTokenForUser(user)
+    return token;
+})
+
 userSchema.static('updatePassword', async function (email, password) {
     const user = await this.findOne({ email })
-
     if (!user) throw new Error('User not found')
-
+        
     user.password = password
     await user.save()
+    return { msg: "Password updated successfully", user }
+})
+
+userSchema.static('editPassword', async function(userId, originalPassword, newPassword){
+    const user = await this.findOne({_id: userId})
+    if(!user) throw new Error('User not found')
     
-    return {msg: "Password updated successfully", user}
+    const salt = user.salt
+    const hashedPassword = user.password
+    const providedPassword = createHmac('sha256', salt).update(originalPassword).digest('hex')
+
+    if (providedPassword !== hashedPassword) throw new Error('Wrong Password!');
+
+    else{
+        user.password = newPassword
+        await user.save()
+        return { msg: "Password updated successfully", user }
+    }
+
 })
 
 const User = mongoose.model('user', userSchema)

@@ -10,9 +10,10 @@ import { NextUIProvider } from '@nextui-org/react';
 import Profile from './pages/Profile';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-import { Forgot, CheckMail, NewPass, Passreset } from './pages/ForgotPassword';
+import ForgotPassword from './pages/ForgotPassword';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+import AllUsers from './pages/AllUsers';
 import Conference from './pages/forms/Conference';
 import Fellowship from './pages/forms/Fellowship';
 import Grant from './pages/forms/Grant';
@@ -22,6 +23,8 @@ import Publication from './pages/forms/Publication';
 import UserAchievements from './pages/UserAchievements';
 import AllAchievements from './pages/AllAchievements';
 import { AuthProvider } from './contexts/AuthContext';
+import ErrorPage from './pages/ErrorPage';
+import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter([
   {
@@ -45,16 +48,12 @@ const router = createBrowserRouter([
     </>
     ),
   },
- {
+  {
     path: "/forgot-password",
-    element: (<>
-      <Forgot />
-      <CheckMail />
-      <NewPass />
-      <Passreset />
-    </>
+    element: (
+      <ForgotPassword />
     ),
-    
+
   },
   // {
   //   path: "/forgotpass/checkmail",
@@ -62,7 +61,7 @@ const router = createBrowserRouter([
   //     <CheckMail />
   //   </>
   //   ),
-    
+
   // },
   // {
   //   path: "//forgotpass/checkmail/newpass",
@@ -70,7 +69,7 @@ const router = createBrowserRouter([
   //     <NewPass />
   //   </>
   //   ),
-    
+
   // },
   // {
   //   path: "/forgotpass/checkmai/newpass/reset",
@@ -78,7 +77,7 @@ const router = createBrowserRouter([
   //     <Passreset />
   //   </>
   //   ),
-    
+
   // },
 
   {
@@ -145,6 +144,12 @@ const router = createBrowserRouter([
     </>),
   },
   {
+    path: "/admin/all-users",
+    element: (<>
+      <AllUsers />
+    </>),
+  },
+  {
     path: "/all-achievements",
     element: (<>
       <AllAchievements />
@@ -154,6 +159,10 @@ const router = createBrowserRouter([
     path: "/about",
     element: <div>About</div>,
   },
+  {
+    path: "*",
+    element: (<><ErrorPage /></>),
+  },
 ]);
 
 
@@ -161,6 +170,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <NextUIProvider>
     <AuthProvider>
+      <div><Toaster /></div>
       {/* <main className="dark text-foreground bg-background"> */}
       <RouterProvider router={router} />
       {/* </main> */}
