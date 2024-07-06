@@ -37,7 +37,7 @@ export default function Signin() {
       const response = await axios.post('/api/signin', { formData }, { withCredentials: true })
       console.log(response)
       localStorage.setItem("isLoggedIn", true)
-      toast.success('Loggedin successfully!',
+      toast.success('Logged in successfully!',
         {
           style: {
             borderRadius: '10px',
