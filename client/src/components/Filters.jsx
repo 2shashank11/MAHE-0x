@@ -22,8 +22,8 @@ export default function Filters({ handleCategoryChange, handleFilterInput, setFi
 
     return (
         <>
-            <div className="flex flex-col items-center p-5 w-full bg-gray-100">
-                <div className="bg-white p-2 rounded-lg shadow-lg w-full max-w-4xl">
+            <div className="flex flex-col items-center p-5 w-screen">
+                <div className="bg-gray-300/10 backdrop-blur-sm p-2 rounded-lg shadow-lg w-4/5 ">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                         <div className="flex flex-col">
                             <label className="mb-2 font-semibold">Category</label>
