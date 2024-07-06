@@ -71,7 +71,10 @@ function Profile() {
   return (
     <>
       <Nav />
+      <div className='h-screen'>
       <PersonalDetails authUser={authUser} setAuthUser={setAuthUser} formData={formData} handleInputChange={handleInputChange} handleSaveProfile={handleSaveProfile}/>
+
+      </div>
     </>
   )
 }

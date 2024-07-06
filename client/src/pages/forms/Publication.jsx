@@ -214,6 +214,7 @@ function Publication() {
   return (
     <>
       <Nav />
+      <div className="bg-white">
       <div>
         <h1 className="px-12 pt-10 text-6xl font-bold">Forms</h1>
       </div>
@@ -364,6 +365,9 @@ function Publication() {
           </form>
         </div>
       </div>
+
+      </div>
+      
     </>
   );
 }

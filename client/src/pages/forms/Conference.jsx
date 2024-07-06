@@ -140,7 +140,7 @@
 //               <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>
 //             )}
 //           </Autocomplete>
-          
+
 //         </form>
 //       </div>
 //     </div>
@@ -217,111 +217,113 @@ function Conference() {
   return (
     <>
       <Nav />
-      <div>
-        <h1 className="px-12 pt-10 text-6xl font-bold">Forms</h1>
-      </div>
-      <div className="flex flex-col items-center p-4">
-        <div className="w-full p-8">
-          <h1 className="pt-4 font-sans font-semibold text-3xl">
-            Conference Details
-          </h1>
+      <div className="bg-white">
+        <div>
+          <h1 className="px-12 pt-10 text-6xl font-bold">Forms</h1>
+        </div>
+        <div className="flex flex-col items-center p-4">
+          <div className="w-full p-8">
+            <h1 className="pt-4 font-sans font-semibold text-3xl">
+              Conference Details
+            </h1>
 
-          <form onSubmit={handleFormSubmit} className="space-y-8">
-            <div className="flex justify-between mt-4 w-full">
-              <p className="pt-2 text-lg md:text-xl text-blue-600 font-bold">
-                Update your conference details here
-              </p>
-              <Button
-                className="w-56 h-12"
-                color="primary"
-                radius="none"
-                size="lg"
-                type="submit"
-              >
-                Save
-              </Button>
-            </div>
-            <Divider />
-            <div className="flex">
-              <div className=" text-lg font-semibold pt-4">
-                <h1>Conference Name</h1>
-              </div>
-              <div className="flex-auto pl-80">
-                <Input
-                  label="Conference Name"
-                  variant="bordered"
-                  name="conferenceName"
-                  fullWidth
-                  onChange={handleUserInput}
-                  value={formData?.conferenceName || ""}
-                />
-              </div>
-            </div>
-
-            <Divider />
-            <div className="flex">
-              <div className=" text-lg font-semibold pt-4">
-                <h1>Paper Title</h1>
-              </div>
-              <div className="flex-auto pl-96">
-                <Input
-                  label="Title of Paper"
-                  variant="bordered"
-                  name="conferenceName"
-                  fullWidth
-                  onChange={handleUserInput}
-                  value={formData?.conferenceName || ""}
-                />
-              </div>
-            </div>
-            <Divider />
-            <div className="flex">
-              <div className="flex-1 text-lg font-semibold pt-4">
-                <h1>Region</h1>
-              </div>
-              <div className="flex-1">
-                <Select
-                  label="Region"
-                  variant="bordered"
-                  name="region"
-                  placeholder="National / International"
-                  fullWidth
-                  onChange={handleUserInput}
-                  value={formData?.region || ""}
+            <form onSubmit={handleFormSubmit} className="space-y-8">
+              <div className="flex justify-between mt-4 w-full">
+                <p className="pt-2 text-lg md:text-xl text-blue-600 font-bold">
+                  Update your conference details here
+                </p>
+                <Button
+                  className="w-56 h-12"
+                  color="primary"
+                  radius="none"
+                  size="lg"
+                  type="submit"
                 >
-                  {regionOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </Select>
+                  Save
+                </Button>
               </div>
-            </div>
-            <Divider />
-            <div className="flex">
-              <div className=" flex-1 text-lg font-semibold pt-4">
-                <h1>Select Country</h1>
+              <Divider />
+              
+              <div className="flex">
+                <div className=" text-lg font-semibold pt-4">
+                  <h1>Conference Name</h1>
+                </div>
+                <div className="flex-auto pl-80">
+                  <Input
+                    label="Conference Name"
+                    variant="bordered"
+                    name="conferenceName"
+                    fullWidth
+                    onChange={handleUserInput}
+                    value={formData?.conferenceName || ""}
+                  />
+                </div>
               </div>
-              <div className="flex-1">
-                <Select
-                  label="Country"
-                  variant="bordered"
-                  name="region"
-                  // placeholder="National / International"
-                  fullWidth
-                  onChange={handleUserInput}
-                  value={formData?.region || ""}
-                >
-                  {regionOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </div>
-            </div>
 
-            {/* <div className="flex">
+              <Divider />
+              <div className="flex">
+                <div className=" text-lg font-semibold pt-4">
+                  <h1>Paper Title</h1>
+                </div>
+                <div className="flex-auto pl-96">
+                  <Input
+                    label="Title of Paper"
+                    variant="bordered"
+                    name="conferenceName"
+                    fullWidth
+                    onChange={handleUserInput}
+                    value={formData?.conferenceName || ""}
+                  />
+                </div>
+              </div>
+              <Divider />
+              <div className="flex">
+                <div className="flex-1 text-lg font-semibold pt-4">
+                  <h1>Region</h1>
+                </div>
+                <div className="flex-1">
+                  <Select
+                    label="Region"
+                    variant="bordered"
+                    name="region"
+                    placeholder="National / International"
+                    fullWidth
+                    onChange={handleUserInput}
+                    value={formData?.region || ""}
+                  >
+                    {regionOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+              <Divider />
+              <div className="flex">
+                <div className=" flex-1 text-lg font-semibold pt-4">
+                  <h1>Select Country</h1>
+                </div>
+                <div className="flex-1">
+                  <Select
+                    label="Country"
+                    variant="bordered"
+                    name="region"
+                    // placeholder="National / International"
+                    fullWidth
+                    onChange={handleUserInput}
+                    value={formData?.region || ""}
+                  >
+                    {regionOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+
+              {/* <div className="flex">
               <div className="flex-1 text-lg font-semibold pt-4">
                 <h1>Region</h1>
               </div>
@@ -344,52 +346,57 @@ function Conference() {
               </div>
             </div> */}
 
-            <Divider />
-            <div className="flex">
-              <div className="flex-none text-lg font-semibold pt-4">
-                <h1>Month</h1>
+              <Divider />
+              <div className="flex">
+                <div className="flex-none text-lg font-semibold pt-4">
+                  <h1>Month</h1>
+                </div>
+                <div className="flex-auto pl-80">
+                  <Select
+                    label="Month"
+                    name="month"
+                    variant="bordered"
+                    // placeholder="Month"
+                    fullWidth
+                    onChange={handleUserInput}
+                    value={formData?.month || ""}
+                  >
+                    {months.map((month) => (
+                      <SelectItem key={month.value} value={month.value}>
+                        {month.label}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </div>
+                <div className="px-12 flex-1 text-lg font-semibold pt-4">
+                  <h1>Year</h1>
+                </div>
+                <div className="flex-1">
+                  <Autocomplete
+                    name="year"
+                    label="Year"
+                    variant="bordered"
+                    // placeholder="Year"
+                    defaultItems={years}
+                    fullWidth
+                    onSelect={handleUserInput}
+                  >
+                    {(item) => (
+                      <AutocompleteItem key={item.value}>
+                        {item.label}
+                      </AutocompleteItem>
+                    )}
+                  </Autocomplete>
+                </div>
               </div>
-              <div className="flex-auto pl-80">
-                <Select
-                  label="Month"
-                  name="month"
-                  variant="bordered"
-                  // placeholder="Month"
-                  fullWidth
-                  onChange={handleUserInput}
-                  value={formData?.month || ""}
-                >
-                  {months.map((month) => (
-                    <SelectItem key={month.value} value={month.value}>
-                      {month.label}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </div>
-              <div className="px-12 flex-1 text-lg font-semibold pt-4">
-                <h1>Year</h1>
-              </div>
-              <div className="flex-1">
-                <Autocomplete
-                  name="year"
-                  label="Year"
-                  variant="bordered"
-                  // placeholder="Year"
-                  defaultItems={years}
-                  fullWidth
-                  onSelect={handleUserInput}
-                >
-                  {(item) => (
-                    <AutocompleteItem key={item.value}>
-                      {item.label}
-                    </AutocompleteItem>
-                  )}
-                </Autocomplete>
-              </div>
-            </div>
-          </form>
+
+             
+            </form>
+          </div>
         </div>
+
       </div>
+
     </>
   );
 }

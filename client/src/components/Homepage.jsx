@@ -234,7 +234,7 @@ import { Divider } from "@nextui-org/react";
 export function HomeDescription() {
   return (
     <div className="text-center py-10 px-4 md:px-8 lg:px-24">
-      <h1 className="pt-20 text-3xl sm:text-4xl md:text-6xl font-bold">
+      <h1 className="pt-12 text-3xl sm:text-4xl md:text-6xl font-bold">
         Welcome to
       </h1>
       <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mt-2 flex justify-center items-center">

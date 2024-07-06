@@ -128,8 +128,11 @@ export default function AllAchievements() {
   return (
     <>
       <Nav />
-      <Filters handleCategoryChange={handleCategoryChange} handleFilterInput={handleFilterInput} setFilter={setFilter} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
-      <AllAchievementsTable selectedCategory={selectedCategory} mainData={mainData} filter={filter} tableControls={false} />
+      <div className="h-screen">
+        <Filters handleCategoryChange={handleCategoryChange} handleFilterInput={handleFilterInput} setFilter={setFilter} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
+        <AllAchievementsTable selectedCategory={selectedCategory} mainData={mainData} filter={filter} tableControls={false} />
+      </div>
+
     </>
   );
 }

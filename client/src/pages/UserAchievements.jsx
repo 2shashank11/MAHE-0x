@@ -18,7 +18,7 @@ export default function UserAchievements() {
   }, [])
 
 
-    const [selectedCategory, setSelectedCategory] = useState("None");
+  const [selectedCategory, setSelectedCategory] = useState("None");
 
   function handleCategoryChange(e) {
     setSelectedCategory(e.target.value);
@@ -81,7 +81,7 @@ export default function UserAchievements() {
       case "Publication":
         setMainData(publications)
         break;
-        case "None":
+      case "None":
         setMainData([])
       default:
         break;
@@ -95,7 +95,7 @@ export default function UserAchievements() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if(achievements) {
+    if (achievements) {
       setLoading(false);
     }
   }, [achievements])
@@ -103,7 +103,7 @@ export default function UserAchievements() {
   useEffect(() => {
     handleTableValues(selectedCategory)
   }, [selectedCategory])
-  
+
 
   const [filter, setFilter] = useState({
     fromMonth: "",
@@ -120,7 +120,7 @@ export default function UserAchievements() {
   }
 
   if (loading) {
-    return( <>
+    return (<>
       <div className="flex justify-center items-center h-screen">
         <Spinner size="lg" />
       </div>
@@ -128,10 +128,15 @@ export default function UserAchievements() {
   }
 
   return (
+
     <>
       <Nav />
-      <Filters handleCategoryChange={handleCategoryChange} handleFilterInput={handleFilterInput} setFilter={setFilter} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
-      <AllAchievementsTable selectedCategory={selectedCategory} mainData={mainData} filter={filter} controls={true} />
+      <div className="h-screen">
+
+        <Filters handleCategoryChange={handleCategoryChange} handleFilterInput={handleFilterInput} setFilter={setFilter} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
+        <AllAchievementsTable selectedCategory={selectedCategory} mainData={mainData} filter={filter} controls={true} />
+      </div>
     </>
+
   );
 }
