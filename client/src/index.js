@@ -25,6 +25,8 @@ import AllAchievements from './pages/AllAchievements';
 import { AuthProvider } from './contexts/AuthContext';
 import ErrorPage from './pages/ErrorPage';
 import { Toaster } from 'react-hot-toast';
+import About from './pages/About';
+import Aboutfooter from './pages/About';
 
 const router = createBrowserRouter([
   {
@@ -157,7 +159,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/about",
-    element: <div>About</div>,
+    element: <div><About /></div>,
+  },
+ {
+    path:"/",
+    element:(<><Aboutfooter /></>)
   },
   {
     path: "*",
