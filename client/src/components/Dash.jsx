@@ -101,7 +101,7 @@ function Dash() {
         </Card>
         <Card isHoverable isPressable onPress={handlePublication} className="py-4 h-4/2">
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-            <h4 className="font-bold text-2xl">Publications</h4>
+            <h4 className="font-bold text-2xl">Book / Book Chapter</h4>
           </CardHeader>
           <CardBody className="overflow-visible py-2">
             <Image

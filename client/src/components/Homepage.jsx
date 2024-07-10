@@ -465,24 +465,28 @@ export function HomeButtons() {
       {!isLoggedIn ? (
         <>
           <div className="flex justify-around mt-8">
-            <Button
-              className="text-xl font-bold"
-              name="loginButton"
-              color="primary"
-              variant="flat"
-              size="lg"
-            >
-              <Link to="/signin">Sign in</Link>
-            </Button>
-            <Button
-              className="text-xl font-bold"
-              name="signupButton"
-              color="primary"
-              variant="solid"
-              size="lg"
-            >
-              <Link to="/signup">Sign up</Link>
-            </Button>
+            <Link to="/signin">
+              <Button
+                className="text-xl font-bold"
+                name="loginButton"
+                color="primary"
+                variant="flat"
+                size="lg"
+              >
+                Sign in
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button
+                className="text-xl font-bold"
+                name="signupButton"
+                color="primary"
+                variant="solid"
+                size="lg"
+              >
+                Sign up
+              </Button>
+            </Link>
           </div>
         </>
       ) : null}
