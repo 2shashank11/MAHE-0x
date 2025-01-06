@@ -28,74 +28,74 @@ import { Toaster } from 'react-hot-toast';
 import About from './pages/About';
 import Aboutfooter from './pages/About';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (<>
-      <Home />
-    </>
-    ),
-  },
-  {
-    path: "/signin",
-    element: (<>
-      <Signin />
-    </>
-    ),
-  },
-  {
-    path: "/signup",
-    element: (<>
-      <Signup />
-    </>
-    ),
-  },
-  {
-    path: "/forgot-password",
-    element: (
-      <ForgotPassword />
-    ),
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: (<>
+//       <Home />
+//     </>
+//     ),
+//   },
+//   {
+//     path: "/signin",
+//     element: (<>
+//       <Signin />
+//     </>
+//     ),
+//   },
+//   {
+//     path: "/signup",
+//     element: (<>
+//       <Signup />
+//     </>
+//     ),
+//   },
+//   {
+//     path: "/forgot-password",
+//     element: (
+//       <ForgotPassword />
+//     ),
 
-  },
-  // {
-  //   path: "/forgotpass/checkmail",
-  //   element: (<>
-  //     <CheckMail />
-  //   </>
-  //   ),
+//   },
+//   // {
+//   //   path: "/forgotpass/checkmail",
+//   //   element: (<>
+//   //     <CheckMail />
+//   //   </>
+//   //   ),
 
-  // },
-  // {
-  //   path: "//forgotpass/checkmail/newpass",
-  //   element: (<>
-  //     <NewPass />
-  //   </>
-  //   ),
+//   // },
+//   // {
+//   //   path: "//forgotpass/checkmail/newpass",
+//   //   element: (<>
+//   //     <NewPass />
+//   //   </>
+//   //   ),
 
-  // },
-  // {
-  //   path: "/forgotpass/checkmai/newpass/reset",
-  //   element: (<>
-  //     <Passreset />
-  //   </>
-  //   ),
+//   // },
+//   // {
+//   //   path: "/forgotpass/checkmai/newpass/reset",
+//   //   element: (<>
+//   //     <Passreset />
+//   //   </>
+//   //   ),
 
-  // },
+//   // },
 
-  {
-    path: "/user/profile",
-    element: (<>
-      <Profile />
-    </>
-    ),
-  },
-  {
-    path: "/user/dashboard",
-    element: (<>
-      <Dashboard />
-    </>
-    ),
-  },
+//   {
+//     path: "/user/profile",
+//     element: (<>
+//       <Profile />
+//     </>
+//     ),
+//   },
+//   {
+//     path: "/user/dashboard",
+//     element: (<>
+//       <Dashboard />
+//     </>
+//     ),
+//   },
 
   {
     path: "/user/form/conference",
@@ -172,16 +172,31 @@ const router = createBrowserRouter([
 ]);
 
 
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <NextUIProvider>
+//     <AuthProvider>
+//       <div><Toaster /></div>
+//       {/* <main className="dark text-foreground bg-background"> */}
+//       <RouterProvider router={router} />
+//       {/* </main> */}
+//     </AuthProvider>
+//   </NextUIProvider>
+
+// );
+// reportWebVitals();
+
+import React from "react";
+import App from "./App.jsx";
+import ReactDOM from "react-dom";
+import reportWebVitals from "./reportWebVitals";
+import "./index.css";
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <NextUIProvider>
-    <AuthProvider>
-      <div><Toaster /></div>
-      {/* <main className="dark text-foreground bg-background"> */}
-      <RouterProvider router={router} />
-      {/* </main> */}
-    </AuthProvider>
-  </NextUIProvider>
-
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
 );
+
 reportWebVitals();
