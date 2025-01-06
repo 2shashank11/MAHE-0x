@@ -1,7 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import App from "./App.jsx";
+import ReactDOM from "react-dom";
+import reportWebVitals from "./reportWebVitals";
+import "./index.css";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -28,74 +30,74 @@ import { Toaster } from 'react-hot-toast';
 import About from './pages/About';
 import Aboutfooter from './pages/About';
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: (<>
-//       <Home />
-//     </>
-//     ),
-//   },
-//   {
-//     path: "/signin",
-//     element: (<>
-//       <Signin />
-//     </>
-//     ),
-//   },
-//   {
-//     path: "/signup",
-//     element: (<>
-//       <Signup />
-//     </>
-//     ),
-//   },
-//   {
-//     path: "/forgot-password",
-//     element: (
-//       <ForgotPassword />
-//     ),
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (<>
+      <Home />
+    </>
+    ),
+  },
+  {
+    path: "/signin",
+    element: (<>
+      <Signin />
+    </>
+    ),
+  },
+  {
+    path: "/signup",
+    element: (<>
+      <Signup />
+    </>
+    ),
+  },
+  {
+    path: "/forgot-password",
+    element: (
+      <ForgotPassword />
+    ),
 
-//   },
-//   // {
-//   //   path: "/forgotpass/checkmail",
-//   //   element: (<>
-//   //     <CheckMail />
-//   //   </>
-//   //   ),
+  },
+  // {
+  //   path: "/forgotpass/checkmail",
+  //   element: (<>
+  //     <CheckMail />
+  //   </>
+  //   ),
 
-//   // },
-//   // {
-//   //   path: "//forgotpass/checkmail/newpass",
-//   //   element: (<>
-//   //     <NewPass />
-//   //   </>
-//   //   ),
+  // },
+  // {
+  //   path: "//forgotpass/checkmail/newpass",
+  //   element: (<>
+  //     <NewPass />
+  //   </>
+  //   ),
 
-//   // },
-//   // {
-//   //   path: "/forgotpass/checkmai/newpass/reset",
-//   //   element: (<>
-//   //     <Passreset />
-//   //   </>
-//   //   ),
+  // },
+  // {
+  //   path: "/forgotpass/checkmai/newpass/reset",
+  //   element: (<>
+  //     <Passreset />
+  //   </>
+  //   ),
 
-//   // },
+  // },
 
-//   {
-//     path: "/user/profile",
-//     element: (<>
-//       <Profile />
-//     </>
-//     ),
-//   },
-//   {
-//     path: "/user/dashboard",
-//     element: (<>
-//       <Dashboard />
-//     </>
-//     ),
-//   },
+  {
+    path: "/user/profile",
+    element: (<>
+      <Profile />
+    </>
+    ),
+  },
+  {
+    path: "/user/dashboard",
+    element: (<>
+      <Dashboard />
+    </>
+    ),
+  },
 
   {
     path: "/user/form/conference",
@@ -185,12 +187,6 @@ import Aboutfooter from './pages/About';
 
 // );
 // reportWebVitals();
-
-import React from "react";
-import App from "./App.jsx";
-import ReactDOM from "react-dom";
-import reportWebVitals from "./reportWebVitals";
-import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
