@@ -8,8 +8,8 @@ export default function DeleteRowModal(props) {
     return (
         <>
             <Tooltip color="danger" content="Delete Row" className="capitalize">
-                <Button onPress={onOpen} variant="flat" color="danger" className="capitalize">
-                    <DeleteIcon />
+                <Button onPress={onOpen} variant="flat" color="white" className="capitalize">
+                    Delete
                 </Button>
             </Tooltip>
             <Modal
@@ -35,7 +35,7 @@ export default function DeleteRowModal(props) {
                                 <Button
                                     color="danger"
                                     onClick={() => {
-                                        props.handleDeleteRow(props.id);
+                                        props.handleDeleteRow(props.index);
                                         onClose();
                                     }}
                                 >

@@ -82,11 +82,11 @@ export default function EditUserModal({ user, editedUserDataRef, handleEditUser,
                     type="text"
                   />
                   <Input
-                    defaultValue={user.position}
+                    defaultValue={user.designation}
                     onChange={handleChangeForEditing}
                     label="Position"
                     variant="bordered"
-                    name="position"
+                    name="designation"
                     type="text"
                   />
                   <Input

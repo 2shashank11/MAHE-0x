@@ -3,24 +3,28 @@ import {
   Input,
   Select,
   SelectItem,
-  Divider,
   DatePicker,
+  Divider,
 } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
+import { months, bookTypes } from "./data"; // Import bookTypes
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Nav from "../../components/Nav";
-import { choice } from "./data";
 import { parseDate } from "@internationalized/date";
 
+const years = [];
+for (let year = new Date().getFullYear() - 30; year <= new Date().getFullYear() + 1; year++) {
+  years.push({ value: year.toString(), label: year.toString() });
+}
 
-function FellowshipForm() {
+function Book_BookChapter() {
   const Location = useLocation();
-  const navigate = useNavigate();
-  
+  const Navigate = useNavigate();
+
   useEffect(() => {
     if (!localStorage.getItem("isLoggedIn")) {
-      navigate("/signin");
+      Navigate("/signin");
     }
   }, []);
 
@@ -35,55 +39,37 @@ function FellowshipForm() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (formData.region === "Indian") formData.country = "India";
     console.log(formData);
-    // toast
     try {
       if (Location.state?.data) {
-        const response = await axios.patch(`/api/user/form/fellowship/${Location.state.data._id}`, { formData }, { withCredentials: true });
+        const response = await axios.patch(`/api/user/form/book_bookChapter/${Location.state.data._id}`, { formData }, { withCredentials: true });
         console.log(response);
       }
-      else{
-        const response = await axios.post("/api/user/form/fellowship", { formData }, { withCredentials: true });
+      else {
+        const response = await axios.post("/api/user/form/book_bookChapter", { formData }, { withCredentials: true });
         console.log(response);
       }
-      
     } catch (error) {
-      if (error.response) {
-        console.log("something went wrong");
-        // toast
-      }
+      console.log("Something went wrong");
     }
   };
-
-  function formatDate(period){
-    if (period) {
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      const periodDate = new Date(period);
-
-      if (!isNaN(periodDate.getTime())) {
-        const formattedPeriod = periodDate.toLocaleString('en-US', options);
-        const isoPeriod = periodDate.toISOString().split('T')[0];
-        return isoPeriod
-      }
-    }
-  }
 
   useEffect(() => {
     if (Location.state?.data) {
       setFormData(Location.state?.data);
+
+      console.log(Location.state.data.period)
       setFormData((prev) => ({
         ...prev,
-        periodFrom : parseDate(formatDate(Location.state?.data?.periodFrom)),
-        periodTo : parseDate(formatDate(Location.state?.data?.periodTo))
+        period: parseDate(new Date(Location.state.data?.period).toISOString().split('T')[0]),
       }))
-      
+
     }
   }, []);
 
   useEffect(() => {
-      console.log("formData", formData)
-    }, [formData]);
+    console.log("formData", formData)
+  }, [formData]);
 
   return (
     <>
@@ -95,18 +81,19 @@ function FellowshipForm() {
         <div className="flex flex-col items-center p-4">
           <div className="w-full p-8">
             <h1 className="pt-4 font-sans font-semibold text-3xl">
-              Fellowship Details
+              Book & Book-Chapter Details
             </h1>
+
             <form onSubmit={handleFormSubmit} className="space-y-8">
               <div className="flex justify-between mt-4 w-full">
                 <p className="pt-2 text-lg md:text-xl text-blue-600 font-bold">
-                  Update your fellowship details here
+                  Update your Book & Book-Chapter details here
                 </p>
                 <Button
                   className="w-56 h-12"
                   color="primary"
-                  radius="none"
                   size="lg"
+                  radius="none"
                   type="submit"
                 >
                   Save
@@ -116,53 +103,52 @@ function FellowshipForm() {
               <div className="space-y-4">
                 <div className="flex items-center gap-6">
                   <div className="w-1/3 text-lg font-semibold">
-                    <h1>Fellowship Name</h1>
+                    <h1>Book Title</h1>
                   </div>
                   <div className="flex-auto">
                     <Input
-                      label="Fellowship Name"
-                      name="fellowshipName"
+                      label="Book Name"
+                      name="bookName"
                       variant="bordered"
                       fullWidth
                       onChange={handleUserInput}
-                      value={formData.fellowshipName || ""}
+                      value={formData.bookName || ""}
                     />
                   </div>
                 </div>
                 <Divider />
                 <div className="flex items-center gap-6">
                   <div className="w-1/3 text-lg font-semibold">
-                    <h1>Amount</h1>
+                    <h1>ISBN</h1>
                   </div>
                   <div className="flex-auto">
-                  <Input
-                      label="Fellowship Amount"
-                      name="fellowshipAmount"
+                    <Input
+                      label="Enter ISBN"
+                      name="isbn"
                       variant="bordered"
-                      type="number"
                       fullWidth
                       onChange={handleUserInput}
-                      value={formData.fellowshipAmount || ""}
+                      value={formData.isbn || ""}
                     />
                   </div>
                 </div>
                 <Divider />
                 <div className="flex items-center gap-6">
                   <div className="w-1/3 text-lg font-semibold">
-                    <h1>Submitted</h1>
+                    <h1>Book Type</h1>
                   </div>
                   <div className="flex-auto">
                     <Select
-                      label="Yes / No"
-                      name="submitted"
+                      name="type"
+                      label="Type"
                       variant="bordered"
                       fullWidth
                       onChange={handleUserInput}
-                      selectedKeys={new Set([formData?.submitted]) || ""}
+                      selectedKeys={new Set([formData?.type]) || ""}
                     >
-                      {choice.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
+                      {bookTypes.map((type) => (
+                        <SelectItem key={type.value} value={type.value}>
+                          {type.label}
                         </SelectItem>
                       ))}
                     </Select>
@@ -171,47 +157,39 @@ function FellowshipForm() {
                 <Divider />
                 <div className="flex items-center gap-6">
                   <div className="w-1/3 text-lg font-semibold">
-                    <h1>Granted</h1>
+                    <h1>Publication Year</h1>
                   </div>
                   <div className="flex-auto">
                     <Select
-                      label="Yes / No"
-                      name="granted"
+                      label="Publication Year"
+                      name="publicationYear"
                       variant="bordered"
                       fullWidth
                       onChange={handleUserInput}
-                      selectedKeys={new Set([formData?.granted]) || ""}
+                      className="mb-4"
+                      selectedKeys={new Set([formData?.publicationYear]) || ""}
                     >
-                      {choice.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
+                      {years.map((year) => (
+                        <SelectItem key={year.value} value={year.value}>
+                          {year.label}
                         </SelectItem>
                       ))}
                     </Select>
                   </div>
                 </div>
                 <Divider />
-                <div className="flex flex-wrap gap-6 items-center">
+                <div className="flex items-center gap-6">
                   <div className="w-1/3 text-lg font-semibold">
                     <h1>Period</h1>
                   </div>
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                  <div className="flex-auto">
                     <DatePicker
                       className="max-w-[284px]"
-                      label="From"
-                      defaultValue={formData.periodFrom}
-                      value={formData.periodFrom}
+                      label="Date"
+                      defaultValue={formData.period}
+                      value={formData.period}
                       onChange={(e) =>
-                        setFormData({ ...formData, periodFrom: e })
-                      }
-                    />
-                    <DatePicker
-                      className="max-w-[284px]"
-                      label="To"
-                      defaultValue={formData.periodTo}
-                      value={formData.periodTo}
-                      onChange={(e) =>
-                        setFormData({ ...formData, periodTo: e })
+                        setFormData({ ...formData, period: e })
                       }
                     />
                   </div>
@@ -225,4 +203,4 @@ function FellowshipForm() {
   );
 }
 
-export default FellowshipForm;
+export default Book_BookChapter;

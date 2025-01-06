@@ -88,8 +88,8 @@ function PersonalDetails({ authUser, setAuthUser, formData, handleInputChange, h
                   <Input isDisabled={editDisabled} label="Enter Department" name="department" defaultValue={authUser?.department} onChange={handleInputChange} />
                 </div>
                 <div className="flex flex-col md:items-start">
-                  <h2 className="text-xl font-bold mb-4">Position</h2>
-                  <Input isDisabled={editDisabled} label="Enter Position" name="position" defaultValue={authUser?.position} onChange={handleInputChange} />
+                  <h2 className="text-xl font-bold mb-4">Designation</h2>
+                  <Input isDisabled={editDisabled} label="Enter Position" name="designation" defaultValue={authUser?.designation} onChange={handleInputChange} />
                 </div>
               </div>
 

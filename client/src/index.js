@@ -19,7 +19,7 @@ import Fellowship from './pages/forms/Fellowship';
 import Grant from './pages/forms/Grant';
 import Journal from './pages/forms/Journal';
 import Patent from './pages/forms/Patent';
-import Publication from './pages/forms/Publication';
+import Book_BookChapter from './pages/forms/Book_BookChapter';
 import UserAchievements from './pages/UserAchievements';
 import AllAchievements from './pages/AllAchievements';
 import { AuthProvider } from './contexts/AuthContext';
@@ -133,9 +133,9 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/user/form/publication",
+    path: "/user/form/book_bookChapter",
     element: (<>
-      <Publication />
+      <Book_BookChapter />
     </>
     ),
   },

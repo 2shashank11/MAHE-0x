@@ -6,6 +6,7 @@ export const choice = [
 export const author=[
     {value:"Author",label:"Author"},
     {value:"Co-Author",label:"Co-Author"},
+    {value:"Corresponding-Author",label:"Corresponding-Author"},
 ]
 export const regionOptions = [
   { label: "National", value: "National" },

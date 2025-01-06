@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
-const MonthYear = require('./month');
 
 const patentSchema = mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user'},
-    period: { type: MonthYear},
+
+    period: { type: Date, },
     
-    //title
+    title: { type: String, },
     filed: { type: String, enum: ['Yes', 'No'], }, 
     published: { type: String, enum: ['Yes', 'No'], }, 
     granted: { type: String, enum: ['Yes', 'No'], }, 

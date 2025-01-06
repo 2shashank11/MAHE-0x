@@ -4,7 +4,7 @@ const Fellowship = require('../models/fellowship');
 const Grant = require('../models/grant');
 const Journal = require('../models/journal');
 const Patent = require('../models/patent');
-const Publication = require('../models/publication');
+const Book_BookChapter = require('../models/book_bookChapter');
 
 
 async function getAllAchievements(req, res) {
@@ -14,13 +14,13 @@ async function getAllAchievements(req, res) {
         grant: await Grant.find({}).populate('userId'),
         journal: await Journal.find({}).populate('userId'),
         patent: await Patent.find({}).populate('userId'),
-        publication: await Publication.find({}).populate('userId'),
+        book_bookChapter: await Book_BookChapter.find({}).populate('userId'),
     }
     return res.json({ achievements })
 }
 
 async function getAllUsers(req, res) {
-    const users = await User.find({}).select('_id name maheId department position email phone role profileImageURL')
+    const users = await User.find({}).select('_id name maheId department designation email phone role profileImageURL')
     return res.json({ users });
 }
 
@@ -50,7 +50,7 @@ async function handleDeleteUser(req, res) {
             Grant.deleteMany({ userId: userId }),
             Journal.deleteMany({ userId: userId }),
             Patent.deleteMany({ userId: userId }),
-            Publication.deleteMany({ userId: userId }),
+            Book_BookChapter.deleteMany({ userId: userId }),
         ])
     } catch (error) {
         console.log("Error deleting related data: ", error)
