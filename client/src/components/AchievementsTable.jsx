@@ -1,142 +1,155 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button, Tooltip } from "@nextui-org/react";
-import { EditIcon } from "./assets/EditIcon";
-import { DeleteIcon } from "./assets/DeleteIcon";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DeleteRowModal from "./DeleteRowModal";
 import { AuthContext } from "../contexts/AuthContext";
+import { Button, Tooltip, Popover, PopoverContent, PopoverTrigger, cn, Listbox, ListboxItem } from "@nextui-org/react";
+import { AddNoteIcon, ListboxWrapper } from './assets/RowDropdown';
+import { EditDocumentIcon, DeleteDocumentIcon } from './assets/RowDropdown';
 
-export default function AchievementsTable(props) {
+
+export default function AchievementsTable({ filter, achievements, controls, setAchievements }) {
     const { authUser } = useContext(AuthContext);
-
-    const selectedColor = "success";
-    const [currentHead, setCurrentHead] = useState(["No Category Selected"]);
-    const [filteredData, setFilteredData] = useState([]);
-    const [deleteRow, setDeleteRow] = useState(false);
-
-    const conferenceHead = ["name", "maheId", "conferenceName", "paperTitle", "region", "indexed", "month_year"];
-    const fellowshipHead = ["name", "maheId", "fellowshipName", "submitted", "granted", "month_year"];
-    const grantHead = ["name", "maheId", "grantName", "submitted", "granted", "amount", "month_year"];
-    const journalHead = ["name", "maheId", "title", "journalName", "quartile", "wos", "authorship", "month_year"];
-    const patentHead = ["name", "maheId", "filed", "published", "granted", "region", "country", "month_year"];
-    const publicationHead = ["name", "maheId", "bookName", "Type", "isbn", "publishYear", "month_year"];
-
-    const getCategoryHead = (category) => {
-        switch (category) {
-            case "Conference":
-                return conferenceHead;
-            case "Fellowship":
-                return fellowshipHead;
-            case "Grant":
-                return grantHead;
-            case "Journal":
-                return journalHead;
-            case "Patent":
-                return patentHead;
-            case "Publication":
-                return publicationHead;
-            default:
-                return ["No Category Selected"];
-        }
-    };
-
-    const filterData = (data, filter) => {
-        return data.filter((i) => {
-            const [month, year] = i.month_year.split("-");
-            const date = new Date(`${month} 1, ${year}`);
-
-            if (filter.fromMonth && filter.fromYear && filter.toMonth && filter.toYear) {
-                const fromDate = new Date(`${filter.fromMonth} 1, ${filter.fromYear}`);
-                const toDate = new Date(`${filter.toMonth} 1, ${filter.toYear}`);
-                return date >= fromDate && date <= toDate;
-            }
-
-            if (filter.fromMonth && filter.fromYear && (!filter.toMonth || !filter.toYear)) {
-                const fromDate = new Date(`${filter.fromMonth} 1, ${filter.fromYear}`);
-                return date >= fromDate;
-            }
-
-            if ((!filter.fromMonth || !filter.fromYear) && filter.toMonth && filter.toYear) {
-                const toDate = new Date(`${filter.toMonth} 1, ${filter.toYear}`);
-                return date <= toDate;
-            }
-
-            return true;
-        });
-    };
+    const [currentHead, setCurrentHead] = useState(["No data to display"]);
+    const [filteredData, setFilteredData] = useState(achievements);
 
     useEffect(() => {
-        const categoryHead = getCategoryHead(props.selectedCategory);
-        setCurrentHead(categoryHead);
+        if (achievements && achievements.length > 0) {
 
-        const mainData = props.mainData || [];
-        const filteredResults = filterData(mainData, props.filter);
+            const formatMonthYear = (date) => {
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return new Date(date).toISOString('en-US', options).split('T')[0];
+            };
 
-        setFilteredData(filteredResults);
-    }, [props.selectedCategory, props.mainData, props.filter]);
+            const updatedAchievements = achievements.map(item => {
+                const { _id, period, periodFrom, periodTo, ...rest } = item;
 
-    const Navigate = useNavigate();
+                const updatedItem = {
+                    ...rest,
+                    ...(period ? { period: formatMonthYear(period) } : {}),
+                    ...(periodFrom ? { periodFrom: formatMonthYear(periodFrom) } : {}),
+                    ...(periodTo ? { periodTo: formatMonthYear(periodTo) } : {}),
+                };
+                return updatedItem;
+            });
 
-    const handleRedirectToEdit = (row, selectedCategory) => {
-        console.log("Edit Row", row, selectedCategory);
-        selectedCategory = selectedCategory.toLowerCase();
-        Navigate(`/user/form/${selectedCategory}`, { state: { data: row, category: selectedCategory } });
+            const keys = Object.keys(updatedAchievements[0]);
+            setCurrentHead(keys);
+
+            setFilteredData(updatedAchievements);
+        }
+
+        else{
+            setCurrentHead(["No data to display"]);
+            setFilteredData([]);
+        }
+    }, [achievements]);
+
+    // useEffect(() => {
+    //   setAchievements([]);
+    //   setCurrentHead(["Apply Filter to view data"]);
+    // }, [filter])
+    
+
+
+    const navigate = useNavigate();
+
+    const handleRedirectToEdit = (row, category) => {
+        const selectedCategory = category.values().next().value.toLowerCase();
+        console.log(row)
+        navigate(`/user/form/${selectedCategory}`, { state: { data: row, category: selectedCategory } });
     };
 
-    const handleDeleteRow = async (id) => {
+    const handleDeleteRow = async (index) => {
         try {
-            const response = await axios.delete(`/api/user/form/${props.selectedCategory.toLowerCase()}/${id}`);
-            console.log(response);
-            console.log(filteredData)
+            console.log(index, achievements[index]);
+            const id = achievements[index]?._id;
+            console.log(achievements[index]);
+            const category = filter.category.values().next().value;
+            const response = await axios.delete(`/api/user/form/${category.toLowerCase()}/${id}`);
             setFilteredData((filteredData) => filteredData.filter(i => i._id !== id));
-
+            setAchievements((achievements) => achievements.filter(i => i._id !== id));
         } catch (error) {
             console.error("Error deleting row:", error);
         }
     };
 
-    // useState(() => {console.log(filteredData)}, [filteredData])
+    const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
     return (
-        <div className="flex flex-col gap-3 p-5">
-            <Table
-                color={selectedColor}
-                selectionMode="single"
-                aria-label="Example static collection table"
-            >
-                <TableHeader>
-                    {currentHead.map((head) => (
-                        <TableColumn key={head}>{head}</TableColumn>
-                    ))}
-                    {/* {(props.tableControls && authUser?.role === "ADMIN") ? <TableColumn key="actions">Actions</TableColumn> : null} */}
-                    <TableColumn key="actions">Actions</TableColumn>
-                </TableHeader>
-                <TableBody>
+        <div className="overflow-x-auto p-5">
+            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+                <thead className="bg-gray-100">
+                    <tr>
+                        {currentHead.map((head) => (
+                            <th key={head} className="py-3 px-4 text-left font-medium text-gray-700 border-b">{head}</th>
+                        ))}
+                        <th className="py-3 px-4 text-left font-medium text-gray-700 border-b"></th>
+                    </tr>
+                </thead>
+                <tbody>
                     {filteredData.map((row, rowIndex) => (
-                        <TableRow key={rowIndex}>
+                        <tr key={rowIndex} className="hover:bg-gray-50">
                             {currentHead.map((column) => (
-                                <TableCell key={column}>{row[column] !== undefined ? row[column] : 'N/A'}</TableCell>
+                                <td key={column} className="py-3 px-4 border-b">
+                                    {row[column] !== undefined ? row[column] : 'N/A'}
+                                </td>
                             ))}
-                            <TableCell className="flex gap-2 justify-center max-w-fit">
-                                {((authUser?.role==='ADMIN' && !props.controls) || props.controls) ? (
+                            <td className="py-3 px-4 border-b text-center">
+                                {((authUser?.role === 'ADMIN' || !controls) || controls) ? (
                                     <>
+                                        <Popover placement="left">
+                                            <PopoverTrigger>
+                                                <Button color="default" className="rounded-full">:</Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent>
 
-                                        {/* <Tooltip color="warning" content="Edit Row" className="capitalize">
-                                            <Button variant="flat" color="warning" className="capitalize" onClick={() => handleRedirectToEdit(row, props.selectedCategory)}>
-                                                <EditIcon />
-                                            </Button>
-                                        </Tooltip> */}
-                                        <Tooltip color="danger" content="Delete Row" className="capitalize">
-                                            <DeleteRowModal handleDeleteRow={handleDeleteRow} id={row._id} />
-                                        </Tooltip>
+                                                <ListboxWrapper>
+                                                    <Listbox aria-label="Listbox menu with icons" variant="faded">
+                                                        <ListboxItem
+                                                            key="edit"
+                                                            showDivider
+                                                            startContent={<EditDocumentIcon className={iconClasses} />}
+                                                        >
+                                                            <Button
+                                                                variant="flat"
+                                                                color="white"
+                                                                className="capitalize"
+                                                                onClick={() => handleRedirectToEdit(achievements[rowIndex], filter.category)}
+                                                            >
+                                                                Edit
+                                                            </Button>
+                                                        </ListboxItem>
+
+                                                        <ListboxItem
+                                                            key="delete"
+                                                            className="text-danger"
+                                                            color="danger"
+                                                            startContent={<DeleteDocumentIcon className={cn(iconClasses, "text-danger")} />}
+                                                        >
+                                                            <DeleteRowModal handleDeleteRow={() => handleDeleteRow(rowIndex)} id={rowIndex} />
+                                                        </ListboxItem>
+                                                    </Listbox>
+                                                </ListboxWrapper>
+
+                                                {/* <Tooltip color="warning" content="Edit Row" className="capitalize">
+                                                    <Button variant="flat" color="warning" className="capitalize" onClick={() => handleRedirectToEdit(row, filter.category)}>
+                                                    <EditIcon />
+                                                    </Button>
+                                                    </Tooltip>
+                                                    <Tooltip color="danger" content="Delete Row" className="capitalize">
+                                                    <DeleteRowModal handleDeleteRow={handleDeleteRow} id={rowIndex} />
+                                                    </Tooltip> */}
+                                            </PopoverContent>
+                                        </Popover>
+
                                     </>
                                 ) : null}
-                            </TableCell>
-                        </TableRow>
+                            </td>
+                        </tr>
                     ))}
-                </TableBody>
-            </Table>
+                </tbody>
+            </table>
         </div>
     );
 }

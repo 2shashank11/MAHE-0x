@@ -13,7 +13,7 @@ const Fellowship = require('./models/fellowship');
 const Grant = require('./models/grant');
 const Journal = require('./models/journal');
 const Patent = require('./models/patent');
-const Publication = require('./models/publication');
+const Book_BookChapter = require('./models/book_bookChapter');
 const User = require('./models/user')
 
 const guestRoute = require('./routes/guest')

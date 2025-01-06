@@ -4,7 +4,7 @@ const Fellowship = require("../models/fellowship")
 const Grant = require("../models/grant")
 const Journal = require("../models/journal")
 const Patent = require("../models/patent")
-const Publication = require("../models/publication")
+const Book_BookChapter = require('../models/book_bookChapter');
 
 
 async function handleUserSignin(req, res) {
@@ -68,22 +68,48 @@ async function handlePasswordReset(req, res) {
 
 async function getAllAchievements(req, res) {
 
-    const conference = await Conference.find({ }).populate('userId', 'name maheId').select('conferenceName paperTitle region indexed period')
-    const fellowship = await Fellowship.find({ }).populate('userId', 'name maheId').select('fellowshipName submitted granted period')
-    const grant = await Grant.find({ }).populate('userId', 'name maheId').select('grantName submitted granted amount period')
-    const journal = await Journal.find({ }).populate('userId', 'name maheId').select('title journalName quartile wos authorship period')
-    const patent = await Patent.find({ }).populate('userId', 'name maheId').select('filed published granted region country period')
-    const publication = await Publication.find({ }).populate('userId', 'name maheId').select('bookName type isbn publishYear period')
+    // const conference = await Conference.find({ }).populate('userId', 'name maheId').select('conferenceName paperTitle region indexed period')
+    // const fellowship = await Fellowship.find({ }).populate('userId', 'name maheId').select('fellowshipName submitted granted period')
+    // const grant = await Grant.find({ }).populate('userId', 'name maheId').select('grantName submitted granted amount period')
+    // const journal = await Journal.find({ }).populate('userId', 'name maheId').select('title journalName quartile wos authorship period')
+    // const patent = await Patent.find({ }).populate('userId', 'name maheId').select('filed published granted region country period')
+    // const book_bookChapter = await Book_BookChapter.find({ }).populate('userId', 'name maheId').select('bookName type isbn publicationYear period')
 
-    const achievements = {
-        conference,
-        fellowship,
-        grant,
-        journal,
-        patent,
-        publication
+    // const achievements = {
+    //     conference,
+    //     fellowship,
+    //     grant,
+    //     journal,
+    //     patent,
+    //     book_bookChapter
+    // }
+    // return res.json({achievements})
+
+    const { category, fromDate, toDate } = req.query
+
+    var result
+    switch (category) {
+        case "Conference":
+            result = await Conference.find({ period: { $gte: fromDate, $lte: toDate } }).populate('userId', 'name maheId').select('conferenceName paperTitle region indexed period')
+            return res.json({ result })
+        case "Fellowship":
+            result = await Fellowship.find({ periodFrom: { $gte: fromDate, $lte: toDate } }).populate('userId', 'name maheId').select('fellowshipName fellowshipAmount submitted granted periodFrom periodTo')
+            return res.json({ result })
+        case "Grant":
+            result = await Grant.find({ periodFrom: { $gte: fromDate, $lte: toDate } }).populate('userId', 'name maheId').select('grantName projectTitle submitted granted amount periodFrom periodTo')
+            return res.json({ result })
+        case "Journal":
+            result = await Journal.find({ period: { $gte: fromDate, $lte: toDate } }).populate('userId', 'name maheId').select('title journalName quartile wos authorship doi period')
+            return res.json({ result })
+        case "Patent":
+            result = await Patent.find({ period: { $gte: fromDate, $lte: toDate } }).populate('userId', 'name maheId').select('title filed published granted region country period')
+            return res.json({ result })
+        case "Book_BookChapter":
+            result = await Book_BookChapter.find({ period: { $gte: fromDate, $lte: toDate } }).populate('userId', 'name maheId').select('bookName type isbn publicationYear period')
+            return res.json({ result })
+        default:
+            return res.status(404).json({ message: "Invalid Category" })
     }
-    return res.json({achievements})
 }
 
 module.exports = {

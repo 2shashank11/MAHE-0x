@@ -45,18 +45,26 @@ const router = express.Router()
 //     res.render('patentForm')
 // })
 
-// router.get('/form/publication', (req, res) => {
+// router.get('/form/book_bookChapter', (req, res) => {
 //     res.render('publicationForm')
 // })
 
-router.get('/my-achievements', getUserAchievements)
+router.get('/user-achievements', getUserAchievements)
 
 router.post('/form/conference', handleUserConferenceForm)
 router.post('/form/fellowship', handleUserFellowshipForm)
 router.post('/form/grant', handleUserGrantForm)
 router.post('/form/journal', handleUserJournalForm)
 router.post('/form/patent', handleUserPatentForm)
-router.post('/form/publication', handleUserPublicationForm)
+router.post('/form/book_bookChapter', handleUserPublicationForm)
+
+router.patch('/form/conference/:id', handleUserConferenceForm)
+router.patch('/form/fellowship/:id', handleUserFellowshipForm)
+router.patch('/form/grant/:id', handleUserGrantForm)
+router.patch('/form/journal/:id', handleUserJournalForm)
+router.patch('/form/patent/:id', handleUserPatentForm)
+router.patch('/form/book_bookChapter/:id', handleUserPublicationForm)
+
 
 router.delete('/form/:category/:id', handleFormDataDelete)
 

@@ -7,7 +7,7 @@ function createTokenForUser(user){
         _id: user._id,
         name: user.name,
         department: user.department,
-        position: user.position,
+        designation: user.designation,
         maheId: user.maheId,
         phone: user.phone,
         email: user.email,

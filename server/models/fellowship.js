@@ -1,11 +1,13 @@
 const mongoose = require('mongoose')
-const MonthYear = require('./month');
 
 const fellowshipSchema = mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user'},
-    period: { type: MonthYear },
-    
+
+    periodFrom: { type: Date },
+    periodTo: { type: Date }, 
+
     fellowshipName: { type: String, },
+    fellowshipAmount: { type: Number, },
     submitted: { type: String, enum: ['Yes', 'No'], }, 
     granted: { type: String, enum: ['Yes', 'No'], }, 
 }, {timestamps: true} )

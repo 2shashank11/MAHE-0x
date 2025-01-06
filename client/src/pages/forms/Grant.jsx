@@ -1,15 +1,17 @@
-import { Button, Input, Select, SelectItem, Autocomplete, AutocompleteItem, Divider } from "@nextui-org/react";
-import React, { useState, useEffect, useContext } from "react";
-import { choice, months } from "./data";
+import {
+  Button,
+  Input,
+  Select,
+  SelectItem,
+  Divider,
+  DatePicker,
+} from "@nextui-org/react";
+import React, { useState, useEffect } from "react";
+import { choice } from "./data";
 import axios from "axios";
-import { AuthContext } from '../../contexts/AuthContext'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from "react-router-dom";
 import Nav from "../../components/Nav";
-
-const years = [];
-for (let year = 2000; year <= new Date().getFullYear() + 1; year++) {
-  years.push({ value: year.toString(), label: year.toString() });
-}
+import { parseDate } from "@internationalized/date";
 
 function GrantForm() {
   const Location = useLocation()
@@ -32,25 +34,53 @@ function GrantForm() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (formData.region === "Indian") formData.country = "India"
     console.log(formData);
-    //toast
     try {
-      const response = await axios.post('/api/user/form/grant', { formData }, { withCredentials: true });
-      console.log(response)
+      if (Location.state?.data) {
+        const response = await axios.patch(`/api/user/form/grant/${Location.state.data._id}`, { formData }, { withCredentials: true });
+        console.log(response);
+      }
+      else{
+        const response = await axios.post("/api/user/form/grant", { formData }, { withCredentials: true });
+        console.log(response);
+      }
     } catch (error) {
       if (error.response) {
-        console.log("something went wrong")
-        //toast
+        console.log("Something went wrong");
+      }
+    }
+  };
+
+  function formatDate(period){
+    if (period) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      const periodDate = new Date(period);
+
+      if (!isNaN(periodDate.getTime())) {
+        const formattedPeriod = periodDate.toLocaleString('en-US', options);
+        const isoPeriod = periodDate.toISOString().split('T')[0];
+        return isoPeriod
       }
     }
   }
+
   useEffect(() => {
     if (Location.state?.data) {
-      setFormData(Location.state.data)
-      console.log(Location.state.data)
+      setFormData(Location.state?.data);
+
+      console.log(Location.state.data.periodFrom)
+      setFormData((prev) => ({
+        ...prev,
+        periodFrom : parseDate(new Date(Location.state.data?.periodFrom).toISOString().split('T')[0]),
+        periodTo : parseDate(new Date(Location.state.data?.periodTo).toISOString().split('T')[0]),
+      }))
+      
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+        console.log("formData", formData)
+      }, [formData]);
 
   return (
     <>
@@ -59,130 +89,149 @@ function GrantForm() {
         <div>
           <h1 className="px-8 pt-10 text-5xl font-bold">Forms</h1>
         </div>
-        <div className="w-full p-8">
-          <h1 className="font-sans font-semibold text-4xl">
-            Grant Details
-          </h1>
-          <p className="my-7 text-lg md:text-xl text-blue-600 font-bold">
-            Update your grant details here
-          </p>
-          <Divider />
-
-          <form onSubmit={handleFormSubmit} className="space-y-6">
-
-            <div className="flex flex-col align-middle md:flex-row">
-              <h1 className="text-lg font-semibold mt-4 md:mt-8">Grant name</h1>
-              <div className="flex-auto md:ml-40 mt-4">
-                <Input
-                  label="Grant Name"
-                  name="grantName"
-                  variant="bordered"
-                  fullWidth
-                  onChange={handleUserInput}
-                  value={formData.grantName || ""}
-                />
-              </div>
-            </div>
-            <Divider />
-
-            <div className="flex flex-col align-middle md:flex-row">
-              <h1 className="flex text-lg font-semibold md:mt-4">Submitted</h1>
-              <div className="flex-auto md:ml-40 max-md:mt-4">
-                <Select
-                  label="Yes / No"
-                  name="submitted"
-                  variant="bordered"
-                  fullWidth
-                  onChange={handleUserInput}
-                  value={formData.submitted || ""}
+        <div className="flex flex-col items-center p-4">
+          <div className="w-full p-8">
+            <h1 className="pt-4 font-sans font-semibold text-3xl">
+              Grant Details
+            </h1>
+            <form onSubmit={handleFormSubmit} className="space-y-8">
+              <div className="flex justify-between mt-4 w-full">
+                <p className="pt-2 text-lg md:text-xl text-blue-600 font-bold">
+                  Update your grant details here
+                </p>
+                <Button
+                  className="w-56 h-12"
+                  color="primary"
+                  radius="none"
+                  size="lg"
+                  type="submit"
                 >
-                  {choice.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </Select>
+                  Save
+                </Button>
               </div>
-            </div>
-            <Divider />
-
-            <div className="flex flex-col align-middle md:flex-row">
-              <h1 className="flex text-lg font-semibold md:mt-4">Granted</h1>
-              <Select
-                label="Yes / No"
-                name="granted"
-                variant="bordered"
-                fullWidth
-                className="flex-auto md:ml-48 max-md:mt-4"
-                onChange={handleUserInput}
-                value={formData.granted || ""}
-              >
-                {choice.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </Select>
-            </div>
-            <Divider />
-
-            <div className="flex flex-col align-middle md:flex-row">
-              <h1 className="flex text-lg font-semibold md:mt-4">Amount</h1>
-              <Input
-                label="Enter amount"
-                name="amount"
-                variant="bordered"
-                fullWidth
-                onChange={handleUserInput}
-                className="flex-auto md:ml-48 max-md:mt-4"
-                value={formData.amount || ""}
-              />
-            </div>
-            <Divider />
-
-            <div className="flex flex-col align-middle md:flex-row">
-              <h1 className="flex text-lg font-semibold md:mt-4">Month</h1>
-              <Select
-                label="Month"
-                name="month"
-                variant="bordered"
-                fullWidth
-                onChange={handleUserInput}
-                className="flex-auto md:ml-48 max-md:mt-4"
-                value={formData.month || ""}
-              >
-                {months.map((month) => (
-                  <SelectItem key={month.value} value={month.value}>
-                    {month.label}
-                  </SelectItem>
-                ))}
-              </Select>
-            </div>
-            <Divider />
-
-            <div className="flex flex-col align-middle md:flex-row">
-              <h1 className="flex text-lg font-semibold md:mt-4">Year</h1>
-              <Autocomplete
-                name="Select Year"
-                label="Year"
-                variant="bordered"
-                defaultItems={years}
-                fullWidth
-                onSelect={handleUserInput}
-                className="flex-auto md:ml-48 max-md:mt-4"
-              >
-                {(item) => (
-                  <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>
-                )}
-              </Autocomplete>
-            </div>
-            <Divider />
-
-            <div className="flex justify-end mt-4 w-full">
-              <Button className="w-1/6 mt-6" color="primary" size="md" type="submit">Save</Button>
-            </div>
-
-          </form>
+              <Divider />
+              <div className="space-y-4">
+                <div className="flex items-center gap-6">
+                  <div className="w-1/3 text-lg font-semibold">
+                    <h1>Grant Name</h1>
+                  </div>
+                  <div className="flex-auto">
+                    <Input
+                      label="Grant Name"
+                      name="grantName"
+                      variant="bordered"
+                      fullWidth
+                      onChange={handleUserInput}
+                      value={formData.grantName || ""}
+                    />
+                  </div>
+                </div>
+                <Divider />
+                <div className="flex items-center gap-6">
+                  <div className="w-1/3 text-lg font-semibold">
+                    <h1>Project Title</h1>
+                  </div>
+                  <div className="flex-auto">
+                    <Input
+                      label="Project Title"
+                      name="projectTitle"
+                      variant="bordered"
+                      fullWidth
+                      onChange={handleUserInput}
+                      value={formData.projectTitle || ""}
+                    />
+                  </div>
+                </div>
+                <Divider />
+                <div className="flex items-center gap-6">
+                  <div className="w-1/3 text-lg font-semibold">
+                    <h1>Submitted</h1>
+                  </div>
+                  <div className="flex-auto">
+                    <Select
+                      label="Yes / No"
+                      name="submitted"
+                      variant="bordered"
+                      fullWidth
+                      onChange={handleUserInput}
+                      selectedKeys={new Set([formData?.submitted]) || ""}
+                    >
+                      {choice.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
+                <Divider />
+                <div className="flex items-center gap-6">
+                  <div className="w-1/3 text-lg font-semibold">
+                    <h1>Granted</h1>
+                  </div>
+                  <div className="flex-auto">
+                    <Select
+                      label="Yes / No"
+                      name="granted"
+                      variant="bordered"
+                      fullWidth
+                      onChange={handleUserInput}
+                      selectedKeys={new Set([formData?.granted]) || ""}
+                    >
+                      {choice.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
+                <Divider />
+                <div className="flex items-center gap-6">
+                  <div className="w-1/3 text-lg font-semibold">
+                    <h1>Amount</h1>
+                  </div>
+                  <div className="flex-auto">
+                    <Input
+                      label="Amount"
+                      name="amount"
+                      variant="bordered"
+                      type="number"
+                      fullWidth
+                      onChange={handleUserInput}
+                      value={formData.amount || ""}
+                    />
+                  </div>
+                </div>
+                <Divider />
+                <div className="flex flex-wrap gap-6 items-center">
+                  <div className="w-1/3 text-lg font-semibold">
+                    <h1>Period</h1>
+                  </div>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                    <DatePicker
+                      className="max-w-[284px]"
+                      label="From"
+                      defaultValue={formData.periodFrom}
+                      value={formData.periodFrom}
+                      onChange={(e) =>
+                        setFormData({ ...formData, periodFrom: e })
+                      }
+                    />
+                    <DatePicker
+                      className="max-w-[284px]"
+                      label="To"
+                      defaultValue={formData.periodTo}
+                      value={formData.periodTo}
+                      onChange={(e) =>
+                        setFormData({ ...formData, periodTo: e })
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </>

@@ -7,7 +7,7 @@ import fellowship from '../images/fellowship.svg';
 import grant from '../images/grant.svg';
 import journal from '../images/journal.svg';
 import patent from '../images/patent.svg';
-import publication from '../images/publication.svg';
+import book_bookChapter from '../images/book_bookChapter.svg';
 
 function Dash() {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ function Dash() {
   };
 
   const handlePublication = () => {
-    navigate('/user/form/publication');
+    navigate('/user/form/book_bookChapter');
   };
 
   return (
@@ -101,13 +101,13 @@ function Dash() {
         </Card>
         <Card isHoverable isPressable onPress={handlePublication} className="py-4 h-4/2">
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-            <h4 className="font-bold text-2xl">Book / Book Chapter</h4>
+            <h4 className="font-bold text-2xl">Book & Book-Chapter</h4>
           </CardHeader>
           <CardBody className="overflow-visible py-2">
             <Image
               alt="Publications"
               className="object-cover rounded-xl"
-              src={publication}
+              src={book_bookChapter}
             />
           </CardBody>
         </Card>

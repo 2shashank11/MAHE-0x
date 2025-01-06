@@ -106,8 +106,8 @@ export default function Signup() {
                 <Input label="Enter Department" name="department" onChange={handleInputChange} />
               </div>
               <div className="flex flex-col md:items-start">
-                <h2 className="text-xl font-bold mb-4">Position</h2>
-                <Input label="Enter Position" name="position" onChange={handleInputChange} />
+                <h2 className="text-xl font-bold mb-4">Designation</h2>
+                <Input label="Enter Designation" name="designation" onChange={handleInputChange} />
               </div>
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">

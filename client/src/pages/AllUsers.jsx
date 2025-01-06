@@ -11,7 +11,7 @@ const columns = [
     { name: "PHONE", uid: "phone" },
     { name: "MAHE ID", uid: "maheId" },
     { name: "DEPARTMENT", uid: "department" },
-    { name: "POSITION", uid: "position" },
+    { name: "DESIGNATION", uid: "designation" },
     { name: "ROLE", uid: "role" },
     { name: "ACTIONS", uid: "actions" }
 ];
@@ -80,7 +80,7 @@ export default function AllUsers() {
             case "phone":
             case "maheId":
             case "department":
-            case "position":
+            case "designation":
             case "role":
                 return <p className="text-bold text-sm capitalize">{cellValue}</p>;
             case "actions":

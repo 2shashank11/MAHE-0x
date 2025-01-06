@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
-const MonthYear = require('./month');
 
 const conferenceSchema = mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user'},
-    period: { type: MonthYear },
+    
+    period: { type: Date },
     
     conferenceName: { type: String, }, 
     paperTitle: { type: String, },
