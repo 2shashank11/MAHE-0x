@@ -175,7 +175,7 @@ export default function UserAchievements() {
       console.log(response.data)
 
       const data = response.data.result.map((item) => {
-        const userName = item.userId.name.firstName + " " + item.userId.name.middleName + " " + item.userId.name.lastName
+        const userName = item.userId.fullName
         const maheID = item.userId.maheId
 
         const {userId, ...rest} = item

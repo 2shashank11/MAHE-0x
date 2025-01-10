@@ -35,7 +35,7 @@ async function handleUserSignup(req, res) {
         const user = req.body.formData
         if(!user.middleName) user.middleName = ""
         if(!user.lastName) user.lastName = ""
-        user.name = { firstName: user.firstName, middleName: user.middleName, lastName: user.lastName }
+        user.fullName = user.firstName + " " + user.middleName + " " + user.lastName
         
         delete user.firstName
         delete user.middleName

@@ -25,28 +25,12 @@ export default function EditUserModal({ user, editedUserDataRef, handleEditUser,
                 <ModalHeader className="flex flex-col gap-1">User Details</ModalHeader>
                 <ModalBody>
                   <Input
-                    defaultValue={user.name.firstName}
+                    defaultValue={user.fullName}
                     onChange={handleChangeForEditing}
                     autoFocus
-                    label="First Name"
+                    label="Full Name"
                     variant="bordered"
-                    name="firstName"
-                    type="text"
-                  />
-                  <Input
-                    defaultValue={user.name.middleName}
-                    onChange={handleChangeForEditing}
-                    label="Middle Name"
-                    variant="bordered"
-                    name="middleName"
-                    type="text"
-                  />
-                  <Input
-                    defaultValue={user.name.lastName}
-                    onChange={handleChangeForEditing}                
-                    label="Last Name"
-                    variant="bordered"
-                    name="lastName"
+                    name="fullName"
                     type="text"
                   />
                   <Input
