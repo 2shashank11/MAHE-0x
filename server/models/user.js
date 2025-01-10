@@ -3,14 +3,8 @@ const { createHmac, randomBytes } = require('node:crypto');
 const { createTokenForUser, verifyToken } = require('../services/authentication')
 
 
-const fullNameSchema = mongoose.Schema({
-    firstName: { type: String, },
-    middleName: { type: String, },
-    lastName: { type: String, },
-})
-
 const userSchema = mongoose.Schema({
-    name: { type: fullNameSchema, required: true, },
+    fullName: { type: String, },
     department: { type: String, },
     designation: { type: String, },
     maheId: { type: String, },

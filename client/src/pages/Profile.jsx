@@ -22,6 +22,7 @@ function Profile() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
+    
     if(name==="firstName" || name==="middleName" || name==="lastName") {
       setFormData((prevData) => ({
         ...prevData,

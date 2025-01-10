@@ -59,11 +59,9 @@ function PersonalDetails({ authUser, setAuthUser, formData, handleInputChange, h
             <div className="grid gap-8"> {/* Personal details form */}
 
               <div className="flex flex-col md:items-start">
-                <h2 className="text-xl font-bold mb-4">Name</h2>
+                <h2 className="text-xl font-bold mb-4">Full Name</h2>
                 <div className="flex flex-col gap-4 md:flex-row">
-                  <Input isDisabled={editDisabled} name="firstName" label="First name" defaultValue={authUser?.name?.firstName} onChange={handleInputChange} />
-                  <Input isDisabled={editDisabled} name="middleName" label="Middle name" defaultValue={authUser?.name?.middleName} onChange={handleInputChange} />
-                  <Input isDisabled={editDisabled} name="lastName" label="Last name" defaultValue={authUser?.name?.lastName} onChange={handleInputChange} />
+                  <Input isDisabled={editDisabled} name="fullName" label="Full name" defaultValue={authUser?.fullName} onChange={handleInputChange} />
                 </div>
               </div>
 

@@ -5,7 +5,7 @@ const secret = process.env.JWT_SECRET;
 function createTokenForUser(user){
     const payload = {
         _id: user._id,
-        name: user.name,
+        fullName: user.fullName,
         department: user.department,
         designation: user.designation,
         maheId: user.maheId,

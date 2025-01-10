@@ -73,7 +73,7 @@ export default function AllUsers() {
                     <User
                         avatarProps={{ radius: "lg", src: user.profileImageURL }}
                         description={user.email}
-                        name={`${user.name.firstName} ${user.name.middleName || ''} ${user.name.lastName}`}
+                        name={`${user.fullName}`}
                     />
                 );
             case "email":

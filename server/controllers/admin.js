@@ -20,7 +20,7 @@ async function getAllAchievements(req, res) {
 }
 
 async function getAllUsers(req, res) {
-    const users = await User.find({}).select('_id name maheId department designation email phone role profileImageURL')
+    const users = await User.find({}).select('_id fullName maheId department designation email phone role profileImageURL')
     return res.json({ users });
 }
 
@@ -29,7 +29,7 @@ async function handleEditUser(req, res) {
     if (!userId) return res.status(404).json({ error: 'User not found' });
 
     const userData = req.body.editedUserData
-    userData.name = { firstName: userData.firstName, middleName: userData.middleName, lastName: userData.lastName }
+    // userData.name = { firstName: userData.firstName, middleName: userData.middleName, lastName: userData.lastName }
     delete userData.firstName;
     delete userData.middleName;
     delete userData.lastName;
