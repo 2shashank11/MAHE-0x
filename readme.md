@@ -1,7 +1,7 @@
 # Pending Tasks and Bugs
 
 1. ✅changes suggested by ma'am
-2. ✅(date bug) able to edit previously submitted forms
+2. ❗able to edit previously submitted forms but ---- (date bug still exists- date value mismatch from the value entered in form and achievements page and database) 
 3. ✅profile update bug in full name
 4. ✅remake all the table views without the next UI component
 5. ✅download data (need header makeover)
