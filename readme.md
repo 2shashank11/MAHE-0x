@@ -17,3 +17,5 @@
 15.  (need AWS bucket) upload profile image
 16. Home page stats
 17. Pagination
+18. ✅Footer sizing and location
+    
