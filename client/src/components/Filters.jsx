@@ -7,7 +7,7 @@ import {
     Divider,
 } from "@nextui-org/react";
 
-export default function Filters({ setFilter, filter, applyFilter, }) {
+export default function Filters({ setFilter, filter, applyFilter, downloadData, achievements, setAchievements }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const category = [
         // "None",
@@ -26,6 +26,7 @@ export default function Filters({ setFilter, filter, applyFilter, }) {
             toDate: null,
             category: new Set([]),
         });
+        setAchievements([]);
     }
 
 
@@ -115,12 +116,14 @@ export default function Filters({ setFilter, filter, applyFilter, }) {
             </div>
             {/* Download Button */}
             <div className="mt-4 w-4/5 flex justify-end">
+               {(achievements?.length>0) ? <>
                 <Button
                     color="success"
-                    onClick={() => alert("Downloading results...")}
-                >
+                    onClick={() => downloadData()}
+                    >
                     Download
                 </Button>
+                    </> : null}
             </div>
         </div>
     );
