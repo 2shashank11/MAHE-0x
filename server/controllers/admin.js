@@ -39,11 +39,11 @@ async function handleEditUser(req, res) {
 }
 
 async function handleDeleteUser(req, res) {
-    const userId = req.params.id;
-    console.log(userId)
-    if (!userId) return res.status(404).json({ error: 'User not found' });
-    const response = await User.findByIdAndDelete(userId);
     try {
+        const userId = req.params.id;
+        console.log(userId)
+        if (!userId) return res.status(404).json({ error: 'User not found' });
+        const response = await User.findByIdAndDelete(userId);
         deleteUserResponses = await Promise.all([
             Conference.deleteMany({ userId: userId }),
             Fellowship.deleteMany({ userId: userId }),
@@ -52,12 +52,12 @@ async function handleDeleteUser(req, res) {
             Patent.deleteMany({ userId: userId }),
             Book_BookChapter.deleteMany({ userId: userId }),
         ])
+        return res.json({ message: 'User deleted successfully', user: response });
     } catch (error) {
         console.log("Error deleting related data: ", error)
         return res.status(500).json({ error: 'Error deleting related data' });
     }
 
-    return res.json({ message: 'User deleted successfully', user: response });
 }
 
 module.exports = {

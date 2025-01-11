@@ -53,14 +53,24 @@ function Book_BookChapter() {
         const response = await axios.post("/api/user/form/book_bookChapter", { formData }, { withCredentials: true });
         console.log(response);
       }
-      toast.success("Form submitted successfully");
+      toast.success("Form submitted successfully",
+        {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+          duration: 2000,
+        }
+      );
     } 
     catch (error) {
       console.log("Something went wrong");
-      toast.error(String(error));
+      toast.error(String(error.response.data) || String(error));
     }
     setIsLoading(false);
     setFormData({});
+    Navigate("/user/dashboard")
   };
 
   useEffect(() => {

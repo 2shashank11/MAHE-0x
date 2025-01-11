@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Tooltip } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Tooltip, Select, SelectItem } from "@nextui-org/react";
 import { EditIcon } from "./assets/EditIcon";
 
 export default function EditUserModal({ user, editedUserDataRef, handleEditUser, handleChangeForEditing }) {
@@ -8,7 +8,7 @@ export default function EditUserModal({ user, editedUserDataRef, handleEditUser,
   return (
     <>
       <Tooltip color="warning" content="Edit Row" className="capitalize">
-        <Button onClick={(e) => { e.preventDefault(); onOpen() }} variant="flat" color="warning" className="capitalize">
+        <Button onClick={(e) => {  onOpen() }} variant="light" color="warning" className="capitalize">
           <EditIcon />
         </Button>
       </Tooltip>
@@ -22,7 +22,7 @@ export default function EditUserModal({ user, editedUserDataRef, handleEditUser,
           {(onClose) => (
             <>
               <form onSubmit={(e) => { e.preventDefault(); handleEditUser(user._id); onClose() }}>
-                <ModalHeader className="flex flex-col gap-1">User Details</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1">Edit User Details</ModalHeader>
                 <ModalBody>
                   <Input
                     defaultValue={user.fullName}
@@ -73,14 +73,24 @@ export default function EditUserModal({ user, editedUserDataRef, handleEditUser,
                     name="designation"
                     type="text"
                   />
-                  <Input
+                  {/* <Input
                     defaultValue={user.role}
                     onChange={handleChangeForEditing}
                     label="Role"
                     variant="bordered"
                     name="role"
                     type="text"
-                  />
+                  /> */}
+                  <Select
+                    defaultSelectedKeys={[user.role]}
+                    variant="bordered"
+                    name="role"
+                    label="Role"
+                    onChange={handleChangeForEditing}
+                  >
+                      <SelectItem key={"USER"}>{"USER"}</SelectItem>
+                      <SelectItem key={"ADMIN"}>{"ADMIN"}</SelectItem>
+                  </Select>
                 </ModalBody>
                 <ModalFooter>
                   <Button color="default" variant="flat" onPress={() => { onClose(); editedUserDataRef.current = {} }}>

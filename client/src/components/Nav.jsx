@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Avatar, Button } from "@nextui-org/react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
+import { toast } from "react-hot-toast";
 //import MITLogo from "../images/mit_logo.png"
 
 
@@ -18,11 +19,21 @@ function Nav() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const handleUserLogout = async (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         const response = axios.post('/api/logout', { withCredentials: true })
         console.log(response)
         setIsLoggedIn(false)
         localStorage.removeItem('isLoggedIn')
+        toast.success("Logged out!",
+            {
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+              duration: 2000,
+            }
+          );
         Navigate('/')
     }
 
@@ -45,7 +56,7 @@ function Nav() {
                 <NavbarBrand>
                     {/* <img src={MITLogo} alt="mit logo" className="w-10 h-10 mr-1" /> */}
                     <p className="text-xl font-bold mr-2">Research Spotlight</p>
-                    {authUser?.role === "ADMIN" ? <p className="text-base">&nbsp; ADMIN</p>
+                    {authUser?.role === "ADMIN" ? <p className="text-base bg-blue-600 size-auto text-base text-white p-1">ADMIN</p>
                          : null}
                 </NavbarBrand>
             </NavbarContent>

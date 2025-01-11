@@ -78,7 +78,6 @@ export default function Filters({ setFilter, filter, applyFilter, downloadData, 
                                         <DatePicker
                                             defaultValue={filter.fromDate}
                                             value={filter.fromDate}
-                                            isRequired
                                             className="w-full"
                                             aria-label="From Date"
                                             placeholder="Select Start Date"
@@ -90,8 +89,7 @@ export default function Filters({ setFilter, filter, applyFilter, downloadData, 
                                         <label className="mb-2 font-semibold">To Date</label>
                                         <DatePicker
                                             defaultValue={filter.toDate}
-                                            value={filter.toDate}
-                                            isRequired
+                                            value={filter.toDate} 
                                             className="w-full"
                                             aria-label="To Date"
                                             placeholder="Select End Date"

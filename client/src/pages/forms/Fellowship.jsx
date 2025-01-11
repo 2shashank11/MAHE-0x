@@ -18,11 +18,11 @@ import toast from "react-hot-toast";
 
 function FellowshipForm() {
   const Location = useLocation();
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
   
   useEffect(() => {
     if (!localStorage.getItem("isLoggedIn")) {
-      navigate("/signin");
+      Navigate("/signin");
     }
   }, [])
 
@@ -50,16 +50,26 @@ function FellowshipForm() {
         const response = await axios.post("/api/user/form/fellowship", { formData }, { withCredentials: true });
         console.log(response);
       }
-      toast.success("Form submitted successfully");
+      toast.success("Form submitted successfully",
+        {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+          duration: 2000,
+        }
+      );
       
     } catch (error) {
       if (error.response) {
         console.log("something went wrong");
-        toast.error(String(error));;
+        toast.error(String(error.response.data) || String(error));;
       }
     }
     setIsLoading(false);
     setFormData({});
+    Navigate("/user/dashboard")
   };
 
   function formatDate(period){

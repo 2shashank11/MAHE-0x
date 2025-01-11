@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure, Tooltip } from "@nextui-org/react";
-import { DeleteIcon } from "./assets/DeleteIcon";
 
 export default function DeleteRowModal(props) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -8,8 +7,7 @@ export default function DeleteRowModal(props) {
     return (
         <>
             <Tooltip color="danger" content="Delete Row" className="capitalize">
-                <Button onPress={onOpen} variant="flat" color="white" className="capitalize">
-                    Delete
+                <Button onPress={onOpen} variant="light" color="danger" className="capitalize"> Delete
                 </Button>
             </Tooltip>
             <Modal

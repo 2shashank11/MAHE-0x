@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from "axios";
 import { Spinner } from "@nextui-org/react";
 import * as XLSX from 'xlsx';
-
+import { toast } from 'react-hot-toast';
 
 
 export default function UserAchievements() {
@@ -50,6 +50,16 @@ export default function UserAchievements() {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     const name = filter.category.values().next().value
     XLSX.writeFile(workbook, `${name}.xlsx`);
+    toast.success("Downloading...",
+      {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+        duration: 2000,
+      }
+    );
   }
 
 
@@ -60,10 +70,11 @@ export default function UserAchievements() {
       <div className="h-screen">
         <Filters filter={filter} setFilter={setFilter} applyFilter={applyFilter} downloadData={downloadData} achievements={achievements} setAchievements={setAchievements} />
         {isLoading ?
-          <div className="flex justify-center items-center h-96 w-1">
-            <Spinner size="large" className="" />
-          </div>
-          : <AllAchievementsTable filter={filter} achievements={achievements} setAchievements={setAchievements} controls={false} />
+          <div className="flex justify-center items-center h-96 w-full">
+          <Spinner size="large" className="" />
+        </div>
+          
+          : <AllAchievementsTable filter={filter} achievements={achievements} setAchievements={setAchievements} controls={true} />
         }
         {/* selectedCategory={selectedCategory} mainData={mainData}  tableControls={false} /> */}
       </div>

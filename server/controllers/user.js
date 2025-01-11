@@ -124,7 +124,7 @@ async function handleFormDataDelete(req, res) {
             case "patent":
                 result = await Patent.findByIdAndDelete(id);
                 break;
-            case "book_bookChapter":
+            case "book_bookchapter":
                 result = await Book_BookChapter.findByIdAndDelete(id);
                 break;
             default:

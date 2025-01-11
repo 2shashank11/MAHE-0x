@@ -3,6 +3,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDi
 import { EyeFilledIcon } from "./assets/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./assets/EyeSlashFilledIcon";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 
 export default function ProfileChangePasswordModal({ authUser }) {
@@ -22,14 +23,44 @@ export default function ProfileChangePasswordModal({ authUser }) {
         console.log(formData)
         if (!formData.originalPassword || !formData.newPassword || !formData.confirmPassword) return;
         if (formData.newPassword !== formData.confirmPassword) {
-            alert("Passwords do not match")
+            toast.error("New Passwords do not match",
+                {
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                  },
+                  duration: 2000,
+                }
+              );
             return;
         }
         try {
             const response = await axios.patch(`/api/user/update-password/${authUser._id}`, formData)
             console.log(response)
+            toast.success("Password updated successfully",
+                {
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                  },
+                  duration: 2000,
+                }
+              );
+              setFormData({})
         } catch (error) {
             console.log(error)
+            toast.error(error.response.data.message,
+                {
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                  },
+                  duration: 2000,
+                }
+              );
         }
     }
 
@@ -120,6 +151,7 @@ export default function ProfileChangePasswordModal({ authUser }) {
                                     onClick={(e) => {
                                         e.preventDefault()
                                         handlePasswordUpdate();
+                                        onClose();
                                     }}>
                                     Change Password
                                 </Button>

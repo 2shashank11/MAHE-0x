@@ -1,48 +1,19 @@
-### Shashank
-working on: 
-<ul>
-<li>Frontend: user-achievements, all-achievements, admin table view</li>
-<li>Backend: new routes and authorization</li>
-</ul>
+# Pending Tasks and Bugs
 
-<hr>
-
-### Ankith
-working on : 
-<ul>
- <li> dashboard</li>
- <li> nav </li>
- <li> my profile </li>
- <li> All users for admin</li>
- <li> Home styling</li>
- <li> User Modal for admin </li>
- <li> Error Page 404 </li>
-</ul>
-<hr>
-
-### Gaurav
-working on: 
-<ul>
- <li><s>signup</s></li>
- <li><s>forgot pass</s></li>
- <li><s>Home page</s></li>
- <li>navbar styling</li>
- <li>theming</li>
- <li>About Page</li>
-</ul>
-
-<hr>
-
-### Deekshitha
-working on : 
- forms
-<ul>
-<li> fellowships </li>
-<li> journals </li>
-<li> publications </li>
-<li> patents </li>
-<li> grants </li>
-<li> conferences </li>
-</ul>
-
-<hr>
+1. ✅changes suggested by ma'am
+2. ✅(date bug) able to edit previously submitted forms
+3. ✅profile update bug in full name
+4. ✅remake all the table views without the next UI component
+5. ✅download data (need header makeover)
+6. ✅form validation
+7. ✅disable form submit button while submitting form data to prevent multiple submissions
+8. ✅All Users page fix for admin
+9. ✅Admin can edit user and their forms
+10. ✅Toasts
+11. ✅Loading Spinner
+12. input textbox and some components becomes too small/large in mobile view for some pages
+13. write header row of table properly for each categories in achievements page
+14. Admin can fill form for any user
+15.  (need AWS bucket) upload profile image
+16. Home page stats
+17. Pagination
