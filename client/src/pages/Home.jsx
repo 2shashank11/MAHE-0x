@@ -5,9 +5,9 @@ import Footer from "../components/Footer";
 
 function Home() {
   return (
-    <div>
+    <div class="wrapper">
       <Nav />
-      <div className="flex align-middle justify-center ">
+      <div className="flex-grow justify-center ">
         <HomeDescription />
       </div>
 
