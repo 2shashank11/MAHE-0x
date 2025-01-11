@@ -174,25 +174,25 @@ const router = createBrowserRouter([
 ]);
 
 
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <NextUIProvider>
-//     <AuthProvider>
-//       <div><Toaster /></div>
-//       {/* <main className="dark text-foreground bg-background"> */}
-//       <RouterProvider router={router} />
-//       {/* </main> */}
-//     </AuthProvider>
-//   </NextUIProvider>
-
-// );
-// reportWebVitals();
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>
+  <NextUIProvider>
+    <AuthProvider>
+      <div><Toaster /></div>
+      {/* <main className="dark text-foreground bg-background"> */}
+      <RouterProvider router={router} />
+      {/* </main> */}
+    </AuthProvider>
+  </NextUIProvider>
+
 );
+reportWebVitals();
+
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <React.StrictMode>
+//         <App />
+//     </React.StrictMode>
+// );
 
 reportWebVitals();

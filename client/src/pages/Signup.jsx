@@ -103,11 +103,11 @@ export default function Signup() {
               </div>
               <div className="flex flex-col md:items-start">
                 <h2 className="text-xl font-bold mb-4">Department</h2>
-                <Input label="Enter Department" name="department" onChange={handleInputChange} />
+                <Input required label="Enter Department" name="department" onChange={handleInputChange} />
               </div>
               <div className="flex flex-col md:items-start">
                 <h2 className="text-xl font-bold mb-4">Designation</h2>
-                <Input label="Enter Designation" name="designation" onChange={handleInputChange} />
+                <Input required label="Enter Designation" name="designation" onChange={handleInputChange} />
               </div>
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
@@ -125,7 +125,7 @@ export default function Signup() {
               </div>
               <div className="flex flex-col md:items-start">
                 <h2 className="text-xl font-bold mb-4">Phone number</h2>
-                <Input label="Phone number" name="phone" onChange={handleInputChange} />
+                <Input required label="Phone number" name="phone" onChange={handleInputChange} />
               </div>
               <div className="flex flex-col md:items-start">
                 <h2 className="text-xl font-bold mb-4">Create a Password</h2>
@@ -138,7 +138,7 @@ export default function Signup() {
               <Button variant="solid" color="success" type="submit">
                 Submit
               </Button>
-              <Link to="/login" className="text-blue-500">Already have an account? Sign In</Link>
+              <Link to="/signin" className="text-blue-500">Already have an account? Sign In</Link>
             </div>
           </div>
         </form>

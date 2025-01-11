@@ -5,6 +5,7 @@ import {
   SelectItem,
   DatePicker,
   Divider,
+  Spinner
 } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import { months, bookTypes } from "./data"; // Import bookTypes
@@ -12,6 +13,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Nav from "../../components/Nav";
 import { parseDate } from "@internationalized/date";
+import toast from "react-hot-toast";
 
 const years = [];
 for (let year = new Date().getFullYear() - 30; year <= new Date().getFullYear() + 1; year++) {
@@ -29,6 +31,7 @@ function Book_BookChapter() {
   }, []);
 
   const [formData, setFormData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUserInput = (e) => {
     setFormData({
@@ -40,6 +43,7 @@ function Book_BookChapter() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    setIsLoading(true);
     try {
       if (Location.state?.data) {
         const response = await axios.patch(`/api/user/form/book_bookChapter/${Location.state.data._id}`, { formData }, { withCredentials: true });
@@ -49,9 +53,14 @@ function Book_BookChapter() {
         const response = await axios.post("/api/user/form/book_bookChapter", { formData }, { withCredentials: true });
         console.log(response);
       }
-    } catch (error) {
+      toast.success("Form submitted successfully");
+    } 
+    catch (error) {
       console.log("Something went wrong");
+      toast.error(String(error));
     }
+    setIsLoading(false);
+    setFormData({});
   };
 
   useEffect(() => {
@@ -89,15 +98,19 @@ function Book_BookChapter() {
                 <p className="pt-2 text-lg md:text-xl text-blue-600 font-bold">
                   Update your Book & Book-Chapter details here
                 </p>
-                <Button
-                  className="w-56 h-12"
-                  color="primary"
-                  size="lg"
-                  radius="none"
-                  type="submit"
-                >
-                  Save
-                </Button>
+                {isLoading
+                  ? <Spinner size="large" />
+                  :
+                  <Button
+                    className="w-56 h-12"
+                    color="primary"
+                    size="lg"
+                    radius="none"
+                    type="submit"
+                  >
+                    Save
+                  </Button>
+                }
               </div>
               <Divider />
               <div className="space-y-4">
@@ -107,6 +120,7 @@ function Book_BookChapter() {
                   </div>
                   <div className="flex-auto">
                     <Input
+                      required
                       label="Book Name"
                       name="bookName"
                       variant="bordered"
@@ -123,6 +137,7 @@ function Book_BookChapter() {
                   </div>
                   <div className="flex-auto">
                     <Input
+                    required
                       label="Enter ISBN"
                       name="isbn"
                       variant="bordered"
@@ -139,6 +154,7 @@ function Book_BookChapter() {
                   </div>
                   <div className="flex-auto">
                     <Select
+                    isRequired={true}
                       name="type"
                       label="Type"
                       variant="bordered"
@@ -161,6 +177,7 @@ function Book_BookChapter() {
                   </div>
                   <div className="flex-auto">
                     <Select
+                    isRequired={true}
                       label="Publication Year"
                       name="publicationYear"
                       variant="bordered"
@@ -184,6 +201,8 @@ function Book_BookChapter() {
                   </div>
                   <div className="flex-auto">
                     <DatePicker
+                    required
+                    isRequired
                       className="max-w-[284px]"
                       label="Date"
                       defaultValue={formData.period}

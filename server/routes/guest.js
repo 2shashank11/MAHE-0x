@@ -10,7 +10,7 @@ const { sendOTP, verifyOTP } = require('../controllers/otp');
 
 const router = express.Router()
 
-// router.get('/login', (req, res) => {
+// router.get('/signin', (req, res) => {
 //     if(req.cookies.token) return res.redirect('/user/dashboard')
 //     res.render('login')
 // })
