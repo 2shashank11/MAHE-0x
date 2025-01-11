@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Image, Button, Input, Spinner } from "@nextui-org/react";
 import ProfileChangePasswordModal from "./ProfileChangePasswordModal";
+import { useAuth } from "../contexts/AuthContext";
 
 function PersonalDetails({ authUser, setAuthUser, formData, handleInputChange, handleSaveProfile }) {
   const [editDisabled, setEditDisabled] = useState(true);
   const [file, setFile] = useState(null);
   const [fileURL, setFileURL] = useState(null);
+  const [isLoading, setIsloading] = useState(true);
 
   function getImage(e) {
     const selectedFile = e.target.files[0];
@@ -26,6 +28,29 @@ function PersonalDetails({ authUser, setAuthUser, formData, handleInputChange, h
       setFile(null);
       setFileURL(null);
     }
+  }
+
+  useEffect(() => {
+    if(authUser){
+      setIsloading(false);
+    }
+    else{
+      setIsloading(true);
+    }
+  }, [authUser]);
+
+
+  function onSubmit(e) {
+    e.preventDefault();
+    uploadImage();
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner size="large" />
+      </div>
+    );
   }
 
   return (
@@ -55,7 +80,7 @@ function PersonalDetails({ authUser, setAuthUser, formData, handleInputChange, h
             )} */}
           </div>
 
-          <form className="grid gap-8" onSubmit={(e) => { e.preventDefault(); setEditDisabled(false); handleSaveProfile(); setEditDisabled(true) }}>
+          <form className="grid gap-8" onSubmit={(e) => { e.preventDefault(); handleSaveProfile(); setEditDisabled(true) }}>
             <div className="grid gap-8"> {/* Personal details form */}
 
               <div className="flex flex-col md:items-start">

@@ -6,6 +6,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { Button, Tooltip, Popover, PopoverContent, PopoverTrigger, cn, Listbox, ListboxItem } from "@nextui-org/react";
 import { AddNoteIcon, ListboxWrapper } from './assets/RowDropdown';
 import { EditDocumentIcon, DeleteDocumentIcon } from './assets/RowDropdown';
+import { toast } from "react-hot-toast";
 
 
 export default function AchievementsTable({ filter, achievements, controls, setAchievements }) {
@@ -69,8 +70,28 @@ export default function AchievementsTable({ filter, achievements, controls, setA
             const response = await axios.delete(`/api/user/form/${category.toLowerCase()}/${id}`);
             setFilteredData((filteredData) => filteredData.filter(i => i._id !== id));
             setAchievements((achievements) => achievements.filter(i => i._id !== id));
+            toast.success("Row deleted successfully",
+                {
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                  },
+                  duration: 2000,
+                }
+              );
         } catch (error) {
             console.error("Error deleting row:", error);
+            toast.error(String(error.response.data),
+                {
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                  },
+                  duration: 2000,
+                }
+              );
         }
     };
 
@@ -96,7 +117,7 @@ export default function AchievementsTable({ filter, achievements, controls, setA
                                 </td>
                             ))}
                             <td className="py-3 px-4 border-b text-center">
-                                {((authUser?.role === 'ADMIN' || !controls) || controls) ? (
+                                {(authUser?.role === 'ADMIN' || controls) ? (
                                     <>
                                         <Popover placement="left">
                                             <PopoverTrigger>

@@ -5,6 +5,7 @@ import { AuthContext } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { Spinner } from '@nextui-org/react'
 import axios from 'axios'
+import { toast } from 'react-hot-toast'
 
 function Profile() {
 
@@ -19,11 +20,12 @@ function Profile() {
   }, [])
 
   const [formData, setFormData] = useState(authUser)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    
-    if(name==="firstName" || name==="middleName" || name==="lastName") {
+
+    if (name === "firstName" || name === "middleName" || name === "lastName") {
       setFormData((prevData) => ({
         ...prevData,
         name: {
@@ -41,16 +43,42 @@ function Profile() {
 
   async function handleSaveProfile() {
     // e.preventDefault()
+    if(!formData) return
+    setIsLoading(true)
     console.log("saving profile")
     console.log(formData)
     try {
       const response = await axios.patch(`/api/user/update-profile/${authUser._id}`, formData)
       console.log(response)
-      setAuthUser(formData)
+      setAuthUser((prevAuthUser) => ({
+        ...prevAuthUser,
+        ...formData,
+      }));
+      toast.success("Profile updated successfully",
+        {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+          duration: 2000,
+        }
+      );
+      setFormData({})
     } catch (error) {
       console.log(error)
+      toast.error(String(error.response.data) || String(error),
+        {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+          duration: 2000,
+        }
+      );
     }
-    
+    setIsLoading(false)
   }
 
   const [loading, setLoading] = useState(true);
@@ -60,7 +88,7 @@ function Profile() {
       setLoading(false);
     }
   }, [authUser]);
-  
+
   if (loading) {
     return <>
       <div className="flex justify-center items-center h-screen">
@@ -73,7 +101,14 @@ function Profile() {
     <>
       <Nav />
       <div className='h-screen'>
-      <PersonalDetails authUser={authUser} setAuthUser={setAuthUser} formData={formData} handleInputChange={handleInputChange} handleSaveProfile={handleSaveProfile}/>
+        {isLoading
+          ?
+          <div className="flex justify-center items-center h-96 w-full">
+            <Spinner size="large" className="" />
+          </div>
+          :
+          <PersonalDetails authUser={authUser} setAuthUser={setAuthUser} formData={formData} handleInputChange={handleInputChange} handleSaveProfile={handleSaveProfile} />
+        }
 
       </div>
     </>
