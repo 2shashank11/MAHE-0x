@@ -4,6 +4,9 @@
 
 * {
   box-sizing: border-box;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-top: 5px;
 }
 
 body {
