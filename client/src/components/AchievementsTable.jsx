@@ -130,15 +130,15 @@ export default function AchievementsTable({ filter, achievements, controls, setA
                                                         <ListboxItem
                                                             key="edit"
                                                             showDivider
-                                                            startContent={<EditDocumentIcon className={iconClasses} />}
+                                                            startContent={""}
                                                         >
                                                             <Button
                                                                 variant="flat"
-                                                                color="white"
-                                                                className="capitalize"
+                                                                color="warning"
+                                                                className="capitalize w-full"
                                                                 onClick={() => handleRedirectToEdit(achievements[rowIndex], filter.category)}
                                                             >
-                                                                Edit
+                                                                <EditDocumentIcon className={iconClasses}/>Edit
                                                             </Button>
                                                         </ListboxItem>
 
@@ -146,7 +146,7 @@ export default function AchievementsTable({ filter, achievements, controls, setA
                                                             key="delete"
                                                             className="text-danger"
                                                             color="danger"
-                                                            startContent={<DeleteDocumentIcon className={cn(iconClasses, "text-danger")} />}
+                                                            startContent={""}
                                                         >
                                                             <DeleteRowModal handleDeleteRow={() => handleDeleteRow(rowIndex)} id={rowIndex} />
                                                         </ListboxItem>
