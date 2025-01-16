@@ -1,13 +1,18 @@
 import React, { useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure, Tooltip } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure, Tooltip, cn } from "@nextui-org/react";
+import { DeleteDocumentIcon } from "./assets/RowDropdown";
+import { iconClasses } from "./assets/RowDropdown";
 
 export default function DeleteRowModal(props) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
     return (
         <>
             <Tooltip color="danger" content="Delete Row" className="capitalize">
-                <Button onPress={onOpen} variant="light" color="danger" className="capitalize"> Delete
+                <Button onPress={onOpen} variant="light" color="danger" className="capitalize">
+                    <DeleteDocumentIcon className={cn(iconClasses, "text-danger")} />
+                    Delete
                 </Button>
             </Tooltip>
             <Modal
