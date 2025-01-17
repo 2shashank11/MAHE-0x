@@ -2,18 +2,24 @@ import React from "react";
 import { HomeButtons, Homegrid, HomeDescription } from "../components/Homepage";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import Stats from "../components/home_stats";
+import Navigation from "../components/newNav";
+import Features from "../components/features";
+import FutureScope from "../components/future_scope";
 
 function Home() {
+  const [activeTab, setActiveTab] = React.useState("grants");
   return (
     <div class="wrapper">
-      <Nav />
+      <Navigation />
       <div className="flex-grow justify-center ">
-        <HomeDescription />
+        <HomeDescription onTabchange={setActiveTab} />
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Homegrid />
-        <HomeButtons />
+      <div className="flex-grow justify-center">
+        {/* <Homegrid /> */}
+        {/* <HomeButtons /> */}
+        <Features />
+        <FutureScope />
       </div>
       <div>
         <Footer />
