@@ -1,11 +1,9 @@
 import './App.css';
-
-import newNav from './components/newNav';
-
+import Nav from './Nav';
 function App() {
   return (
     <div className='App'>
-      <Nav />     
+      <Nav/>     
     </div>
   );
 }
