@@ -34,75 +34,6 @@ export function HomeDescription() {
 
 export function Homegrid() {
   return (
-    <div className="container mx-auto px-2 md:px-8 lg:px-16 py-10">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="h-64 md:h-72">
-          <CardHeader className="absolute z-10 top-1 flex-col !items-start">
-            <h1 className=" px-2 text-xl text-black uppercase font-bold">
-              Total
-            </h1>
-            <h1 className=" px-2 text-3xl text-black uppercase font-bold">
-              Grant Money
-            </h1>
-            <p className="px-2 text-gray-400">received in 2024!</p>
-            <Divider />
-
-            <h4 className="text-blue-600 text-5xl px-2 pt-16 font-mono">
-              $100,000
-            </h4>
-            <h4 className="text-blue-600 text-2xl pt-6"></h4>
-          </CardHeader>
-          <Image
-            removeWrapper
-            alt="Card background"
-            className="z-0 w-full h-full object-cover"
-            src=""
-          />
-        </Card>
-        <Card className="h-64 md:h-72">
-          <CardHeader className="absolute z-10 top-1 flex-col !items-start">
-            <h1 className="px-2 text-xl text-black uppercase font-bold">
-              Total
-            </h1>
-            <h1 className="px-2 text-3xl text-black uppercase font-bold">
-              Awards
-            </h1>
-            <p className="px-2 text-gray-400">received till today</p>
-            <Divider />
-            <h4 className="text-blue-600 text-5xl px-2 pt-16 font-mono">50+</h4>
-          </CardHeader>
-          <Image
-            removeWrapper
-            alt="Card background"
-            className="z-0 w-full h-full object-cover"
-            src=""
-          />
-        </Card>
-
-        <Card className="h-64 md:h-72">
-          <CardHeader className="absolute z-10 top-1 flex-col !items-start">
-            <h1 className=" px-2 text-xl text-black uppercase font-bold">
-              Total
-            </h1>
-            <h1 className=" px-2 text-3xl text-black uppercase font-bold">
-              Users
-            </h1>
-            <p className="px-2 text-gray-400">in 2024</p>
-            <Divider />
-            <h1
-              className="text-blue-600 text-5xl px-2 pt-16
-             font-mono"
-            >
-              151+
-            </h1>
-          </CardHeader>
-          <Image
-            removeWrapper
-            alt="Card background"
-            className="z-0 w-full h-full object-cover"
-            src=""
-          />
-        </Card>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <Card isFooterBlurred className="h-64 md:h-80">
@@ -177,32 +108,7 @@ export function Homegrid() {
             <p className="px-2 text-gray-400">in 2024</p>
             <Divider />
 
-            <div className="pt-4">
-              <h4 className="px-2 text-blue-600 font-medium text-large">
-                Prof. X receives award in IEEE event!
-              </h4>
 
-              <h4 className="px-2 pt-2 text-blue-600 font-medium text-large">
-                More than 100 students get 8.5+
-              </h4>
-              <h4 className="px-2 pt-2 text-blue-600 font-medium text-large">
-                CSE Dept. gets awarded by AICTE!
-              </h4>
-              <h4 className="px-2 pt-2 text-blue-600 font-medium text-large">
-                Celebrate Environment Day with us!
-              </h4>
-            </div>
-          </CardHeader>
-          <Image
-            removeWrapper
-            alt="Relaxing app background"
-            className="z-0 w-full h-full object-cover"
-            src=""
-          />
-          <CardFooter className="absolute bg-blue-600 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100">
-            <div className="flex flex-grow gap-2 items-center">
-              <div className="px-2">
-                <p className="text-medium text-white">Read Announcements</p>
               </div>
             </div>
             <Button radius="full" size="sm">

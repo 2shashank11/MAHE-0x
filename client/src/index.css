@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* this pertains to the overall css of the codebase  */
+
 
 * {
   box-sizing: border-box;
@@ -21,8 +23,7 @@ body {
 .wrapper {
   box-sizing: border-box;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+
 }
 
 .footer {
