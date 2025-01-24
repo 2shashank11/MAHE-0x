@@ -3,6 +3,10 @@ export const choice = [
   {value: "Yes", label: "Yes"},
   {value: "No", label: "No"},
 ];
+export const graduation = [
+  {value: "UG", label: "UG"},
+  {value: "PG", label: "PG"},
+];
 export const author=[
     {value:"Author",label:"Author"},
     {value:"Co-Author",label:"Co-Author"},
