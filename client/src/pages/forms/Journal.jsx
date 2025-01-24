@@ -8,7 +8,7 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
-import { author, choice, quartiles } from "./data";
+import { author, choice, quartiles, graduation } from "./data";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Nav from "../../components/Nav";
@@ -26,6 +26,10 @@ function JournalForm() {
   }, []);
 
   const [formData, setFormData] = useState({});
+  const [isStudentProject, setIsStudentProject] = useState(
+    formData?.studentProject || ""
+  );
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUserInput = (e) => {
@@ -35,60 +39,72 @@ function JournalForm() {
     });
   };
 
+  const handleStudentProjectChange = (e) => {
+    const isStudentProject = e.target.value;
+    setIsStudentProject(isStudentProject); // Set selected region
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      isStudentProject: isStudentProject,
+    })); // Update region in formData
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (formData.region === "Indian") formData.country = "India";
     console.log(formData);
     setIsLoading(true);
     try {
-
       if (Location.state?.data) {
-        const response = await axios.patch(`/api/user/form/journal/${Location.state.data._id}`, { formData }, { withCredentials: true });
+        const response = await axios.patch(
+          `/api/user/form/journal/${Location.state.data._id}`,
+          { formData },
+          { withCredentials: true }
+        );
+        console.log(response);
+      } else {
+        const response = await axios.post(
+          "/api/user/form/journal",
+          { formData },
+          { withCredentials: true }
+        );
         console.log(response);
       }
-
-      else {
-        const response = await axios.post("/api/user/form/journal", { formData }, { withCredentials: true });
-        console.log(response);
-      }
-      toast.success("Form submitted successfully",
-        {
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-          },
-          duration: 2000,
-        }
-      );
-    }
-    catch (error) {
+      toast.success("Form submitted successfully", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+        duration: 2000,
+      });
+    } catch (error) {
       if (error.response) {
         console.error("Something went wrong");
-        toast.error(String(error.response.data) || String(error));;
+        toast.error(String(error.response.data) || String(error));
       }
     }
     setIsLoading(false);
     setFormData({});
-    Navigate("/user/dashboard")
+    Navigate("/user/dashboard");
   };
 
-    useEffect(() => {
-      if (Location.state?.data) {
-        setFormData(Location.state?.data);
-  
-        console.log(Location.state.data.period)
-        setFormData((prev) => ({
-          ...prev,
-          period : parseDate(new Date(Location.state.data?.period).toISOString().split('T')[0]),
-        }))
-        
-      }
-    }, []);
-  
-    useEffect(() => {
-          console.log("formData", formData)
-        }, [formData]);
+  useEffect(() => {
+    if (Location.state?.data) {
+      setFormData(Location.state?.data);
+
+      console.log(Location.state.data.period);
+      setFormData((prev) => ({
+        ...prev,
+        period: parseDate(
+          new Date(Location.state.data?.period).toISOString().split("T")[0]
+        ),
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("formData", formData);
+  }, [formData]);
 
   return (
     <>
@@ -107,9 +123,9 @@ function JournalForm() {
                 <p className="pt-2 text-lg md:text-xl text-blue-600 font-bold">
                   Update your journal details here
                 </p>
-                {isLoading
-                  ? <Spinner size="large" />
-                  :
+                {isLoading ? (
+                  <Spinner size="large" />
+                ) : (
                   <Button
                     className="w-56 h-12"
                     color="primary"
@@ -119,7 +135,7 @@ function JournalForm() {
                   >
                     Save
                   </Button>
-                }
+                )}
               </div>
               <Divider />
               <div className="space-y-4">
@@ -129,7 +145,7 @@ function JournalForm() {
                   </div>
                   <div className="flex-auto">
                     <Input
-                    required
+                      required
                       label="Journal Title"
                       name="title"
                       variant="bordered"
@@ -146,7 +162,7 @@ function JournalForm() {
                   </div>
                   <div className="flex-auto">
                     <Input
-                    required
+                      required
                       label="Journal Name"
                       name="journalName"
                       variant="bordered"
@@ -163,7 +179,7 @@ function JournalForm() {
                   </div>
                   <div className="flex-auto">
                     <Select
-                    isRequired={true}
+                      isRequired={true}
                       label="Select Quartile"
                       name="quartile"
                       variant="bordered"
@@ -188,7 +204,7 @@ function JournalForm() {
                   </div>
                   <div className="flex-auto">
                     <Select
-                    isRequired={true}
+                      isRequired={true}
                       label="Yes / No"
                       name="wos"
                       variant="bordered"
@@ -213,7 +229,7 @@ function JournalForm() {
                   </div>
                   <div className="flex-auto">
                     <Select
-                    isRequired={true}
+                      isRequired={true}
                       label="Authorship"
                       name="authorship"
                       variant="bordered"
@@ -237,11 +253,67 @@ function JournalForm() {
                 <Divider />
                 <div className="flex items-center gap-6">
                   <div className="w-1/3 text-lg font-semibold">
+                    <h1>Student Project</h1>
+                  </div>
+                  <div className="flex-auto">
+                    <Select
+                      isRequired={true}
+                      name="isStudentProject"
+                      label="Yes / No"
+                      variant="bordered"
+                      fullWidth
+                      onChange={handleStudentProjectChange}
+                      selectedKeys={
+                        new Set([formData.isStudentProject]) || isStudentProject
+                      }
+                    >
+                      {choice.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
+                {isStudentProject === "Yes" ? (
+                  <div className="flex items-center gap-6">
+                    <div className="w-1/3 text-lg font-semibold">
+                      <h1>Graduation</h1>
+                    </div>
+                    <div className="flex-auto">
+                      <Select
+                        isRequired={true}
+                        label="UG / PG"
+                        name="isStudentProject"
+                        variant="bordered"
+                        fullWidth
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            isStudentProject: e.target.value,
+                          })
+                        }
+                        selectedKeys={
+                          new Set([formData.isStudentProject]) || ""
+                        }
+                      >
+                        {graduation.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </div>
+                  </div>
+                ) : null}
+                <Divider />
+                <div className="flex items-center gap-6">
+                  <div className="w-1/3 text-lg font-semibold">
                     <h1>DOI</h1>
                   </div>
                   <div className="flex-auto">
                     <Input
-                    required
+                      required
                       label="DOI"
                       name="doi"
                       variant="bordered"
@@ -258,15 +330,13 @@ function JournalForm() {
                   </div>
                   <div className="flex-auto">
                     <DatePicker
-                    required
-                    isRequired
+                      required
+                      isRequired
                       className="max-w-[284px]"
                       label="Date"
                       defaultValue={formData.period}
                       value={formData.period}
-                      onChange={(e) =>
-                        setFormData({ ...formData, period: e })
-                      }
+                      onChange={(e) => setFormData({ ...formData, period: e })}
                     />
                   </div>
                 </div>
