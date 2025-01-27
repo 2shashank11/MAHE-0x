@@ -6,6 +6,12 @@ import {
   DatePicker,
   Divider,
   Spinner,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from "@nextui-org/react";
 import React, { useState, useEffect, useContext } from "react";
 import { choice, months } from "./data";
@@ -26,6 +32,7 @@ function PatentForm() {
     }
   }, []);
 
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState({});
   const [selectedRegion, setSelectedRegion] = useState(formData?.region || "");
   const [isLoading, setIsLoading] = useState(false);
@@ -44,50 +51,56 @@ function PatentForm() {
     setIsLoading(true);
     try {
       if (Location.state?.data) {
-        const response = await axios.patch(`/api/user/form/patent/${Location.state.data._id}`, { formData }, { withCredentials: true });
-        console.log(response);
-      }
-      else {
-        const response = await axios.post("/api/user/form/patent", { formData }, { withCredentials: true });
-        console.log(response);
-        toast.success("Form submitted successfully",
-          {
-            style: {
-              borderRadius: '10px',
-              background: '#333',
-              color: '#fff',
-            },
-            duration: 2000,
-          }
+        const response = await axios.patch(
+          `/api/user/form/patent/${Location.state.data._id}`,
+          { formData },
+          { withCredentials: true }
         );
+        console.log(response);
+      } else {
+        const response = await axios.post(
+          "/api/user/form/patent",
+          { formData },
+          { withCredentials: true }
+        );
+        console.log(response);
+        toast.success("Form submitted successfully", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+          duration: 2000,
+        });
       }
     } catch (error) {
       if (error.response) {
         console.log("something went wrong");
-        toast.error(String(error.response.data) || String(error));;
+        toast.error(String(error.response.data) || String(error));
       }
     }
     setIsLoading(false);
     setFormData({});
-    Navigate("/user/dashboard")
+    Navigate("/user/dashboard");
   };
 
-    useEffect(() => {
-      if (Location.state?.data) {
-        setFormData(Location.state?.data);
-  
-        console.log(Location.state.data.period)
-        setFormData((prev) => ({
-          ...prev,
-          period : parseDate(new Date(Location.state.data?.period).toISOString().split('T')[0]),
-        }))
-        
-      }
-    }, []);
-  
-    useEffect(() => {
-          console.log("formData", formData)
-        }, [formData]);
+  useEffect(() => {
+    if (Location.state?.data) {
+      setFormData(Location.state?.data);
+
+      console.log(Location.state.data.period);
+      setFormData((prev) => ({
+        ...prev,
+        period: parseDate(
+          new Date(Location.state.data?.period).toISOString().split("T")[0]
+        ),
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("formData", formData);
+  }, [formData]);
 
   const handleRegionChange = (e) => {
     const region = e.target.value;
@@ -107,15 +120,57 @@ function PatentForm() {
         </div>
         <div className="flex flex-col items-center p-4">
           <div className="w-full p-8">
-            <h1 className="pt-4 font-sans font-semibold text-3xl">Patent Details</h1>
+            <h1 className="pt-4 font-sans font-semibold text-3xl">
+              Patent Details
+            </h1>
             <form onSubmit={handleFormSubmit} className="space-y-8">
               <div className="flex justify-between mt-4 w-full">
-                <p className="pt-2 text-lg md:text-xl text-blue-600 font-bold">
-                  Update your patent details here
-                </p>
-                {isLoading
-                  ? <Spinner size="large" />
-                  :
+                <Button
+                  color="primary"
+                  variant="flat"
+                  radius="none"
+                  size="lg"
+                  onPress={onOpen}
+                >
+                  Are you filling the form for someone else?
+                </Button>
+                <Modal
+                  isOpen={isOpen}
+                  placement="top-center"
+                  onOpenChange={onOpenChange}
+                >
+                  <ModalContent>
+                    {(onClose) => (
+                      <>
+                        <ModalHeader className="flex flex-col gap-1">
+                          Enter User ID
+                        </ModalHeader>
+                        <ModalBody>
+                          <Input
+                            label="User ID"
+                            placeholder="ex: 220905172"
+                            variant="bordered"
+                          />
+                        </ModalBody>
+                        <ModalFooter className="justify-end">
+                          <Button
+                            color="danger"
+                            variant="flat"
+                            onPress={onClose}
+                          >
+                            Close
+                          </Button>
+                          <Button color="primary" onPress={onClose}>
+                            Confirm
+                          </Button>
+                        </ModalFooter>
+                      </>
+                    )}
+                  </ModalContent>
+                </Modal>
+                {isLoading ? (
+                  <Spinner size="large" />
+                ) : (
                   <Button
                     className="w-56 h-12"
                     color="primary"
@@ -125,7 +180,7 @@ function PatentForm() {
                   >
                     Save
                   </Button>
-                }
+                )}
               </div>
               <Divider />
               <div className="space-y-4">
@@ -135,7 +190,7 @@ function PatentForm() {
                   </div>
                   <div className="flex-auto">
                     <Input
-                    required
+                      required
                       label="Patent Title"
                       name="title"
                       variant="bordered"
@@ -152,7 +207,7 @@ function PatentForm() {
                   </div>
                   <div className="flex-auto">
                     <Select
-                    isRequired={true}
+                      isRequired={true}
                       label="Yes/No"
                       name="filed"
                       variant="bordered"
@@ -175,7 +230,7 @@ function PatentForm() {
                   </div>
                   <div className="flex-auto">
                     <Select
-                    isRequired={true}
+                      isRequired={true}
                       label="Yes/No"
                       name="published"
                       variant="bordered"
@@ -198,7 +253,7 @@ function PatentForm() {
                   </div>
                   <div className="flex-auto">
                     <Select
-                    isRequired={true}
+                      isRequired={true}
                       label="Yes/No"
                       name="granted"
                       variant="bordered"
@@ -221,13 +276,15 @@ function PatentForm() {
                   </div>
                   <div className="flex-auto">
                     <Select
-                    isRequired={true}
+                      isRequired={true}
                       name="region"
                       label="Region"
                       variant="bordered"
                       fullWidth
                       onChange={handleRegionChange}
-                      selectedKeys={new Set([formData.region]) || selectedRegion}
+                      selectedKeys={
+                        new Set([formData.region]) || selectedRegion
+                      }
                     >
                       <SelectItem key="Indian" value="Indian">
                         Indian
@@ -245,7 +302,7 @@ function PatentForm() {
                     </div>
                     <div className="flex-auto">
                       <Input
-                      required
+                        required
                         label="Country"
                         name="country"
                         fullWidth
@@ -262,15 +319,13 @@ function PatentForm() {
                   </div>
                   <div className="flex-auto">
                     <DatePicker
-                    required
-                    isRequired
+                      required
+                      isRequired
                       className="max-w-[284px]"
                       label="Date"
                       defaultValue={formData.period}
                       value={formData.period}
-                      onChange={(e) =>
-                        setFormData({ ...formData, period: e })
-                      }
+                      onChange={(e) => setFormData({ ...formData, period: e })}
                     />
                   </div>
                 </div>

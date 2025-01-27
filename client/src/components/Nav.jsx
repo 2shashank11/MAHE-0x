@@ -14,7 +14,6 @@ import {
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import { toast } from "react-hot-toast";
-//import MITLogo from "../images/mit_logo.png"
 
 function Nav() {
   const Navigate = useNavigate();

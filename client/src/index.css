@@ -28,6 +28,7 @@ body {
 
 .footer {
   flex-shrink: 0;
+
 }
 
 code {
@@ -62,3 +63,16 @@ Nav header{
     font-family: Tahoma;
 }
 
+.Background-image {
+  background-image: url('../public/herobg.png'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+
+.Nav-button-1:hover, .Nav-button-2:hover, .Nav-button-3:hover {
+  background-color: rgb(255, 244, 255);
+  color: rgb(30, 30, 30);
+  transition: background-color 0.3s ;
+  
+}
