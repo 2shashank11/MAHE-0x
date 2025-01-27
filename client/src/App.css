@@ -29,3 +29,15 @@
   border-bottom: 2px solid #000;
 }
 
+.headernav {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+
+.background-image {
+  background-image: url('client/public/herobg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

@@ -5,7 +5,13 @@ import {
   SelectItem,
   Divider,
   DatePicker,
-  Spinner
+  Spinner,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -15,17 +21,17 @@ import { choice } from "./data";
 import { parseDate } from "@internationalized/date";
 import toast from "react-hot-toast";
 
-
 function FellowshipForm() {
   const Location = useLocation();
   const Navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!localStorage.getItem("isLoggedIn")) {
       Navigate("/signin");
     }
-  }, [])
+  }, []);
 
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,54 +39,58 @@ function FellowshipForm() {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (formData.region === "Indian") formData.country = "India"
+    if (formData.region === "Indian") formData.country = "India";
     console.log(formData);
     setIsLoading(true);
     try {
       if (Location.state?.data) {
-        const response = await axios.patch(`/api/user/form/fellowship/${Location.state.data._id}`, { formData }, { withCredentials: true });
+        const response = await axios.patch(
+          `/api/user/form/fellowship/${Location.state.data._id}`,
+          { formData },
+          { withCredentials: true }
+        );
+        console.log(response);
+      } else {
+        const response = await axios.post(
+          "/api/user/form/fellowship",
+          { formData },
+          { withCredentials: true }
+        );
         console.log(response);
       }
-      else{
-        const response = await axios.post("/api/user/form/fellowship", { formData }, { withCredentials: true });
-        console.log(response);
-      }
-      toast.success("Form submitted successfully",
-        {
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-          },
-          duration: 2000,
-        }
-      );
-      
+      toast.success("Form submitted successfully", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+        duration: 2000,
+      });
     } catch (error) {
       if (error.response) {
         console.log("something went wrong");
-        toast.error(String(error.response.data) || String(error));;
+        toast.error(String(error.response.data) || String(error));
       }
     }
     setIsLoading(false);
     setFormData({});
-    Navigate("/user/dashboard")
+    Navigate("/user/dashboard");
   };
 
-  function formatDate(period){
+  function formatDate(period) {
     if (period) {
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      const options = { year: "numeric", month: "short", day: "numeric" };
       const periodDate = new Date(period);
 
       if (!isNaN(periodDate.getTime())) {
-        const formattedPeriod = periodDate.toLocaleString('en-US', options);
-        const isoPeriod = periodDate.toISOString().split('T')[0];
-        return isoPeriod
+        const formattedPeriod = periodDate.toLocaleString("en-US", options);
+        const isoPeriod = periodDate.toISOString().split("T")[0];
+        return isoPeriod;
       }
     }
   }
@@ -90,16 +100,15 @@ function FellowshipForm() {
       setFormData(Location.state?.data);
       setFormData((prev) => ({
         ...prev,
-        periodFrom : parseDate(formatDate(Location.state?.data?.periodFrom)),
-        periodTo : parseDate(formatDate(Location.state?.data?.periodTo))
-      }))
-      
+        periodFrom: parseDate(formatDate(Location.state?.data?.periodFrom)),
+        periodTo: parseDate(formatDate(Location.state?.data?.periodTo)),
+      }));
     }
   }, []);
 
   useEffect(() => {
-      console.log("formData", formData)
-    }, [formData]);
+    console.log("formData", formData);
+  }, [formData]);
 
   return (
     <>
@@ -115,12 +124,52 @@ function FellowshipForm() {
             </h1>
             <form onSubmit={handleFormSubmit} className="space-y-8">
               <div className="flex justify-between mt-4 w-full">
-                <p className="pt-2 text-lg md:text-xl text-blue-600 font-bold">
-                  Update your fellowship details here
-                </p>
-                {isLoading
-                  ? <Spinner size="large" />
-                  :
+                <Button
+                  color="primary"
+                  variant="flat"
+                  radius="none"
+                  size="lg"
+                  onPress={onOpen}
+                >
+                  Are you filling the form for someone else?
+                </Button>
+                <Modal
+                  isOpen={isOpen}
+                  placement="top-center"
+                  onOpenChange={onOpenChange}
+                >
+                  <ModalContent>
+                    {(onClose) => (
+                      <>
+                        <ModalHeader className="flex flex-col gap-1">
+                          Enter User ID
+                        </ModalHeader>
+                        <ModalBody>
+                          <Input
+                            label="User ID"
+                            placeholder="ex: 220905172"
+                            variant="bordered"
+                          />
+                        </ModalBody>
+                        <ModalFooter className="justify-end">
+                          <Button
+                            color="danger"
+                            variant="flat"
+                            onPress={onClose}
+                          >
+                            Close
+                          </Button>
+                          <Button color="primary" onPress={onClose}>
+                            Confirm
+                          </Button>
+                        </ModalFooter>
+                      </>
+                    )}
+                  </ModalContent>
+                </Modal>
+                {isLoading ? (
+                  <Spinner size="large" />
+                ) : (
                   <Button
                     className="w-56 h-12"
                     color="primary"
@@ -130,7 +179,7 @@ function FellowshipForm() {
                   >
                     Save
                   </Button>
-                }
+                )}
               </div>
               <Divider />
               <div className="space-y-4">
@@ -140,7 +189,7 @@ function FellowshipForm() {
                   </div>
                   <div className="flex-auto">
                     <Input
-                    required
+                      required
                       label="Fellowship Name"
                       name="fellowshipName"
                       variant="bordered"
@@ -156,8 +205,8 @@ function FellowshipForm() {
                     <h1>Amount</h1>
                   </div>
                   <div className="flex-auto">
-                  <Input
-                  required
+                    <Input
+                      required
                       label="Fellowship Amount"
                       name="fellowshipAmount"
                       variant="bordered"
@@ -175,7 +224,7 @@ function FellowshipForm() {
                   </div>
                   <div className="flex-auto">
                     <Select
-                    isRequired={true}
+                      isRequired={true}
                       label="Yes / No"
                       name="submitted"
                       variant="bordered"
@@ -198,7 +247,7 @@ function FellowshipForm() {
                   </div>
                   <div className="flex-auto">
                     <Select
-                    isRequired={true}
+                      isRequired={true}
                       label="Yes / No"
                       name="granted"
                       variant="bordered"
@@ -221,8 +270,8 @@ function FellowshipForm() {
                   </div>
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
                     <DatePicker
-                    required
-                    isRequired
+                      required
+                      isRequired
                       className="max-w-[284px]"
                       label="From"
                       defaultValue={formData.periodFrom}
@@ -232,7 +281,7 @@ function FellowshipForm() {
                       }
                     />
                     <DatePicker
-                    isRequired={true}
+                      isRequired={true}
                       className="max-w-[284px]"
                       label="To"
                       defaultValue={formData.periodTo}
@@ -253,5 +302,3 @@ function FellowshipForm() {
 }
 
 export default FellowshipForm;
-
-

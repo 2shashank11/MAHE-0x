@@ -6,6 +6,12 @@ import {
   DatePicker,
   Divider,
   Spinner,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import { author, choice, quartiles, graduation } from "./data";
@@ -25,6 +31,7 @@ function JournalForm() {
     }
   }, []);
 
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState({});
   const [isStudentProject, setIsStudentProject] = useState(
     formData?.studentProject || ""
@@ -120,9 +127,49 @@ function JournalForm() {
             </h1>
             <form onSubmit={handleFormSubmit} className="space-y-8">
               <div className="flex justify-between mt-4 w-full">
-                <p className="pt-2 text-lg md:text-xl text-blue-600 font-bold">
-                  Update your journal details here
-                </p>
+                <Button
+                  color="primary"
+                  variant="flat"
+                  radius="none"
+                  size="lg"
+                  onPress={onOpen}
+                >
+                  Are you filling the form for someone else?
+                </Button>
+                <Modal
+                  isOpen={isOpen}
+                  placement="top-center"
+                  onOpenChange={onOpenChange}
+                >
+                  <ModalContent>
+                    {(onClose) => (
+                      <>
+                        <ModalHeader className="flex flex-col gap-1">
+                          Enter User ID
+                        </ModalHeader>
+                        <ModalBody>
+                          <Input
+                            label="User ID"
+                            placeholder="ex: 220905172"
+                            variant="bordered"
+                          />
+                        </ModalBody>
+                        <ModalFooter className="justify-end">
+                          <Button
+                            color="danger"
+                            variant="flat"
+                            onPress={onClose}
+                          >
+                            Close
+                          </Button>
+                          <Button color="primary" onPress={onClose}>
+                            Confirm
+                          </Button>
+                        </ModalFooter>
+                      </>
+                    )}
+                  </ModalContent>
+                </Modal>
                 {isLoading ? (
                   <Spinner size="large" />
                 ) : (
@@ -283,7 +330,7 @@ function JournalForm() {
                     <div className="flex-auto">
                       <Select
                         isRequired={true}
-                        label="UG / PG"
+                        label="UG / PG "
                         name="isStudentProject"
                         variant="bordered"
                         fullWidth
